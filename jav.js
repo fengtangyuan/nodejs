@@ -1,5 +1,4 @@
-import fetch from 'node-fetch';
-import * as cheerio from 'cheerio';
+const cheerio = createCheerio()
 
 /*
 以上是可以調用的第三方庫，使用方法自行查閱文檔
@@ -14,29 +13,6 @@ $cache: 可將數據存入緩存
     set: $cache.set(key, value)
     get: $cache.get(key)
 */
-const $fetch = {
-    get: async function (url, headers) {
-        const response = await fetch(url, headers);
-        const html = await response.text();
-
-        return { data: html }
-    },
-}
-const $print = console.log
-const jsonify = JSON.stringify
-const argsify = JSON.parse
-
-/*ext格式为之前获取的json数据中的ext属性内的数据，格式如下：
-jsonify({
-url: "https://www.czzyvideo.com/movie_bt/movie_bt_series/dyy"
-})
-*/
-
-const ext = jsonify({
-    page: 1,
-    url: "https://jable.tv/hot/"
-
-})
 
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
@@ -85,13 +61,6 @@ async function getCards(ext) {
     })
 
     const $ = cheerio.load(data)
-    const script = $('script')
-    if (script.length > 0) {
-        let code = script.eq(0).text()
-        let group = code.match(/window.*appendChild\(cpo\)/)
-        const result = eval(group[0])
-        $print(result)
-    }
 
     $('.pb-e-lg-40 div > div').each((_, element) => {
         const href = $(element).find('.img-box.cover-md a').attr('href')
@@ -113,8 +82,3 @@ async function getCards(ext) {
         list: cards,
     })
 }
-
-(async () => {
-    const list = await getCards(ext);
-    $print(list);
-})();
