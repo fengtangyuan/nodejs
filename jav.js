@@ -25,14 +25,14 @@ let appConfig = {
         {
             name: '热度优先',
             ext: {
-                url: 'https://jable.tv/hot/',
-            },
+                url: 'https://jable.tv/hot/'
+            }
         },
         {
             name: '新片优先',
             ext: {
-                url: 'https://jable.tv/latest-updates/',
-            },
+                url: 'https://jable.tv/latest-updates/'
+            }
         },
     ]
 }
