@@ -82,3 +82,179 @@ async function getCards(ext) {
         list: cards,
     })
 }
+
+//返回视频详细信息
+async function getTracks(ext) {
+    ext = argsify(ext)
+    let tracks = []
+    let url = ext.url
+
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
+
+    const $ = cheerio.load(data)
+
+    //播放列表
+    $('.paly_list_btn a').each((_, e) => {
+        const name = $(e).text()
+        const href = $(e).attr('href')
+        tracks.push({
+            name: `${name}`,
+            pan: '',
+            ext: {
+                url: href,
+            },
+        })
+    })
+
+    //云盘列表
+    const panlist = $('.ypbt_down_list')
+    if (panlist) {
+        panlist.find('ul li').each((_, e) => {
+            const name = $(e).find('a').text().trim()
+            const href = $(e).find('a').attr('href')
+            if (!/ali|quark|115|uc/.test(href)) return
+            tracks.push({
+                name: name,
+                pan: href,
+            })
+        })
+    }
+
+    return jsonify({
+        list: [
+            {
+                title: '默认分组',
+                tracks,
+            },
+        ],
+    })
+}
+
+async function getPlayinfo(ext) {
+    ext = argsify(ext)
+    const url = ext.url
+
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
+    let playurl
+
+    try {
+        const $ = cheerio.load(data)
+
+        // 1
+        const jsurl = $('iframe').attr('src')
+        if (jsurl) {
+            let headers = {
+                'user-agent': UA,
+            }
+            if (jsurl.includes('player-v2')) {
+                headers['sec-fetch-dest'] = 'iframe'
+                headers['sec-fetch-mode'] = 'navigate'
+                headers['referer'] = `${appConfig.site}/`
+            }
+
+            const jsres = await $fetch.get(jsurl, { headers: headers })
+            const $2 = cheerio.load(jsres.data)
+            const scripts = $2('script')
+            if (scripts.length - 2 > 0) {
+                let code = scripts.eq(scripts.length - 2).text()
+
+                if (code.includes('var player')) {
+                    let player = code.match(/var player = "(.*?)"/)
+                    let rand = code.match(/var rand = "(.*?)"/)
+
+                    function decrypt(text, key, iv, type) {
+                        let key_value = CryptoJS.enc.Utf8.parse(key || 'PBfAUnTdMjNDe6pL')
+                        let iv_value = CryptoJS.enc.Utf8.parse(iv || 'sENS6bVbwSfvnXrj')
+                        let content
+                        if (type) {
+                            content = CryptoJS.AES.encrypt(text, key_value, {
+                                iv: iv_value,
+                                mode: CryptoJS.mode.CBC,
+                                padding: CryptoJS.pad.Pkcs7,
+                            })
+                        } else {
+                            content = CryptoJS.AES.decrypt(text, key_value, {
+                                iv: iv_value,
+                                padding: CryptoJS.pad.Pkcs7,
+                            }).toString(CryptoJS.enc.Utf8)
+                        }
+                        return content
+                    }
+
+                    let content = JSON.parse(decrypt(player[1], 'VFBTzdujpR9FWBhe', rand[1]))
+                    $print(JSON.stringify(content))
+                    playurl = content.url
+                } else {
+                    let data = code.split('"data":"')[1].split('"')[0]
+                    let encrypted = data.split('').reverse().join('')
+                    let temp = ''
+                    for (let i = 0x0; i < encrypted.length; i = i + 0x2) {
+                        temp += String.fromCharCode(parseInt(encrypted[i] + encrypted[i + 0x1], 0x10))
+                    }
+                    playurl = temp.substring(0x0, (temp.length - 0x7) / 0x2) + temp.substring((temp.length - 0x7) / 0x2 + 0x7)
+                }
+            }
+        } else {
+            // 2
+            const script = $('script:contains(window.wp_nonce)')
+            if (script.length > 0) {
+                let code = script.eq(0).text()
+                let group = code.match(/(var.*)eval\((\w*\(\w*\))\)/)
+                const md5 = CryptoJS
+                const result = eval(group[1] + group[2])
+                playurl = result.match(/url:.*?['"](.*?)['"]/)[1]
+            }
+        }
+    } catch (error) {
+        $print(error)
+    }
+
+    return jsonify({ urls: [playurl], headers: [{ 'User-Agent': UA }] })
+}
+
+async function search(ext) {
+    ext = argsify(ext)
+    let cards = []
+
+    let text = encodeURIComponent(ext.text)
+    let page = ext.page || 1
+    let url = `${appConfig.site}/daoyongjiek0shibushiyoubing?q=${text}$f=_all&p=${page}`
+
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
+
+    const $ = cheerio.load(data)
+
+    $('div.bt_img > ul li').each((_, element) => {
+        const href = $(element).find('a').attr('href')
+        const title = $(element).find('img.thumb').attr('alt')
+        const cover = $(element).find('img.thumb').attr('data-original')
+        const subTitle = $(element).find('.jidi span').text()
+        const hdinfo = $(element).find('.hdinfo .qb').text()
+        cards.push({
+            vod_id: href,
+            vod_name: title,
+            vod_pic: cover,
+            vod_remarks: subTitle || hdinfo,
+            url: href,
+            ext: {
+                url: href,
+            },
+        })
+    })
+
+    return jsonify({
+        list: cards,
+    })
+}
