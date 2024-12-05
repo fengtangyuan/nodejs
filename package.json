@@ -2,6 +2,7 @@
   "dependencies": {
     "cheerio": "^1.0.0",
     "crypto-js": "^4.2.0",
+    "follow-redirects": "^1.15.9",
     "node-fetch": "^3.3.2"
   },
   "type": "module"
