@@ -53,13 +53,14 @@ async function getCards(ext) {
     ext = argsify(ext)
     let cards = []
     let { page = 1, id } = ext
+    let url = '${ appConfig.site }'
     if (id === 'sy') {
-        let url = `${appConfig.site}/video?`
+        url = `${appConfig.site}/video?`
         if (page > 1) {
             url = url + `page=${page}`
         }
     } else {
-        let url = `${appConfig.site}/video?o=${id}`
+        url = `${appConfig.site}/video?o=${id}`
         if (page > 1) {
             url = url + `&page=${page}`
         }
