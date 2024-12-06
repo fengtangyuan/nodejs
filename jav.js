@@ -1,72 +1,45 @@
-import fetch from 'node-fetch';
-import * as cheerio from 'cheerio';
-
-const $fetch = {
-    get: async function (url, headers) {
-        const response = await fetch(url, headers);
-        const html = await response.text();
-
-        return { data: html }
-    },
-}
-const $print = console.log
-const jsonify = JSON.stringify
-const argsify = JSON.parse
-
-/*ext格式为之前获取的json数据中的ext属性内的数据，格式如下：
-jsonify({
-url: "https://www.czzyvideo.com/movie_bt/movie_bt_series/dyy"
-})
+/*
+以上是可以調用的第三方庫，使用方法自行查閱文檔
+內置方法有:
+$print: 等同於 console.log
+$fetch: http client，可發送 get 及 post 請求
+    get: $fetch.get(url,options)
+    post: $fetch.post(url,postData,options)
+argsify, jsonify: 等同於 JSON 的 parse 及 stringify
+$html: 內置的 html 解析方法，建議用 cheerio 替代
+$cache: 可將數據存入緩存
+    set: $cache.set(key, value)
+    get: $cache.get(key)
+$utils.openSafari(url, ua)打开浏览器
+$fetch.download(url, options) data 返回的是二进制字符串
 */
 
-const ext = jsonify({
-    url: "https://madou.club"
-})
+import * as cheerio from 'cheerio';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 
 let appConfig = {
     ver: 1,
-    title: '廠長',
-    site: 'https://www.czzyvideo.com',
+    title: 'jav',
+    site: 'https://jable.tv',
     tabs: [{
-        name: 'hot',
+        name: '热度优先',
         ext: {
-            url: 'https://www.czzyvideo.com/movie_bt/movie_bt_series/dyy'
+            url: 'https://jable.tv/hot/'
+        }
+    },
+    {
+        name: '新片优先',
+        ext: {
+            url: 'https://jable.tv/latest-updates/'
         }
     }]
 }
 
-async function getTabs() {
-    let list = []
-    let ignore = ['关于', '公告', '官方', '备用', '群', '地址', '求片']
-    function isIgnoreClassName(className) {
-        return ignore.some((element) => className.includes(element))
-    }
-
-    const { data } = await $fetch.get(appConfig.site, {
-        headers: {
-            'User-Agent': UA,
-        },
-    })
-    const $ = cheerio.load(data)
-
-    let $allClass = $('ul.submenu_mi > li > a')
-    $allClass.each((i, e) => {
-        const name = $(e).text()
-        const href = $(e).attr('href')
-        const isIgnore = isIgnoreClassName(name)
-        if (isIgnore) return
-
-        list.push({
-            name,
-            ext: {
-                url: appConfig.site + href,
-            },
-        })
-    })
-
-    return list
+async function getConfig() {
+    let config = appConfig
+    await $utils.openSafari(appConfig.site, UA)
+    return jsonify(config)
 }
 
 async function getCards(ext) {
@@ -86,17 +59,16 @@ async function getCards(ext) {
     $print(data)
     const $ = cheerio.load(data)
 
-    $('.tabcontent.responsive-tabs__panel.responsive-tabs__panel--active ul > li').each((_, element) => {
+    $('.pb-3.pb-e-lg-40 div > div').each((_, element) => {
         const href = $(element).find('a').attr('href')
-        const title = $(element).find('a').attr('title')
+        const title = $(element).find('.title a').text()
         const cover = $(element).find('img').attr('src')
-        const subTitle = $(element).find('.wpp-views span').text()
-        const hdinfo = $(element).find('.hdinfo span').text()
+        const subTitle = $(element).find('.sub-title').text()
         cards.push({
             vod_id: href,
             vod_name: title,
             vod_pic: cover,
-            vod_remarks: subTitle || hdinfo,
+            vod_remarks: subTitle,
             ext: {
                 url: href,
             },
@@ -108,8 +80,4 @@ async function getCards(ext) {
     })
 }
 
-(async () => {
-    const list = await getCards(ext);
-    $print(list);
-})();
 
