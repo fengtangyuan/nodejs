@@ -38,7 +38,7 @@ let appConfig = {
 
 async function getConfig() {
     let config = appConfig
-    await $utils.openSafari(appConfig.site, UA)
+    $utils.openSafari(config.site, UA)
     return jsonify(config)
 }
 
