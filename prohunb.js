@@ -10,7 +10,7 @@ let appConfig = {
         {
             name: 'home',
             ext: {
-                id: '',
+                id: 'sy',
             },
             ui: 1,
         },
@@ -53,7 +53,7 @@ async function getCards(ext) {
     ext = argsify(ext)
     let cards = []
     let { page = 1, id } = ext
-    if (id === '') {
+    if (id === 'sy') {
         let url = `${appConfig.site}/video?`
         if (page > 1) {
             url = url + `page=${page}`
