@@ -14,8 +14,7 @@ $utils.openSafari(url, ua)打开浏览器
 $fetch.download(url, options) data 返回的是二进制字符串
 */
 
-import * as cheerio from 'cheerio';
-
+const cheerio = createCheerio()
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 
 let appConfig = {
@@ -38,7 +37,7 @@ let appConfig = {
 
 async function getConfig() {
     let config = appConfig
-    // await $utils.openSafari(config.site, UA)
+    $utils.openSafari(config.site, UA)
     return jsonify(config)
 }
 
