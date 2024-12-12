@@ -1,71 +1,70 @@
 // 导入必要的库
-//import cheerio from 'cheerio'
-//import axios from 'axios' // 用于发送HTTP请求
+import * as cheerio from 'cheerio'
+import axios from 'axios'
 const $print = console.log
 const jsonify = JSON.stringify
 const argsify = JSON.parse
-//const $fetch = axios
+const $fetch = axios
 
 // 设置User Agent，模拟iPhone浏览器
-const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1'
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
+
 let appConfig = {
     ver: 1,
-    title: 'pornhub',
-    site: 'https://cn.pornhub.com',
-    tabs: [
-        {
-            name: 'home',
-            ext: {
-                id: 'sy',
-            },
-            ui: 1,
-        },
-        {
-            name: 'newest',
-            ext: {
-                id: 'cm',
-            },
-            ui: 1,
-        },
-        {
-            name: 'most viewed',
-            ext: {
-                id: 'mv',
-            },
-            ui: 1,
-        },
-        {
-            name: 'hottest',
-            ext: {
-                id: 'ht',
-            },
-            ui: 1,
-        },
-        {
-            name: 'top rated',
-            ext: {
-                id: 'tr',
-            },
-            ui: 1,
-        },
-    ],
-}
-let ext = appConfig.tabs[0].ext
-
-let { page = 1, id } = ext
-
-let url = `${appConfig.site}`
-
-if (id === 'sy') {
-    url = `${appConfig.site}/video?`
-    if (page > 1) {
-        url = url + `page=${page}`
-    }
-} else {
-    url = `${appConfig.site}/video?o=${id}`
-    if (page > 1) {
-        url = url + `&page=${page}`
-    }
+    title: '桃花族',
+    // 40thz.com
+    site: 'http://7340hsck.cc',
 }
 
-$print(url)
+async function getTabs() {
+    let list = []
+
+    try {
+        const { data } = await $fetch.get(appConfig.site, {
+            headers: {
+                'User-Agent': UA,
+            },
+        })
+        $print(data)
+        if (data.includes('hao123')) {
+            const { data } = await $fetch.get(appConfig.site, {
+                headers: {
+                    'User-Agent': UA,
+                },
+            })
+        }
+        const $ = cheerio.load(data)
+
+        let allClass = $('.stui-pannel__menu li')
+        allClass.each((_, e) => {
+            const text = $(e).find('a').text()
+            const span = $(e).find('a span').text()
+            const href = $(e).find('a').attr('href')
+
+            list.push({
+                name: text.replace(span, ''),
+                ext: {
+                    typeurl: href,
+                },
+                ui: 1,
+            })
+        })
+    } catch (error) {
+        $print(error)
+    }
+
+    return list
+}
+
+async function getConfig() {
+    let config = appConfig
+    config.tabs = await getTabs()
+    return jsonify(config)
+}
+
+async function main() {
+    result = await getConfig();
+    $print(result)
+}
+
+main();
