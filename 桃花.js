@@ -16,8 +16,6 @@ async function getConfig() {
             'User-Agent': UA,
 
         },
-        //不跟随重定向
-        Redirect: 'manual'
     })
     const realurl = response.headers.location
     config.site = realurl
