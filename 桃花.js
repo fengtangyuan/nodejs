@@ -24,9 +24,9 @@ async function getTabs() {
                 'User-Agent': UA,
             },
         })
-        let realurl = response.request.res.responseUrl
-        realurl = realurl.replace(/\/$/, '')
-        appConfig.site = realurl
+        //let realurl = response.request.res.responseUrl
+        //realurl = realurl.replace(/\/$/, '')
+        //appConfig.site = realurl
         const { data } = response
         const $ = cheerio.load(data)
 
