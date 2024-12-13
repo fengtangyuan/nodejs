@@ -19,11 +19,14 @@ async function getTabs() {
     let list = []
 
     try {
-        const { data } = await $fetch.get(appConfig.site, {
+        const response = await $fetch.get(appConfig.site, {
             headers: {
                 'User-Agent': UA,
             },
         })
+        let realurl = response.request.res.responseUrl
+        appConfig.site = realurl
+        const { data } = response
         const $ = cheerio.load(data)
 
         let allClass = $('.stui-pannel__menu li')
