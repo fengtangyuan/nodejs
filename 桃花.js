@@ -12,7 +12,6 @@ let appConfig = {
 async function getConfig() {
     let config = appConfig
     config.tabs = await getTabs()
-    config.site = appConfig.site
     return jsonify(config)
 }
 
