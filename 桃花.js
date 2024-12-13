@@ -14,10 +14,12 @@ async function getConfig() {
     const response = await $fetch.get(`https://888tttz.com:8899/?u=${config.site}/&p=/`, {
         headers: {
             'User-Agent': UA,
+
         },
+        //不跟随重定向
+        followRedirect: 'manual'
     })
-    const host = response.request.host
-    const realurl = `http://${host}`
+    const realurl = response.headers.get('Location')
     config.site = realurl
     config.tabs = await getTabs()
     return jsonify(config)
