@@ -17,9 +17,9 @@ async function getConfig() {
 
         },
         //不跟随重定向
-        followRedirect: 'manual'
+        Redirect: 'manual'
     })
-    const realurl = response.headers.location
+    const realurl = response.headers.get('Location')
     config.site = realurl
     config.tabs = await getTabs()
     return jsonify(config)
