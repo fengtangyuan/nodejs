@@ -55,7 +55,8 @@ async function getConfig() {
             'User-Agent': UA,
         },
     })
-    const realurl = response.request.res.responseUrl.replace(/\/$/, '')
+    const host = response.request.host
+    const realurl = `http://${host}`
     config.site = realurl
     config.tabs = await getTabs()
     return jsonify(config)
