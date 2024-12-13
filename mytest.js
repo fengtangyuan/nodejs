@@ -26,6 +26,7 @@ async function getTabs() {
             },
         })
         let realurl = response.request.res.responseUrl
+        realurl = realurl.replace(/\/$/, '')
         appConfig.site = realurl
         const { data } = response
         const $ = cheerio.load(data)
