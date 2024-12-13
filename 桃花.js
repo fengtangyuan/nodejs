@@ -12,6 +12,7 @@ let appConfig = {
 async function getConfig() {
     let config = appConfig
     config.tabs = await getTabs()
+    config.site = appConfig.site
     return jsonify(config)
 }
 
@@ -24,9 +25,8 @@ async function getTabs() {
                 'User-Agent': UA,
             },
         })
-        //let realurl = response.request.res.responseUrl
-        //realurl = realurl.replace(/\/$/, '')
-        //appConfig.site = realurl
+        let realurl = response.request.res.responseUrl.replace(/\/$/, '')
+        appConfig.site = realurl
         const { data } = response
         const $ = cheerio.load(data)
 
