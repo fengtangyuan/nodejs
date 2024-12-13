@@ -13,7 +13,7 @@ let appConfig = {
     ver: 1,
     title: '桃花族',
     // 40thz.com
-    site: 'http://7340hsck.cc',
+    site: 'https://888tttz.com:8899/?u=http://7340hsck.cc/&p=/',
 }
 
 async function getTabs() {
@@ -25,21 +25,13 @@ async function getTabs() {
                 'User-Agent': UA,
             },
         })
-        $print(data)
-        if (data.includes('hao123')) {
-            const { data } = await $fetch.get(appConfig.site, {
-                headers: {
-                    'User-Agent': UA,
-                },
-            })
-        }
         const $ = cheerio.load(data)
 
-        let allClass = $('.stui-pannel__menu li')
+        let allClass = $('.stui-pannel.stui-top-menu.clearfix ul li')
         allClass.each((_, e) => {
             const text = $(e).find('a').text()
-            const span = $(e).find('a span').text()
             const href = $(e).find('a').attr('href')
+            const span = $(e).find('a span').text()
 
             list.push({
                 name: text.replace(span, ''),
@@ -63,7 +55,7 @@ async function getConfig() {
 }
 
 async function main() {
-    result = await getConfig();
+    let result = await getConfig();
     $print(result)
 }
 
