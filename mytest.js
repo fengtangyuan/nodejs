@@ -13,21 +13,18 @@ let appConfig = {
     ver: 1,
     title: '桃花族',
     // 40thz.com
-    site: 'https://888tttz.com:8899/?u=http://7340hsck.cc/&p=/',
+    site: 'http://7340hsck.cc',
 }
 
 async function getTabs() {
     let list = []
 
     try {
-        const response = await $fetch.get(appConfig.site, {
+        const { data } = await $fetch.get(appConfig.site, {
             headers: {
                 'User-Agent': UA,
             },
         })
-        const realurl = response.request.res.responseUrl.replace(/\/$/, '')
-        appConfig.site = realurl
-        const { data } = response
         const $ = cheerio.load(data)
 
         let allClass = $('.stui-pannel.stui-top-menu.clearfix ul li')
@@ -53,6 +50,13 @@ async function getTabs() {
 
 async function getConfig() {
     let config = appConfig
+    const response = await $fetch.get(`https://888tttz.com:8899/?u=${config.site}/&p=/`, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
+    const realurl = response.request.res.responseUrl.replace(/\/$/, '')
+    config.site = realurl
     config.tabs = await getTabs()
     return jsonify(config)
 }
