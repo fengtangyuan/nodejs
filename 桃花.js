@@ -17,7 +17,8 @@ async function getConfig() {
 
         },
     })
-    const realurl = response.headers.location
+    const host = response.request.host
+    const realurl = `http://${host}`
     config.site = realurl
     config.tabs = await getTabs()
     return jsonify(config)
