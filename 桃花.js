@@ -5,30 +5,25 @@ const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/6
 let appConfig = {
     ver: 1,
     title: '桃花族',
-    site: 'https://888tttz.com:8899/?u=http://7340hsck.cc/&p=/',
+    // 40thz.com
+    site: 'http://7342hsck.cc',
 }
 
 async function getConfig() {
     let config = appConfig
-    const result = await getTabs()
-    config.tabs = result.tabs
-    config.site = result.realurl
+    config.tabs = await getTabs()
     return jsonify(config)
 }
 
 async function getTabs() {
     let list = []
-    let result = {}
 
     try {
-        const response = await $fetch.get(appConfig.site, {
+        const { data } = await $fetch.get(appConfig.site, {
             headers: {
                 'User-Agent': UA,
             },
         })
-        const realurl = response.request.res.responseUrl.replace(/\/$/, '')
-        result.realurl = realurl
-        const { data } = response
         const $ = cheerio.load(data)
 
         let allClass = $('.stui-pannel__menu li')
@@ -45,13 +40,11 @@ async function getTabs() {
                 ui: 1,
             })
         })
-
-        result.tabs = list
     } catch (error) {
         $print(error)
     }
 
-    return result
+    return list
 }
 
 async function getCards(ext) {
