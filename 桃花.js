@@ -6,18 +6,18 @@ let appConfig = {
     ver: 1,
     title: '桃花族',
     // 40thz.com
-    site: 'http://7340hsck.cc',
+    site: 'http://7342hsck.cc',
 }
 
 async function getConfig() {
     let config = appConfig
-    const response = await $fetch.get(`https://888tttz.com:8899/?u=${config.site}/&p=/`, {
-        headers: {
-            'User-Agent': UA,
-        },
-    })
-    const realurl = response.url.replace(/\/$/, '')
-    config.site = realurl
+    //const response = await $fetch.get(`https://888tttz.com:8899/?u=${config.site}/&p=/`, {
+    //    headers: {
+    //       'User-Agent': UA,
+    //    },
+    //})
+    //const realurl = response.url.replace(/\/$/, '')
+    //config.site = realurl
     config.tabs = await getTabs()
     return jsonify(config)
 }
