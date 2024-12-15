@@ -6,7 +6,7 @@ let appConfig = {
     ver: 1,
     title: '桃花族',
     // 40thz.com
-    site: 'http://7343hsck.cc',
+    site: 'http://7348hsck.cc',
 }
 
 async function getConfig() {
