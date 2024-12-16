@@ -17,7 +17,7 @@ async function getConfig() {
 
 async function getTabs() {
     let list = []
-    let ignore = ['首頁', '分類', '搜索']
+    let ignore = ['首頁', '分類', '搜索', '福利']
     function isIgnoreClassName(className) {
         return ignore.some((element) => className.includes(element))
     }
