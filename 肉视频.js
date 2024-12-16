@@ -120,8 +120,6 @@ async function getPlayinfo(ext) {
         },
     })
 
-    $print(data)
-
     const playurl = data.video.videoUrl
 
 
