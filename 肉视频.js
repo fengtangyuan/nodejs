@@ -119,8 +119,9 @@ async function getPlayinfo(ext) {
             'User-Agent': UA,
         },
     })
+    const reslut = argsify(data)
 
-    const playurl = data.video.videoUrl
+    const playurl = reslut.video.videoUrl
 
 
     return jsonify({ urls: [playurl], headers: [{ 'User-Agent': UA }] })
