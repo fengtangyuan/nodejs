@@ -62,7 +62,6 @@ async function getCards(ext) {
         },
     })
 
-
     const $ = cheerio.load(data)
 
     $('.grid.grid-cols-2.gap-1.mb-6 > div').each((_, element) => {
@@ -127,3 +126,41 @@ async function getPlayinfo(ext) {
     return jsonify({ urls: [playurl], headers: [{ 'User-Agent': UA }] })
 }
 
+async function search(ext) {
+    ext = argsify(ext)
+    let cards = []
+
+    let text = encodeURIComponent(ext.text)
+    let page = ext.page || 1
+    let url = `${appConfig.site}/search?q=${text}&t=&page=${page}`
+
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
+
+    const $ = cheerio.load(data)
+
+    $('.grid.grid-cols-2.gap-1.mb-6 > div').each((_, element) => {
+        if ($(element).find('.relative').length == 0) return
+        const href = $(element).find('.relative a').attr('href')
+        const title = $(element).find('img').attr('alt')
+        const cover = $(element).find('img').attr('src')
+        const subTitle = $(element).find('.relative a > div:eq(1)').text()
+        const hdinfo = $(element).find('.relative a > div:first').text()
+        cards.push({
+            vod_id: href,
+            vod_name: title,
+            vod_pic: cover,
+            vod_remarks: subTitle || hdinfo,
+            ext: {
+                url: appConfig.site + href,
+            },
+        })
+    })
+
+    return jsonify({
+        list: cards,
+    })
+}
