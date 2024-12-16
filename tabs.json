@@ -1,0 +1,50 @@
+{
+    "ver": 1,
+    "title": "肉视频",
+    "site": "https://rou.video",
+    "tabs": [
+        {
+            "name": "國產AV",
+            "ext": {
+                "url": "https://rou.video/t/國產AV",
+                "page": 1
+            }
+        },
+        {
+            "name": "自拍流出",
+            "ext": {
+                "url": "https://rou.video/t/自拍流出"
+            }
+        },
+        {
+            "name": "探花",
+            "ext": {
+                "url": "https://rou.video/t/探花"
+            }
+        },
+        {
+            "name": "OnlyFans",
+            "ext": {
+                "url": "https://rou.video/t/OnlyFans"
+            }
+        },
+        {
+            "name": "日本",
+            "ext": {
+                "url": "https://rou.video/t/日本"
+            }
+        },
+        {
+            "name": "全部視頻",
+            "ext": {
+                "url": "https://rou.video/v"
+            }
+        },
+        {
+            "name": "福利",
+            "ext": {
+                "url": "https://rou.video/fuli"
+            }
+        }
+    ]
+}

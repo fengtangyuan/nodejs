@@ -118,9 +118,6 @@ async function getTracks(ext) {
             'User-Agent': UA,
         },
     })
-    if (data.includes('Just a moment...')) {
-        $utils.openSafari(url, UA)
-    }
     const $ = cheerio.load(data)
     let script = $('#site-content .container .col')
         .eq(0)
