@@ -10,7 +10,7 @@ const $fetch = axios
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
 
 let ext1 = jsonify({ "page": 2, "url": "https://rou.video/t/國產AV" })
-let ext2 = jsonify({ "url": "https://rou.video/v/cm4k3zlax0000jpemrug017ke" })
+let ext2 = jsonify({ "url": "https://rou.video/api/v/cm4oddpfo0000vn4sj9jagp9w" })
 
 let appConfig = {
     ver: 1,
@@ -101,17 +101,8 @@ async function getCards(ext) {
 async function getTracks(ext) {
     ext = argsify(ext)
     let tracks = []
-    let url = ext.url
-
-    const { data } = await $fetch.get(url, {
-        headers: {
-            'User-Agent': UA,
-        },
-    })
-
-    const $ = cheerio.load(data)
-    let playUrl = $('video').attr('src')
-
+    let url = ext.url.match(/https?:\/\/rou\.video\/v\/(\w+)/)[1]
+    let playUrl = `https://rou.video/api/v/${url}`
     tracks.push({
         name: '播放',
         pan: '',
@@ -133,12 +124,22 @@ async function getTracks(ext) {
 async function getPlayinfo(ext) {
     ext = argsify(ext)
     const url = ext.url
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
 
-    return jsonify({ urls: [url] })
+    $print(data)
+
+    const playurl = data.video.videoUrl
+
+
+    return jsonify({ urls: [playurl] })
 }
 
 async function main() {
-    let result = await getCards(ext1);
+    let result = await getPlayinfo(ext2);
     $print(result)
 }
 
