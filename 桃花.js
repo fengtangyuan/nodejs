@@ -35,12 +35,7 @@ async function getTabs() {
         if (data.includes('拖动滑块验证')) {
             $utils.openSafari(url, UA)
         }
-        const { data1 } = await $fetch.get(appConfig.site, {
-            headers: {
-                'User-Agent': UA,
-            },
-        })
-        const $ = cheerio.load(data1)
+        const $ = cheerio.load(data)
 
         let allClass = $('.stui-pannel__menu li')
         allClass.each((_, e) => {
