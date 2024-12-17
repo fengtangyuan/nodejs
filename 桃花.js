@@ -66,6 +66,7 @@ async function getCards(ext) {
         const { data } = await $fetch.get(url, {
             headers: {
                 'User-Agent': UA,
+                'cookie': 'efcee64969d8dd94442cab6d18d16138 = b96b94ca0a70d8eb01485dc0e304a8ad'
             },
         })
 
@@ -105,6 +106,7 @@ async function getTracks(ext) {
         const { data } = await $fetch.get(url, {
             headers: {
                 'User-Agent': UA,
+                'cookie': 'efcee64969d8dd94442cab6d18d16138 = b96b94ca0a70d8eb01485dc0e304a8ad'
             },
         })
 
@@ -153,6 +155,7 @@ async function search(ext) {
         const { data } = await $fetch.get(url, {
             headers: {
                 'User-Agent': UA,
+                'cookie': 'efcee64969d8dd94442cab6d18d16138 = b96b94ca0a70d8eb01485dc0e304a8ad'
             },
         })
 
