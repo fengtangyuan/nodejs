@@ -279,7 +279,7 @@ async function getTracks(ext) {
 
     const $ = cheerio.load(data)
 
-    const e = $('.plyr__menu__container div > div:eq(2)')
+    const e = $('.plyr__menu__container > div > div:eq(2)')
 
     const player_hd = $(e).find('div > button:eq(0)').attr('value')
 

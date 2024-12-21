@@ -106,13 +106,8 @@ async function getTracks(ext) {
     let tracks = []
 
     const $ = cheerio.load('/html.html')
-
-    const e = $('.plyr__menu__container  div > div:eq(2)')
-
-    const player_hd = $(e).find('div > button:eq(1)').attr('class')
-
-    //const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
-
+    const e = $('.plyr__menu__container > div > div:eq(2)')
+    const player_hd = $(e).find('div > button:eq(0)').attr('class')
     let uuid = "1"
     let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
 
@@ -123,6 +118,7 @@ async function getTracks(ext) {
             url: m3u8,
         },
     })
+
 
 
     return jsonify({
