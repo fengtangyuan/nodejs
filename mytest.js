@@ -10,7 +10,7 @@ const $fetch = axios
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
 
 let ext1 = jsonify({ "page": 2, "url": "https://rou.video/t/國產AV" })
-let ext2 = jsonify({ "url": "https://rou.video/api/v/cm4oddpfo0000vn4sj9jagp9w" })
+let ext2 = jsonify({ "url": "https://missav.com/start-220-chinese-subtitle" })
 
 let appConfig = {
     ver: 1,
@@ -100,16 +100,36 @@ async function getCards(ext) {
 
 async function getTracks(ext) {
     ext = argsify(ext)
+    let url = ext.url
+    let m3u8Prefix = 'https://surrit.com/'
+    let m3u8Suffix = '/playlist.m3u8'
     let tracks = []
-    let url = ext.url.match(/https?:\/\/rou\.video\/v\/(\w+)/)[1]
-    let playUrl = `https://rou.video/api/v/${url}`
-    tracks.push({
-        name: '播放',
-        pan: '',
-        ext: {
-            url: playUrl,
+
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
         },
     })
+
+    const $ = cheerio.load(data)
+
+    const player_menu = $('.plyr-settings-5186-quality div > button').eq(0)
+
+    const player_hd = $(player_menu).find('span').eq(0).text()
+
+    const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
+    if (match && match[1]) {
+        let uuid = match[1]
+        let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+
+        tracks.push({
+            name: '播放',
+            pan: '',
+            ext: {
+                url: m3u8,
+            },
+        })
+    }
 
     return jsonify({
         list: [
@@ -134,7 +154,7 @@ async function getPlayinfo(ext) {
 }
 
 async function main() {
-    let result = await getPlayinfo(ext2);
+    let result = await getTracks(ext2);
     $print(result)
 }
 

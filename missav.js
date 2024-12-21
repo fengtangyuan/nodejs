@@ -279,9 +279,9 @@ async function getTracks(ext) {
 
     const $ = cheerio.load(data)
 
-    const player_menu = $('.plyr-settings-5186-quality div > button').eq(0)
+    const player_menu = $('.plyr__menu__container div > div').eq(2)
 
-    const player_hd = $(player_menu).find('span').eq(0).text()
+    const player_hd = $(player_menu).find('span').eq(2).text()
 
     const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
     if (match && match[1]) {
