@@ -277,16 +277,10 @@ async function getTracks(ext) {
         },
     })
 
-    const $ = cheerio.load(data)
-
-    const e = $('.plyr__menu__container > div > div:eq(2)')
-
-    const player_hd = $(e).find('div > button:eq(0)').attr('value')
-
     const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
     if (match && match[1]) {
         let uuid = match[1]
-        let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        let m3u8 = m3u8Prefix + uuid + '/720p/video.m3u8'
 
         tracks.push({
             name: '播放',
