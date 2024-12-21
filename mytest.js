@@ -105,31 +105,25 @@ async function getTracks(ext) {
     let m3u8Suffix = '/playlist.m3u8'
     let tracks = []
 
-    const { data } = await $fetch.get(url, {
-        headers: {
-            'User-Agent': UA,
+    const $ = cheerio.load('/html.html')
+
+    const e = $('.plyr__menu__container  div > div:eq(2)')
+
+    const player_hd = $(e).find('div > button:eq(1)').attr('class')
+
+    //const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
+
+    let uuid = "1"
+    let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+
+    tracks.push({
+        name: '播放',
+        pan: '',
+        ext: {
+            url: m3u8,
         },
     })
 
-    const $ = cheerio.load(data)
-
-    const player_menu = $('.plyr-settings-5186-quality div > button').eq(0)
-
-    const player_hd = $(player_menu).find('span').eq(0).text()
-
-    const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
-    if (match && match[1]) {
-        let uuid = match[1]
-        let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
-
-        tracks.push({
-            name: '播放',
-            pan: '',
-            ext: {
-                url: m3u8,
-            },
-        })
-    }
 
     return jsonify({
         list: [
