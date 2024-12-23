@@ -277,7 +277,7 @@ async function getTracks(ext) {
         },
     })
     const match1 = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
-    const match2 = data.match(/https\|video\|(.+)\|source/)
+    const match2 = data.match(/https\|video\|(.+)\|source1280/)
     if (match1 && match1[1]) {
         let uuid = match1[1]
         if (match2[1] == '1080p') {
