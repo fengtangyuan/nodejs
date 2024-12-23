@@ -276,11 +276,11 @@ async function getTracks(ext) {
             'User-Agent': UA,
         },
     })
-    const $ = cheerio.load(data)
-    const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
-    if (match && match[1]) {
-        let uuid = match[1]
-        if ($('[value="1080"]').length > 0) {
+    const match1 = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
+    const match2 = data.match(/https\|video\|(.+)\|source/)
+    if (match1 && match1[1]) {
+        let uuid = match1[1]
+        if (match2[1] == '1080p') {
             tracks.push({
                 name: '1080P',
                 pan: '',
@@ -288,8 +288,9 @@ async function getTracks(ext) {
                     url: m3u8Prefix + uuid + '/1080p/video.m3u8',
                 }
             })
+
         }
-        if ($('[value="720"]').length > 0) {
+        if (match2[1] == '720p') {
             tracks.push({
                 name: '720P',
                 pan: '',
