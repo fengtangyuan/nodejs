@@ -276,8 +276,8 @@ async function getTracks(ext) {
             'User-Agent': UA,
         },
     })
-    const $ = cheerio.load(data)
     const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
+    const $ = cheerio.load(data)
     const e = $('.plyr__menu__container > div > div:eq(2)')
     const player_hd = ($(e).find('span:eq(2)')).text().replace('HD', '')
     if (match && match[1]) {
