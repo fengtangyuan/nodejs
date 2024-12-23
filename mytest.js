@@ -108,12 +108,11 @@ async function getTracks(ext) {
 
     fs.readFile('./html.html', 'utf8', (err, data) => {
         if (err) {
-            console.error(err);
+            //console.error(err);
             return;
         }
         const $ = cheerio.load(data)
         const e = $('.plyr__menu__container > div > div:eq(2)')
-        $print(e.html())
         const player_hd = ($(e).find('span:eq(2)')).text().replace('HD', '')
         $print(player_hd)
         let uuid = "1"
@@ -128,15 +127,15 @@ async function getTracks(ext) {
                 url: m3u8,
             },
         })
-
-        return jsonify({
-            list: [
-                {
-                    title: '默认分组',
-                    tracks,
-                },
-            ],
-        })
+    })
+    $print(tracks)
+    return jsonify({
+        list: [
+            {
+                title: '默认分组',
+                tracks,
+            },
+        ],
     })
 
 }
