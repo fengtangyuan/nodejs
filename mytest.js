@@ -104,18 +104,33 @@ async function getTracks(ext) {
     let url = ext.url
     let m3u8Prefix = 'https://surrit.com/'
     let m3u8Suffix = '/playlist.m3u8'
+    let uuid = 1
     let tracks = []
 
     fs.readFile('./html.html', 'utf8', (err, data) => {
 
         const $ = cheerio.load(data)
         let e = $('[value="1080"]')
-        if (e.length == 0) {
-            e = $('[value="720"]')
-
+        if ($('[value="1080"]').length > 0) {
+            tracks.push({
+                name: `1080P`,
+                pan: '',
+                ext: {
+                    url: m3u8Prefix + uuid + '/1080p/video.m3u8',
+                }
+            })
+        }
+        if ($('[value="720"]').length > 0) {
+            tracks.push({
+                name: `720P`,
+                pan: '',
+                ext: {
+                    url: m3u8Prefix + uuid + '/720p/video.m3u8',
+                }
+            })
         }
 
-        $print(e.html())
+        $print(tracks)
 
     })
     return jsonify({

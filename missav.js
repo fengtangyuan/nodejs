@@ -282,7 +282,7 @@ async function getTracks(ext) {
         let uuid = match[1]
         if ($('[value="1080"]').length > 0) {
             tracks.push({
-                name: `1080P`,
+                name: '1080P',
                 pan: '',
                 ext: {
                     url: m3u8Prefix + uuid + '/1080p/video.m3u8',
@@ -291,7 +291,7 @@ async function getTracks(ext) {
         }
         if ($('[value="720"]').length > 0) {
             tracks.push({
-                name: `720P`,
+                name: '720P',
                 pan: '',
                 ext: {
                     url: m3u8Prefix + uuid + '/720p/video.m3u8',
@@ -299,7 +299,7 @@ async function getTracks(ext) {
             })
         }
         tracks.push({
-            name: `自动`,
+            name: '自动',
             pan: '',
             ext: {
                 url: m3u8Prefix + uuid + m3u8Suffix,
