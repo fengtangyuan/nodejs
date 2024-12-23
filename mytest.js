@@ -109,22 +109,14 @@ async function getTracks(ext) {
     fs.readFile('./html.html', 'utf8', (err, data) => {
 
         const $ = cheerio.load(data)
-        const e = $('.plyr__menu__container > div > div:eq(2)')
-        const player_hd = e.find('span:eq(2)').text().replace('HD', '')
-        $print(player_hd)
-        let uuid = "1"
-        let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        let e = $('[value="1080"]')
+        if (e.length == 0) {
+            e = $('[value="720"]')
 
+        }
 
+        $print(e.html())
 
-        tracks.push({
-            name: `${player_hd}`,
-            pan: '',
-            ext: {
-                url: m3u8,
-            },
-        })
-        $print(tracks)
     })
     return jsonify({
         list: [
