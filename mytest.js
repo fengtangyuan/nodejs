@@ -1,6 +1,7 @@
 // 导入必要的库
 import * as cheerio from 'cheerio'
 import axios from 'axios'
+import fs from 'fs'
 const $print = console.log
 const jsonify = JSON.stringify
 const argsify = JSON.parse
@@ -104,19 +105,30 @@ async function getTracks(ext) {
     let m3u8Prefix = 'https://surrit.com/'
     let m3u8Suffix = '/playlist.m3u8'
     let tracks = []
+    fs.readFile('./html.html', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
 
-    const $ = cheerio.load('/html.html')
-    const e = $('.plyr__menu__container > div > div:eq(2)')
-    const player_hd = $(e).find('div > button:eq(0)').attr('class')
-    let uuid = "1"
-    let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        const $ = cheerio.load(data)
+        const e = $('.plyr__menu__container > div > div:eq(2)')
+        //$print(e.html())
+        const player_hd = $(e).find('div span:eq(2)')
+        $print(player_hd.text().replace('HD', ''))
+        let uuid = "1"
+        //let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        let m3u8 = m3u8Prefix + uuid
 
-    tracks.push({
-        name: '播放',
-        pan: '',
-        ext: {
-            url: m3u8,
-        },
+
+
+        tracks.push({
+            name: '播放',
+            pan: '',
+            ext: {
+                url: m3u8,
+            },
+        })
     })
 
 
