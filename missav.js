@@ -276,20 +276,28 @@ async function getTracks(ext) {
             'User-Agent': UA,
         },
     })
-    const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
     const $ = cheerio.load(data)
     const e = $('.plyr__menu__container > div > div:eq(2)')
-    const player_hd = e.find('span:eq(2)').text().replace('HD','')
+    const player_hd = e.find('span:eq(2)').text().replace('HD', '')
+    const match = data.match(/sixyik\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
     if (match && match[1]) {
         let uuid = match[1]
-        let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        let m3u81 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        let m3u82 = m3u8Prefix + uuid + m3u8Suffix
 
         tracks.push({
             name: `${player_hd}`,
             pan: '',
             ext: {
-                url: m3u8,
-            },
+                url: m3u81,
+            }
+        })
+        tracks.push({
+            name: `自动`,
+            pan: '',
+            ext: {
+                url: m3u82,
+            }
         })
     }
 
