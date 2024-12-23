@@ -113,33 +113,31 @@ async function getTracks(ext) {
 
         const $ = cheerio.load(data)
         const e = $('.plyr__menu__container > div > div:eq(2)')
-        //$print(e.html())
-        const player_hd = $(e).find('div span:eq(2)')
-        $print(player_hd.text().replace('HD', ''))
+        const player_hd = ($(e).find('div span:eq(2)')).text().replace('HD', '')
+        $print(player_hd)
         let uuid = "1"
-        //let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
-        let m3u8 = m3u8Prefix + uuid
+        let m3u8 = m3u8Prefix + uuid + `/${player_hd}/video.m3u8`
+        $print(m3u8)
 
 
 
         tracks.push({
-            name: '播放',
+            name: player_hd,
             pan: '',
             ext: {
                 url: m3u8,
             },
         })
-    })
+        $print(tracks)
 
-
-
-    return jsonify({
-        list: [
-            {
-                title: '默认分组',
-                tracks,
-            },
-        ],
+        return jsonify({
+            list: [
+                {
+                    title: '默认分组',
+                    tracks,
+                },
+            ],
+        })
     })
 }
 
