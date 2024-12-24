@@ -243,12 +243,13 @@ async function getCards(ext) {
         const href = $(e).find('.text-secondary').attr('href')
         const title = $(e).find('.text-secondary').text().trim().replace(/\s+/g, ' ')
         const cover = $(e).find('.w-full').attr('data-src')
+        const remarks = $(e).find('.left-1').text().trim()
         const duration = $(e).find('.right-1').text().trim()
         let obj = {
             vod_id: href,
             vod_name: title,
             vod_pic: cover,
-            vod_remarks: '',
+            vod_remarks: remarks,
             vod_duration: duration,
 
             ext: {

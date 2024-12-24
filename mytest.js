@@ -15,9 +15,8 @@ let ext2 = jsonify({ "url": "https://missav.com/start-220-chinese-subtitle" })
 
 let appConfig = {
     ver: 1,
-    title: '肉视频',
-    // 40thz.com
-    site: 'https://rou.video',
+    title: '吃瓜网',
+    site: 'https://www.hlj.fun',
 }
 
 async function getConfig() {
@@ -28,25 +27,18 @@ async function getConfig() {
 
 async function getTabs() {
     let list = []
-    let ignore = ['首頁', '分類', '搜索']
-    function isIgnoreClassName(className) {
-        return ignore.some((element) => className.includes(element))
-    }
 
-    const { data } = await $fetch.get(`${appConfig.site}/home`, {
+    const { data } = await $fetch.get(`${appConfig.site}`, {
         headers: {
             'User-Agent': UA,
         },
     })
     const $ = cheerio.load(data)
 
-    let $allClass = $('.drawer-side div ul > li > a')
+    let $allClass = $('.menu.navbar-nav > ul > li ')
     $allClass.each((i, e) => {
         const name = $(e).text()
         const href = $(e).attr('href')
-        const isIgnore = isIgnoreClassName(name)
-        if (isIgnore) return
-
         list.push({
             name,
             ext: {
@@ -138,7 +130,7 @@ async function getPlayinfo(ext) {
 }
 
 async function main() {
-    let result = await getTracks(ext2);
+    let result = await getConfig();
     $print(result)
 }
 
