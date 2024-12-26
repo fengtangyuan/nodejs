@@ -1,49 +1,90 @@
 {
     "ver": 1,
-    "title": "肉视频",
-    "site": "https://rou.video",
+    "title": "吃瓜网",
+    "site": "https://www.hlj.fun",
     "tabs": [
         {
-            "name": "國產AV",
+            "name": "最新吃瓜黑料",
             "ext": {
-                "url": "https://rou.video/t/國產AV",
-                "page": 1
+                "url": "https://www.hlj.fun/category/jrgb/"
             }
         },
         {
-            "name": "自拍流出",
+            "name": "大瓜精选",
             "ext": {
-                "url": "https://rou.video/t/自拍流出"
+                "url": "https://www.hlj.fun/category/rmgb/"
             }
         },
         {
-            "name": "探花",
+            "name": "每日排行",
             "ext": {
-                "url": "https://rou.video/t/探花"
+                "url": "https://www.hlj.fun/category/rlph/"
             }
         },
         {
-            "name": "OnlyFans",
+            "name": "黑料吃瓜",
             "ext": {
-                "url": "https://rou.video/t/OnlyFans"
+                "url": "https://www.hlj.fun/category/ssdbl/"
             }
         },
         {
-            "name": "日本",
+            "name": "校园吃瓜",
             "ext": {
-                "url": "https://rou.video/t/日本"
+                "url": "https://www.hlj.fun/category/xyss/"
             }
         },
         {
-            "name": "全部視頻",
+            "name": "明星黑料",
             "ext": {
-                "url": "https://rou.video/v"
+                "url": "https://www.hlj.fun/category/mxhl/"
             }
         },
         {
-            "name": "福利",
+            "name": "网红爆料",
             "ext": {
-                "url": "https://rou.video/fuli"
+                "url": "https://www.hlj.fun/category/whbl/"
+            }
+        },
+        {
+            "name": "反差骚货揭秘",
+            "ext": {
+                "url": "https://www.hlj.fun/category/bgzq/"
+            }
+        },
+        {
+            "name": "猎奇百科",
+            "ext": {
+                "url": "https://www.hlj.fun/category/blqw/"
+            }
+        },
+        {
+            "name": "辣妹福利",
+            "ext": {
+                "url": "https://www.hlj.fun/category/fljq/"
+            }
+        },
+        {
+            "name": "每日大赛",
+            "ext": {
+                "url": "https://www.hlj.fun/category/mrds/"
+            }
+        },
+        {
+            "name": "成人放映室",
+            "ext": {
+                "url": "https://www.hlj.fun/category/crfys/"
+            }
+        },
+        {
+            "name": "探花精选",
+            "ext": {
+                "url": "https://www.hlj.fun/category/thjx/"
+            }
+        },
+        {
+            "name": "禁漫天堂",
+            "ext": {
+                "url": "https://www.hlj.fun/category/dmhv/"
             }
         }
     ]

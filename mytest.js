@@ -10,7 +10,7 @@ const $fetch = axios
 // 设置User Agent，模拟iPhone浏览器
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
 
-let ext1 = jsonify({ "page": 2, "url": "https://rou.video/t/國產AV" })
+let ext1 = jsonify({ "page": 1, "url": "https://www.hlj.fun/category/jrgb/" })
 let ext2 = jsonify({ "url": "https://missav.com/start-220-chinese-subtitle" })
 
 let appConfig = {
@@ -26,7 +26,7 @@ async function getConfig() {
 }
 
 async function getTabs() {
-    let list = []
+    let list = [{ name: '首页', ext: { url: appConfig.site } }]
 
     const { data } = await $fetch.get(`${appConfig.site}`, {
         headers: {
@@ -35,7 +35,7 @@ async function getTabs() {
     })
     const $ = cheerio.load(data)
 
-    let $allClass = $('.menu.navbar-nav > ul > li ')
+    let $allClass = $('.menu.navbar-nav > ul > li > a')
     $allClass.each((i, e) => {
         const name = $(e).text()
         const href = $(e).attr('href')
@@ -130,7 +130,7 @@ async function getPlayinfo(ext) {
 }
 
 async function main() {
-    let result = await getConfig();
+    let result = await getCards(appConfig.tabs[0].ext);
     $print(result)
 }
 
