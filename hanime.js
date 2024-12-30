@@ -98,19 +98,12 @@ async function getTracks(ext) {
              'User-Agent': UA,
          },
      })
-    tracks.push({
-        name: '播放',
-        pan: '',
-        ext: {
-            url: url,
-        },
-    })
     const $ = cheerio.load(data)
     const playlist = $('.hover-video-playlist:first > div')
     playlist.each((_, e) => {
          const name = $(e).find('.card-mobile-title').text()
          const href = $(e).find('a.overlay').attr('href')
-         tracks.push({
+         tracks.unshift({
              name: name,
              pan: '',
              ext: {
@@ -118,6 +111,13 @@ async function getTracks(ext) {
              },
          })
      })
+     tracks.unshift({
+        name: '播放',
+        pan: '',
+        ext: {
+            url: url,
+        },
+    })
     return jsonify({
         list: [
             {
