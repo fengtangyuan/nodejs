@@ -1,7 +1,7 @@
 // 导入必要的库
-import fetch from "node-fetch"
 import * as cheerio from 'cheerio'
 import axios from "axios"
+import fs from 'fs/promises'
 const $print = console.log
 const jsonify = JSON.stringify
 const argsify = JSON.parse
@@ -29,15 +29,14 @@ async function getTracks(ext) {
 	let tracks2 = []
     let url = ext.url
 
-    const { data } = await $fetch.get(url, {
-         headers: {
-             'User-Agent': UA,
-         },
-     })
-
-    const $ = cheerio.load(data)
-    const playlist = $('.hover-video-playlist > div')
-    $print(playlist.html())
+    //const { data } = await $fetch.get(url, {
+    //     headers: {
+    //         'User-Agent': UA,
+    //     },
+    // })
+    const htmlContent = await fs.readFile('html.html', 'utf-8')
+    const $ = cheerio.load(htmlContent)
+    const playlist = $('.hover-video-playlist:first > div')
 
     playlist.each((_, e) => {
          const name = $(e).find('.card-mobile-title').text()
@@ -62,11 +61,11 @@ async function getTracks(ext) {
         list: [
             {
                 title: '当前',
-                tracks1,
+                tracks: tracks1,
             },
 			{
                 title: '其他',
-                tracks2,
+                tracks: tracks2,
             }
         ],
     })

@@ -102,8 +102,6 @@ async function getTracks(ext) {
 
     const $ = cheerio.load(data)
     const playlist = $('.hover-video-playlist:first > div')
-    $print(playlist.html())
-
     playlist.each((_, e) => {
          const name = $(e).find('.card-mobile-title').text()
          const href = $(e).find('a.overlay').attr('href')
@@ -127,11 +125,11 @@ async function getTracks(ext) {
         list: [
             {
                 title: '当前',
-                tracks1,
+                tracks: tracks1,
             },
 			{
                 title: '其他',
-                tracks2,
+                tracks: tracks2,
             }
         ],
     })
