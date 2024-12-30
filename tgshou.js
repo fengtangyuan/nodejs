@@ -9,7 +9,7 @@ async function getConfig() {
     return jsonify(config)
 }
 
-async function getTabs() {
+async function getcards() {
     return jsonify({
         list: [],
     })

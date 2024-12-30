@@ -10,7 +10,7 @@ const $fetch = axios
 // 设置User Agent，模拟iPhone浏览器
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
 
-let ext1 = jsonify({ url: "http://127.0.0.1:8080/video/yunpanshare?ac=detail&ids=75421&platform=ysc" })
+let ext1 = jsonify({ url: "http://192.168.152.172:8080/video/yunpanshare?ac=detail&ids=75421&platform=ysc" })
 
 let appConfig = {
     ver: 1,
