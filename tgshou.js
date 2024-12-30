@@ -2,6 +2,13 @@ let appConfig = {
     ver: 1,
     title: 'tg搜索|夸克',
     site: 'http://192.168.152.172:8080/video/yunpanshare',
+    tabs: [{
+        name: '搜索',
+        ui: 1,
+        ext: {
+            id: '',
+        },
+    }]
 }
 
 async function getConfig() {
