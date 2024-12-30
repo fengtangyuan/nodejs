@@ -90,8 +90,7 @@ async function getCards(ext) {
 
 async function getTracks(ext) {
     ext = argsify(ext)
-    let tracks1 = []
-	let tracks2 = []
+    let tracks = []
     let url = ext.url
 
     const { data } = await $fetch.get(url, {
@@ -99,13 +98,19 @@ async function getTracks(ext) {
              'User-Agent': UA,
          },
      })
-
+    tracks.push({
+        name: '播放',
+        pan: '',
+        ext: {
+            url: url,
+        },
+    })
     const $ = cheerio.load(data)
     const playlist = $('.hover-video-playlist:first > div')
     playlist.each((_, e) => {
          const name = $(e).find('.card-mobile-title').text()
          const href = $(e).find('a.overlay').attr('href')
-         tracks2.push({
+         tracks.push({
              name: name,
              pan: '',
              ext: {
@@ -113,24 +118,12 @@ async function getTracks(ext) {
              },
          })
      })
-	tracks1.push({
-        name: '播放',
-        pan: '',
-        ext: {
-            url: url,
-        },
-    })
-
     return jsonify({
         list: [
             {
-                title: '当前',
-                tracks: tracks1,
+                title: '默认分组',
+                tracks
             },
-			{
-                title: '其他',
-                tracks: tracks2,
-            }
         ],
     })
 }
