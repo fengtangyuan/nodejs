@@ -9,7 +9,7 @@ async function getConfig() {
     return jsonify(config)
 }
 
-async function getcards() {
+async function getCards() {
     return jsonify({
         list: [],
     })
