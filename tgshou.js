@@ -25,7 +25,7 @@ async function getTracks(ext) {
 		},
 	})
 
-	const list = argsify(data).list
+	const list = data.list
     for (const e of list) {
         const title = e.vod_name
         const panShareUrl = e.vod_content.match(/链接：(https?:\/\/pan\.quark\.cn\/s\/\w+)\n/)[1]
@@ -53,14 +53,14 @@ async function search(ext) {
 	let cards = []
 
 	let text = encodeURIComponent(ext.text)
-	let url = `${appConfig.site}?wb=${text}&platform=ysc`
+	let url = `${appConfig.site}?wd=${text}&platform=ysc`
 
 	const { data } = await $fetch.get(url, {
 		headers: {
 			'token': '40da2be0d7ded05f',
 		},
 	})
-    const list = argsify(data).list
+    const list = data.list
 	for (const e of list) {
 		const href = e.vod_id
 		const title = e.vod_name

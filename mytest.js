@@ -10,7 +10,7 @@ const $fetch = axios
 // 设置User Agent，模拟iPhone浏览器
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
 
-let ext1 = jsonify({ url: "http://192.168.152.172:8080/video/yunpanshare?ac=detail&ids=75421&platform=ysc" })
+let ext1 = jsonify({ text: "偷窥者" })
 
 let appConfig = {
     ver: 1,
@@ -56,23 +56,41 @@ async function getTracks(ext) {
 
 
 async function search(ext) {
-    ext = argsify(ext)
-    let cards = []
+	ext = argsify(ext)
+	let cards = []
 
-    let text = encodeURIComponent(ext.text)
-    let page = ext.page || 1
-    let url = `${appConfig.site}?wd=${text}&platform=ysc`
+	let text = encodeURIComponent(ext.text)
+	let url = `${appConfig.site}?wd=${text}&platform=ysc`
 
-    const { data } =  await $fetch.get(url, {
-        headers: {
-            'token': '40da2be0d7ded05f',
-        },
-    })
-    $print(data.list[0].vod_id)
+	const { data } = await $fetch.get(url, {
+		headers: {
+			'token': '40da2be0d7ded05f',
+		},
+	})
+    const list = data.list
+	for (const e of list) {
+		const href = e.vod_id
+		const title = e.vod_name
+		const cover = e.vod_pic
+		const remarks = e.vod_remarks
+		cards.push({
+			vod_id: href,
+			vod_name: title,
+			vod_pic: cover,
+			vod_remarks: remarks,
+
+			ext: {
+				url: `${appConfig.site}?ac=detail&ids=${href}&platform=ysc`,
+			},
+		})
+	}
+	return jsonify({
+		list: cards,
+	})
 }
 
 async function main() {
-    let result = await getTracks(ext1);
+    let result = await search(ext1);
     $print(result)
 }
 
