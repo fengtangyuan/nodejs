@@ -57,6 +57,12 @@ async function getPlayinfo(ext) {
 async function search(ext) {
 	ext = argsify(ext)
 	let cards = []
+	let page = ext.page || 1
+	if (page > 1) {
+		return jsonify({
+			list: [],
+		})
+	}
 
 	let text = encodeURIComponent(ext.text)
 	let url = `${appConfig.site}?wd=${text}&platform=ysc`
