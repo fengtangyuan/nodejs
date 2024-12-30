@@ -32,15 +32,14 @@ async function getTracks(ext) {
 		},
 	})
 
-	const list = argsify(data).list
-    for (const e of list) {
+    argsify(data).list.forEach(e => {
         const title = e.vod_name
         const panShareUrl = e.vod_content.match(/链接：(https?:\/\/pan\.quark\.cn\/s\/\w+)\n/)[1]
         tracks.push({
             name: title,
             pan: panShareUrl,
         })
-    }
+    })
 	return jsonify({
 		list: [
 			{
@@ -67,8 +66,7 @@ async function search(ext) {
 			'token': '40da2be0d7ded05f',
 		},
 	})
-    const list = argsify(data).list
-	for (const e of list) {
+    argsify(data).list.forEach(e => {
 		const href = e.vod_id.toString()
 		const title = e.vod_name
 		const cover = e.vod_pic
@@ -83,7 +81,7 @@ async function search(ext) {
 				url: `${appConfig.site}?ac=detail&ids=${href}&platform=ysc`,
 			},
 		})
-	}
+	})
 	return jsonify({
 		list: cards,
 	})
