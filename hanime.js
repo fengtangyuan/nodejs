@@ -101,7 +101,7 @@ async function getTracks(ext) {
      })
 
     const $ = cheerio.load(data)
-    const playlist = $('.hover-video-playlist > div')
+    const playlist = $('.hover-video-playlist:first > div')
     $print(playlist.html())
 
     playlist.each((_, e) => {
