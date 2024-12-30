@@ -15,7 +15,7 @@ let ext1 = jsonify({ text: "偷窥者" })
 let appConfig = {
     ver: 1,
     title: 'docker',
-    site: 'http://127.0.0.1:8080/video/yunpanshare',
+    site: 'http://192.168.152.172:8080/video/yunpanshare',
 }
 
 async function getConfig() {

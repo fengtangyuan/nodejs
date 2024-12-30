@@ -60,7 +60,14 @@ async function search(ext) {
 			'token': '40da2be0d7ded05f',
 		},
 	})
+    if (data.list.length == 0) {
+        return jsonify({
+            list: [{
+                vod_name: '无法获取请求',}],
+        })
+    }
     const list = data.list
+    
 	for (const e of list) {
 		const href = e.vod_id
 		const title = e.vod_name
