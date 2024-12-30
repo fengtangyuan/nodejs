@@ -70,6 +70,7 @@ async function search(ext) {
 			'token': '40da2be0d7ded05f',
 		},
 	})
+    $print(data)
     const list = argsify(data).list
 	for (const e of list) {
 		const href = e.vod_id

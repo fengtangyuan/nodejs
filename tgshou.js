@@ -68,9 +68,8 @@ async function search(ext) {
 		},
 	})
     const list = argsify(data).list
-    
 	for (const e of list) {
-		const href = e.vod_id
+		const href = e.vod_id.toString()
 		const title = e.vod_name
 		const cover = e.vod_pic
 		const remarks = e.vod_remarks
