@@ -1,11 +1,14 @@
 // 导入必要的库
-import * as cheerio from 'cheerio'
-import axios from 'axios'
-import fs from 'fs'
+import fetch from "node-fetch"
 const $print = console.log
 const jsonify = JSON.stringify
 const argsify = JSON.parse
-const $fetch = axios
+const $fetch = {
+    get: async (url, options) => {
+        const response = await fetch(url, options)
+        return { data: await response.text() }
+    },                                      
+}
 
 // 设置User Agent，模拟iPhone浏览器
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
@@ -67,7 +70,7 @@ async function search(ext) {
 			'token': '40da2be0d7ded05f',
 		},
 	})
-    const list = data.list
+    const list = argsify(data).list
 	for (const e of list) {
 		const href = e.vod_id
 		const title = e.vod_name

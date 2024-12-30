@@ -25,7 +25,7 @@ async function getTracks(ext) {
 		},
 	})
 
-	const list = data.list
+	const list = argsify(data).list
     for (const e of list) {
         const title = e.vod_name
         const panShareUrl = e.vod_content.match(/链接：(https?:\/\/pan\.quark\.cn\/s\/\w+)\n/)[1]
@@ -60,7 +60,7 @@ async function search(ext) {
 			'token': '40da2be0d7ded05f',
 		},
 	})
-    const list = data.list
+    const list = argsify(data).list
     
 	for (const e of list) {
 		const href = e.vod_id
