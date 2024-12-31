@@ -68,6 +68,7 @@ async function getCards(ext) {
     if (videolist.length === 0) videolist = $('.content-padding-new > .row > .search-doujin-videos.col-xs-6')
 
     videolist.each((_, element) => {
+        if ($(element).attr('target').length > 0) return
         const href = $(element).attr('href') || $(element).find('.overlay').attr('href')
         const title = $(element).find('.home-rows-videos-title').text() || $(element).find('.card-mobile-title').text()
         let cover = $(element).find('img').attr('src')
@@ -162,6 +163,7 @@ async function search(ext) {
     const $ = cheerio.load(data)
 
     $('.col-xs-6').each((_, element) => {
+        if ($(element).attr('target').length > 0) return
         const href = $(element).find('.overlay').attr('href')
         const title = $(element).find('.card-mobile-title').text()
         const cover = $(element).find('img').eq(1).attr('src')
