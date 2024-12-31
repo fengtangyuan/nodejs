@@ -68,7 +68,7 @@ async function getCards(ext) {
     if (videolist.length === 0) videolist = $('.content-padding-new > .row > .search-doujin-videos.col-xs-6')
 
     videolist.each((_, element) => {
-        if ($(element).attr('target') === '_blank') return
+        if ($(element).attr('target') === '_blank'|| $(element).find('.overlay').attr('target') === '_blank') return
         const href = $(element).attr('href') || $(element).find('.overlay').attr('href')
         const title = $(element).find('.home-rows-videos-title').text() || $(element).find('.card-mobile-title').text()
         let cover = $(element).find('img').attr('src')
