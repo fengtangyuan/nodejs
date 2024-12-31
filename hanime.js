@@ -163,7 +163,7 @@ async function search(ext) {
     const $ = cheerio.load(data)
 
     $('.col-xs-6').each((_, element) => {
-        if ($(element).attr('target') === '_blank') return
+        if ($(element).find('.overlay').attr('target') === '_blank') return
         const href = $(element).find('.overlay').attr('href')
         const title = $(element).find('.card-mobile-title').text()
         const cover = $(element).find('img').eq(1).attr('src')
