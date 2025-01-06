@@ -5,17 +5,27 @@ import fs from 'fs/promises'
 const $print = console.log
 const jsonify = JSON.stringify
 const argsify = JSON.parse
-const $fetch = axios                      
+const $fetch = axios 
+// const data = await fs.readFile('html.html', 'utf-8')                     
 
 // 设置User Agent，模拟iPhone浏览器
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
-
-let ext1 = jsonify({ url: "https://hanime1.me/watch?v=97244" })
+const ext1 = jsonify({
+    text: '偷窥者',
+    page: 2
+})
 
 let appConfig = {
     ver: 1,
-    title: 'docker',
-    site: 'https://hanime1.me',
+    title: 'tg搜索|夸克',
+    site: 'http://192.168.152.159:8080/video/yunpanshare',
+    tabs: [{
+        name: '搜索',
+        ui: 1,
+        ext: {
+            id: '',
+        },
+    }]
 }
 
 async function getConfig() {
@@ -23,59 +33,82 @@ async function getConfig() {
     return jsonify(config)
 }
 
-async function getTracks(ext) {
-    ext = argsify(ext)
-    let tracks1 = []
-	let tracks2 = []
-    let url = ext.url
-
-    //const { data } = await $fetch.get(url, {
-    //     headers: {
-    //         'User-Agent': UA,
-    //     },
-    // })
-    const htmlContent = await fs.readFile('html.html', 'utf-8')
-    const $ = cheerio.load(htmlContent)
-    const playlist = $('.hover-video-playlist:first > div')
-
-    playlist.each((_, e) => {
-         const name = $(e).find('.card-mobile-title').text()
-         const href = $(e).find('a.overlay').attr('href')
-         tracks2.push({
-             name: name,
-             pan: '',
-             ext: {
-                 url: href,
-             },
-         })
-     })
-	tracks1.push({
-        name: '播放',
-        pan: '',
-        ext: {
-            url: url,
-        },
-    })
-
+async function getCards() {
     return jsonify({
-        list: [
-            {
-                title: '当前',
-                tracks: tracks1,
-            },
-			{
-                title: '其他',
-                tracks: tracks2,
-            }
-        ],
+        list: [],
     })
 }
 
+async function getTracks(ext) {
+	ext = argsify(ext)
+	let tracks = []
+	let url = ext.url
 
+	const { data } = await $fetch.get(url, {
+		headers: {
+			'token': '40da2be0d7ded05f',
+		},
+	})
+
+   data.list.forEach(e => {
+        const title = e.vod_name
+        const panShareUrl = e.vod_content.match(/链接：(https?:\/\/pan\.quark\.cn\/s\/\w+)\n/)[1]
+        tracks.push({
+            name: title,
+            pan: panShareUrl,
+        })
+    })
+	return jsonify({
+		list: [
+			{
+				title: '默认分组',
+				tracks,
+			},
+		],
+	})
+}
+
+async function getPlayinfo(ext) {
+	return jsonify({ urls: [] })
+}
+
+async function search(ext) {
+	ext = argsify(ext)
+	let cards = []
+	let page = ext.page || 1
+
+	let text = encodeURIComponent(ext.text)
+	let url = `${appConfig.site}?wd=${text}&platform=ysc&pg=${page}`
+
+	const { data } = await $fetch.get(url, {
+		headers: {
+			'token': '40da2be0d7ded05f',
+		},
+	})
+    data.list.forEach(e => {
+		const href = e.vod_id.toString()
+		const title = e.vod_name
+		const cover = e.vod_pic
+		const remarks = e.vod_remarks
+		cards.push({
+			vod_id: href,
+			vod_name: title,
+			vod_pic: cover,
+			vod_remarks: remarks,
+
+			ext: {
+				url: `${appConfig.site}?ac=detail&ids=${href}&platform=ysc`,
+			},
+		})
+	})
+	return jsonify({
+		list: cards,
+	})
+}
 
 
 async function main() {
-    let result = await getTracks(ext1);
+    let result = await search(ext1);
     $print(result)
 }
 

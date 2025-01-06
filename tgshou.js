@@ -1,7 +1,7 @@
 let appConfig = {
     ver: 1,
     title: 'tg搜索|夸克',
-    site: 'http://192.168.100.235:8080/video/yunpanshare',
+    site: 'http://192.168.152.134:8080/video/yunpanshare',
     tabs: [{
         name: '搜索',
         ui: 1,
@@ -21,6 +21,7 @@ async function getCards() {
         list: [],
     })
 }
+
 async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
@@ -43,7 +44,15 @@ async function getTracks(ext) {
 	return jsonify({
 		list: [
 			{
-				title: '默认分组',
+				title: 'uc',
+				tracks,
+			},
+			{
+				title: 'quark',
+				tracks,
+			},
+			{
+				title: '115',
 				tracks,
 			},
 		],
