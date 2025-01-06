@@ -44,17 +44,9 @@ async function getTracks(ext) {
 	return jsonify({
 		list: [
 			{
-				title: 'uc',
+				title: '默认分组',
 				tracks,
-			},
-			{
-				title: 'quark',
-				tracks,
-			},
-			{
-				title: '115',
-				tracks,
-			},
+			}
 		],
 	})
 }
