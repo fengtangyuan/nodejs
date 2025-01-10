@@ -1,60 +1,60 @@
 const cheerio = createCheerio()
 /*
 {	
-	"channels": [
-		"QuarkFree",
-		"ucpanpan",
-	]
+    "channels": [
+        "QuarkFree",
+        "ucpanpan",
+    ]
 }
 */
 let $config = argsify($config_str)
 const UA = 'MOBILE_UA'
 let appConfig = {
-	ver: 1,
-	title: 'tg搜索',
-	site: 'https://t.me/s/',
-	tabs: [{
-		name: '只能搜索',
-		ui: 1,
-		ext: {
-			id: '',
-		},
-	}]
+    ver: 1,
+    title: 'tg搜索',
+    site: 'https://t.me/s/',
+    tabs: [{
+        name: '只能搜索',
+        ui: 1,
+        ext: {
+            id: '',
+        },
+    }]
 }
 
 async function getConfig() {
-	let config = appConfig
-	return jsonify(config)
+    let config = appConfig
+    return jsonify(config)
 }
 
 async function getCards() {
-	return jsonify({
-		list: [],
-	})
+    return jsonify({
+        list: [],
+    })
 }
 
 async function getTracks(ext) {
-	ext = argsify(ext)
-	let tracks = []
-	let urls = ext.url
-	urls.forEach(url => {
-		tracks.push({
-			name: '网盘',
-			pan: url,
-		})
-	})
-	return jsonify({
-		list: [
-			{
-				title: '默认分组',
-				tracks,
-			}
-		],
-	})
+    ext = argsify(ext)
+    let tracks = []
+    let urls = ext.url
+    urls.forEach(url => {
+        tracks.push({
+            name: '网盘',
+            pan: url,
+        })
+    })
+    return jsonify({
+        list: [
+            {
+                title: '默认分组',
+                tracks,
+            }
+        ],
+    })
 }
 
 async function getPlayinfo(ext) {
-	return jsonify({ urls: [] })
+    return jsonify({ urls: [] })
 }
 
 async function search(ext) {
@@ -79,10 +79,13 @@ async function search(ext) {
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
         $('div.tgme_widget_message_bubble').each((_, element) => {
             const title = ''
-            if(text.includes('名称：')){
-                    title = text.split('描述：')[0].replace('名称：','').trim();}
-            else{
-             title = $(element).find('.tgme_widget_message_text mark').text();}
+            const titletext = $(element).find('.tgme_widget_message_text').text()
+            if (titletext.includes('名称：')) {
+                title = titletext.split('描述：')[0].replace('名称：', '').trim();
+            }
+            else {
+                title = $(element).find('.tgme_widget_message_text mark').text();
+            }
             let hrefs = [];
             $(element).find('.tgme_widget_message_text > a').each((_, element) => {
                 const href = $(element).attr('href');
