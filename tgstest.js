@@ -74,7 +74,7 @@ async function search(ext) {
                 vod_pic: cover,
                 vod_remarks: '',
                 ext: {
-                    url: hrefs,
+                     url: hrefs.join("&&"),
                 },
             });
         });

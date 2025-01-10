@@ -36,7 +36,7 @@ async function getCards() {
 async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
-	let urls = ext.url
+	let urls = ext.url.split('&&')
 	for (const url of urls) {
 		const title = url.match(/https:\/\/(.+)\/s\//)[1]
 		tracks.push({
@@ -97,7 +97,7 @@ async function search(ext) {
                 vod_pic: cover,
                 vod_remarks: '',
                 ext: {
-                    url: hrefs,
+                    url: hrefs.join("&&"),
                 },
             });
         });
