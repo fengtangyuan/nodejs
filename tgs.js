@@ -103,7 +103,7 @@ async function search(ext) {
             } catch (e) {
                 $utils.toastError(`${channel}搜索失败`);
             }
-            if (hrefs.length === 0) return;
+            if (remarks === '') return;
             cards.push({
                 vod_id: hrefs[0],
                 vod_name: title,
