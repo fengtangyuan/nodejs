@@ -37,7 +37,6 @@ async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
 	let urls = ext.url
-	$utils.toastError(urls[1])
 	urls.forEach(url => {
 		tracks.push({
 			name: '网盘',
