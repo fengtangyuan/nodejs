@@ -47,6 +47,7 @@ async function getTracks(ext) {
 		name: '播放',
 		pan: urls[0],
 	})
+	$utils.toastError(urls[1])
 	tracks.push({
 		name: '下载',
 		pan: urls[1],
