@@ -92,7 +92,6 @@ async function search(ext) {
                 .match(/image\:url\('(.+)'\)/)[1];
 			$utils.toastError(hrefs[1]);
 			const url = hrefs.join("&&")
-			$utils.toastError(url);
             cards.push({
                 vod_id: hrefs[0],
                 vod_name: title,
