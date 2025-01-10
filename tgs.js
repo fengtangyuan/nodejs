@@ -77,6 +77,7 @@ async function search(ext) {
 		})
 
 		const $ = cheerio.load(data)
+		if ($('div.tgme_widget_message_bubble').length === 0) return
 
 		$('div.tgme_widget_message_bubble').each((_, element) => {
 
