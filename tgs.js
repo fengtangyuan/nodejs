@@ -78,7 +78,7 @@ async function search(ext) {
         const $ = cheerio.load(data);
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
         $('div.tgme_widget_message_bubble').each((_, element) => {
-            const title = ''
+            let title = ''
             const titletext = $(element).find('.tgme_widget_message_text').text()
             if (titletext.includes('名称：')) {
                 title = titletext.split('描述：')[0].replace('名称：', '').trim();
