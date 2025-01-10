@@ -101,6 +101,7 @@ async function search(ext) {
                     url: url,
                 },
             });
+			$utils.toastError(url);
         });
     }
     return jsonify({
