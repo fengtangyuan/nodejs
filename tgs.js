@@ -80,7 +80,7 @@ async function search(ext) {
 
         $('div.tgme_widget_message_bubble').each((_, element) => {
             const title = $(element).find('.tgme_widget_message_text mark').text();
-            const hrefs = [];
+            let hrefs = [];
             $(element).find('.tgme_widget_message_text').each((_, element) => {
                 const href = $(element).find('a').attr('href');
                 if (href.includes('t.me')) return;
