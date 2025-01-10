@@ -79,6 +79,9 @@ async function search(ext) {
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
         $('div.tgme_widget_message_bubble').each((_, element) => {
             let title = '';
+            let hrefs = [];
+            let cover = '';
+            let remarks = '';
             try {
                 const titletext = $(element).find('.tgme_widget_message_text').text()
                 if (titletext.includes('名称：')) {
@@ -86,21 +89,21 @@ async function search(ext) {
                 } else {
                     title = $(element).find('.tgme_widget_message_text mark').text();
                 }
+                $(element).find('.tgme_widget_message_text > a').each((_, element) => {
+                    const href = $(element).attr('href');
+                    if (href.match(/https:\/\/(.+)\/s\/(.+)/)) {
+                        hrefs.push(href);
+                    }
+                });
+                cover = $(element)
+                    .find('.tgme_widget_message_photo_wrap')
+                    .attr('style')
+                    .match(/image\:url\('(.+)'\)/)[1];
+                remarks = hrefs[0].match(/https:\/\/(.+)\/s\//)[1];
             } catch (e) {
                 $utils.toastError(`${channel}搜索失败`);
             }
-            let hrefs = [];
-            $(element).find('.tgme_widget_message_text > a').each((_, element) => {
-                const href = $(element).attr('href');
-                if (href.match(/https:\/\/(.+)\/s\/(.+)/)) {
-                    hrefs.push(href);
-                }
-            });
-            const cover = $(element)
-                .find('.tgme_widget_message_photo_wrap')
-                .attr('style')
-                .match(/image\:url\('(.+)'\)/)[1];
-            const remarks = hrefs[0].match(/https:\/\/(.+)\/s\//)[1];
+            if (hrefs.length === 0) return;
             cards.push({
                 vod_id: hrefs[0],
                 vod_name: title,

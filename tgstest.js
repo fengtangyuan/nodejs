@@ -17,13 +17,24 @@ let ext1 = jsonify({
     page: 1
 })
 
-let $config = {
-    channels: [
-        "NewQuark",
-        "ucpanpan",
-        "kuakeyun",
+let $config = {  
+    "channels": [
+      "QuarkFree",
+      "ucpanpan",
+      "NewQuark",
+      "hao115",
+      "guaguale115",
+      "Channel_Shares_115",
+      "XiangxiuNB",
+      "yunpanpan",
+      "zaihuayun",
+      "Quark_Movies",
+      "yunpanshare",
+      "shareAliyun",
+      "ikiviyyp",
+      "alyp_1",
     ]
-}
+  }
 
 let appConfig = {
     ver: 1,
@@ -68,7 +79,7 @@ async function search(ext) {
                     title = $(element).find('.tgme_widget_message_text mark').text();
                 }
             } catch (e) {
-                $print(e);
+                $utils.toastError(`${channel}搜索失败`);
             }
             let hrefs = [];
             $(element).find('.tgme_widget_message_text > a').each((_, element) => {
@@ -81,6 +92,7 @@ async function search(ext) {
                 .find('.tgme_widget_message_photo_wrap')
                 .attr('style')
                 .match(/image\:url\('(.+)'\)/)[1];
+            $print(channel, hrefs);
             const remarks = hrefs[0].match(/https:\/\/(.+)\/s\//)[1];
             cards.push({
                 vod_id: hrefs[0],
