@@ -37,13 +37,12 @@ async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
 	let urls = ext.url.split('&&')
-	$utils.toastError(urls[1])
-	for (const url of urls) {
+	urls.forEach(url => {
 		tracks.push({
 			name: '网盘',
 			pan: url,
 		})
-	}
+	})
 	return jsonify({
 		list: [
 			{
@@ -90,7 +89,6 @@ async function search(ext) {
                 .find('.tgme_widget_message_photo_wrap')
                 .attr('style')
                 .match(/image\:url\('(.+)'\)/)[1];
-			$utils.toastError(hrefs[1]);
 			const url = hrefs.join("&&")
             cards.push({
                 vod_id: hrefs[0],
