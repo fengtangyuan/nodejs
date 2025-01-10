@@ -37,20 +37,11 @@ async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
 	let urls = ext.url.split('&&')
-	//urls.forEach(url => {
-	//	tracks.push({
-	//		name: '网盘',
-	//		pan: url,
-	//	})
-	//})
-	tracks.push({
-		name: '播放',
-		pan: urls[0],
-	})
-	$utils.toastError(urls[1])
-	tracks.push({
-		name: '下载',
-		pan: urls[1],
+	urls.forEach(url => {
+		tracks.push({
+			name: '网盘',
+			pan: url,
+		})
 	})
 	return jsonify({
 		list: [
