@@ -78,7 +78,11 @@ async function search(ext) {
         const $ = cheerio.load(data);
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
         $('div.tgme_widget_message_bubble').each((_, element) => {
-            const title = $(element).find('.tgme_widget_message_text mark').text();
+            const title = ''
+            if(text.includes('名称：')){
+                    title = text.split('描述：')[0].replace('名称：','').trim();}
+            else{
+             title = $(element).find('.tgme_widget_message_text mark').text();}
             let hrefs = [];
             $(element).find('.tgme_widget_message_text > a').each((_, element) => {
                 const href = $(element).attr('href');

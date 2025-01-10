@@ -27,8 +27,9 @@
         {
             "name": "tgs|私",    
             "type": 3,
-            "api": "csp_tgs",
+            "api": "csp_tgss",
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/tgs.js"
         }
+
     ]
 }
