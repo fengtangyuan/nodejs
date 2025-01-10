@@ -79,12 +79,17 @@ async function search(ext) {
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
         $('div.tgme_widget_message_bubble').each((_, element) => {
             let title = ''
+            try {
+                title = $(element).find('.tgme_widget_message_text mark').text();
             const titletext = $(element).find('.tgme_widget_message_text').text()
             if (titletext.includes('名称：')) {
                 title = titletext.split('描述：')[0].replace('名称：', '').trim();
             }
             else {
                 title = $(element).find('.tgme_widget_message_text mark').text();
+            }}
+            catch (e) {
+                $utils.toastError(`${channel}搜索失败`)
             }
             let hrefs = [];
             $(element).find('.tgme_widget_message_text > a').each((_, element) => {
