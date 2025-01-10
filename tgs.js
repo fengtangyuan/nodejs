@@ -38,9 +38,8 @@ async function getTracks(ext) {
 	let tracks = []
 	let urls = ext.url.split('&&')
 	for (const url of urls) {
-		const title = url.match(/https:\/\/(.+)\/s\//)[1]
 		tracks.push({
-			name: title,
+			name: '网盘',
 			pan: url,
 		})
 	}
