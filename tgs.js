@@ -36,6 +36,7 @@ async function getCards() {
 async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
+	$utils.toastError(ext.url)
 	let urls = ext.url.split('&&')
 	for (const url of urls) {
 		tracks.push({
