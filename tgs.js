@@ -92,8 +92,9 @@ async function search(ext) {
             let hrefs = [];
             $(element).find('.tgme_widget_message_text > a').each((_, element) => {
                 const href = $(element).attr('href');
-                if (href.includes('t.me')) return;
-                hrefs.push(href);
+                if (href.match(/https:\/\/(.+)\/s\/(.+)/)) {
+                    hrefs.push(href);
+                }
             });
             const cover = $(element)
                 .find('.tgme_widget_message_photo_wrap')
