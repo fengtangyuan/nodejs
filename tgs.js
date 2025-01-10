@@ -78,7 +78,6 @@ async function search(ext) {
         });
         const $ = cheerio.load(data);
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
-
         $('div.tgme_widget_message_bubble').each((_, element) => {
             const title = $(element).find('.tgme_widget_message_text mark').text();
             let hrefs = [];
@@ -91,7 +90,9 @@ async function search(ext) {
                 .find('.tgme_widget_message_photo_wrap')
                 .attr('style')
                 .match(/image\:url\('(.+)'\)/)[1];
+			$utils.toastError(hrefs[1]);
 			const url = hrefs.join("&&")
+			$utils.toastError(url);
             cards.push({
                 vod_id: hrefs[0],
                 vod_name: title,
@@ -101,7 +102,6 @@ async function search(ext) {
                     url: url,
                 },
             });
-			$utils.toastError(url);
         });
     }
     return jsonify({
