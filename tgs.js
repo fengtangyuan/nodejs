@@ -36,8 +36,8 @@ async function getCards() {
 async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
-	$utils.toastError(ext.url)
 	let urls = ext.url.split('&&')
+	$utils.toastError(urls[1])
 	for (const url of urls) {
 		tracks.push({
 			name: '网盘',
