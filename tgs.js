@@ -37,13 +37,13 @@ async function getTracks(ext) {
 	ext = argsify(ext)
 	let tracks = []
 	let urls = ext.url
-	urls.forEach((url) => {
-		title = url.match(/https:\/\/(.+)\/s\//)[1]
+	for (const url of urls) {
+		const title = url.match(/https:\/\/(.+)\/s\//)[1]
 		tracks.push({
 			name: title,
 			pan: url,
 		})
-	})
+	}
 	return jsonify({
 		list: [
 			{
@@ -59,48 +59,50 @@ async function getPlayinfo(ext) {
 }
 
 async function search(ext) {
-	ext = argsify(ext)
-	let cards = []
-	let page = ext.page || 1
-	if (page > 1) {
-		return jsonify({
-			list: [],
-		})
-	}
-	let text = encodeURIComponent(ext.text)
-	$config.channels.forEach((channel) => {
-		let url = `${appConfig.site}${channel}?q=${text}`
-		const { data } = $fetch.get(url, {
-			headers: {
-				"User-Agent": UA,
-			},
-		})
+    ext = argsify(ext);
+    let cards = [];
+    let page = ext.page || 1;
+    if (page > 1) {
+        return jsonify({
+            list: [],
+        });
+    }
+    let text = encodeURIComponent(ext.text);
 
-		const $ = cheerio.load(data)
-		if ($('div.tgme_widget_message_bubble').length === 0) return
+    for (const channel of $config.channels) {
+        let url = `${appConfig.site}${channel}?q=${text}`;
+        const { data } = await $fetch.get(url, {
+            headers: {
+                "User-Agent": UA,
+            },
+        });
+        const $ = cheerio.load(data);
+        if ($('div.tgme_widget_message_bubble').length === 0) continue;
 
-		$('div.tgme_widget_message_bubble').each((_, element) => {
-
-			const title = $(element).find('.tgme_widget_message_text mark').text()
-			const hrefs = []
-			$(element).find('.tgme_widget_message_text a').each((_, element) => {
-				const href = $(element).attr('href')
-				if (href.includes('t.me')) return
-				hrefs.push(href)
-			})
-			const cover = $(element).find('.tgme_widget_message_photo_wrap').attr('style').match(/image\:url\('(.+)'\)/)[1]
-			cards.push({
-				vod_id: hrefs[0],
-				vod_name: title,
-				vod_pic: cover,
-				vod_remarks: '',
-				ext: {
-					url: hrefs,
-				},
-			})
-		})
-	})
-	return jsonify({
-		list: cards,
-	})
+        $('div.tgme_widget_message_bubble').each((_, element) => {
+            const title = $(element).find('.tgme_widget_message_text mark').text();
+            const hrefs = [];
+            $(element).find('.tgme_widget_message_text a').each((_, element) => {
+                const href = $(element).attr('href');
+                if (href.includes('t.me')) return;
+                hrefs.push(href);
+            });
+            const cover = $(element)
+                .find('.tgme_widget_message_photo_wrap')
+                .attr('style')
+                .match(/image\:url\('(.+)'\)/)[1];
+            cards.push({
+                vod_id: hrefs[0],
+                vod_name: title,
+                vod_pic: cover,
+                vod_remarks: '',
+                ext: {
+                    url: hrefs,
+                },
+            });
+        });
+    }
+    return jsonify({
+        list: cards,
+    });
 }
