@@ -17,22 +17,48 @@ let ext1 = jsonify({
     page: 1
 })
 
+let $config1 = {
+    "channels": [
+        "QuarkFree",
+        "ucpanpan",
+        "NewQuark",
+        "hao115",
+        "guaguale115",
+        "Channel_Shares_115",
+        "XiangxiuNB",
+        "yunpanpan",
+        "zaihuayun",
+        "Quark_Movies",
+        "yunpanshare",
+        "shareAliyun",
+        "ikiviyyp",
+        "alyp_1",
+    ]
+}
+
 let $config = {  
     "channels": [
       "QuarkFree",
       "ucpanpan",
       "NewQuark",
+      "leoziyuan",
+      "ydypzyfx",
+      "clouddriveresources",
+      "oneonefivewpfx",
       "hao115",
       "guaguale115",
       "Channel_Shares_115",
+      "dianyingshare",
       "XiangxiuNB",
       "yunpanpan",
       "zaihuayun",
       "Quark_Movies",
+      "vip115hot",
       "yunpanshare",
       "shareAliyun",
       "ikiviyyp",
       "alyp_1",
+      "quanziyuanshe",
     ]
   }
 
@@ -71,6 +97,9 @@ async function search(ext) {
         if ($('div.tgme_widget_message_bubble').length === 0) continue;
         $('div.tgme_widget_message_bubble').each((_, element) => {
             let title = '';
+            let hrefs = [];
+            let cover = '';
+            let remarks = '';
             try {
                 const titletext = $(element).find('.tgme_widget_message_text').text()
                 if (titletext.includes('名称：')) {
@@ -78,22 +107,21 @@ async function search(ext) {
                 } else {
                     title = $(element).find('.tgme_widget_message_text mark').text();
                 }
+                $(element).find('.tgme_widget_message_text > a').each((_, element) => {
+                    const href = $(element).attr('href');
+                    if (href.match(/https:\/\/(.+)\/s\/(.+)/)) {
+                        hrefs.push(href);
+                    }
+                });
+                cover = $(element)
+                    .find('.tgme_widget_message_photo_wrap')
+                    .attr('style')
+                    .match(/image\:url\('(.+)'\)/)[1];
+                remarks = hrefs[0].match(/https:\/\/(.+)\/s\//)[1];
             } catch (e) {
-                $utils.toastError(`${channel}搜索失败`);
+                $print(`${channel}搜索失败`);
             }
-            let hrefs = [];
-            $(element).find('.tgme_widget_message_text > a').each((_, element) => {
-                const href = $(element).attr('href');
-                if (href.match(/https:\/\/(.+)\/s\/(.+)/)) {
-                    hrefs.push(href);
-                }
-            });
-            const cover = $(element)
-                .find('.tgme_widget_message_photo_wrap')
-                .attr('style')
-                .match(/image\:url\('(.+)'\)/)[1];
-            $print(channel, hrefs);
-            const remarks = hrefs[0].match(/https:\/\/(.+)\/s\//)[1];
+            if (remarks === '') return;
             cards.push({
                 vod_id: hrefs[0],
                 vod_name: title,
