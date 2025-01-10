@@ -13,7 +13,7 @@ const $fetch = axios
 const UA = 'MOBILE_UA'
 
 let ext1 = jsonify({
-    text: '白夜追凶',
+    text: '七龙珠',
     page: 1
 })
 
