@@ -91,13 +91,14 @@ async function search(ext) {
                 .find('.tgme_widget_message_photo_wrap')
                 .attr('style')
                 .match(/image\:url\('(.+)'\)/)[1];
+			const url = hrefs.join("&&")
             cards.push({
                 vod_id: hrefs[0],
                 vod_name: title,
                 vod_pic: cover,
                 vod_remarks: '',
                 ext: {
-                    url: hrefs.join("&&"),
+                    url: url,
                 },
             });
         });
