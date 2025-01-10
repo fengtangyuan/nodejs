@@ -13,7 +13,7 @@ const $fetch = axios
 const UA = 'MOBILE_UA'
 
 const ext1 = jsonify({
-    text: '魔幻手机逆袭天下',
+    url:"https://pan.quark.cn/s/bfd4deb285c0&&https://pan.baidu.com/s/18j-scfmpCFAWMDva6_i5JA?pwd=rkz3"
 })
 
 const $config = {
@@ -84,9 +84,28 @@ async function search(ext) {
     });
 }
 
+async function getTracks(ext) {
+	ext = argsify(ext)
+	let tracks = []
+	let urls = ext.url.split('&&')
+	for (const url of urls) {
+		tracks.push({
+			name: '网盘',
+			pan: url,
+		})
+	}
+	return jsonify({
+		list: [
+			{
+				title: '默认分组',
+				tracks,
+			}
+		],
+	})
+}
 
 async function main() {
-    let result = await search(ext1);
+    let result = await getTracks(ext1);
     $print(result)
 }
 
