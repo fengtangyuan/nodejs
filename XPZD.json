@@ -13,10 +13,10 @@
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/hanime.js"
         },
         {
-            "name": "javmove|私",
+            "name": "missav|私",
             "type": 3,
-            "api": "csp_javmoves",
-            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/javmove.js"
+            "api": "csp_missavs",
+            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/missav.js"
         },
         {
             "name": "taiav|私",    
