@@ -25,12 +25,6 @@
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/hanime.js"
         },
         {
-            "name": "tgs|私",    
-            "type": 3,
-            "api": "csp_tgss",
-            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/tgs.js"
-        },
-        {
             "name": "直播|私",    
             "type": 3,
             "api": "csp_zhibo",
