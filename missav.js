@@ -4,7 +4,7 @@ const cheerio = createCheerio()
 const appConfig = {
     ver: 1,
     title: 'missav',
-    site: 'https://missav.com',
+    site: 'https://missav.ws',
     tabs: [
         {
             name: '中文字幕',
