@@ -19,10 +19,10 @@
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/missav.js"
         },
         {
-            "name": "taiav|私",    
+            "name": "pandatv|私",    
             "type": 3,
-            "api": "csp_taiavs",
-            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/taiav.js"
+            "api": "csp_pandatvs",
+            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/pandatv.js"
         },
         {
             "name": "tgs|私",    
