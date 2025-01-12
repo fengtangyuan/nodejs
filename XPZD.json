@@ -13,12 +13,6 @@
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/hanime.js"
         },
         {
-            "name": "pandatv|私",    
-            "type": 3,
-            "api": "csp_pandatvs",
-            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/pandatv.js"
-        },
-        {
             "name": "tgs|私",    
             "type": 3,
             "api": "csp_tgss",
