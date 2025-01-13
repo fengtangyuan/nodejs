@@ -86,6 +86,10 @@ async function getCards(ext) {
                         title = titletext
                             .split(/：|:/)[1]
                             .trim()
+                        //如果第一字符是[则匹配第二个[
+                        if (title.startsWith('[')) {
+                            title = title.split('][')[0].replace('[', '')
+                        } else { title = title.split(/（|\(|\[|(更新?至|全)/)[0] }
                     } else if (/（|\(|\[|(更新?至|全)/.test(titletext)) {
                         title = titletext.split(/（|\(|\[|(更新?至|全)/)[0]
                     } else if (/(.+)\s(更新?至|全)/.test(titletext)) {
@@ -213,6 +217,10 @@ async function search(ext) {
                         title = titletext
                             .split(/：|:/)[1]
                             .trim()
+                            //如果第一字符是[则匹配第二个[
+                        if (title.startsWith('[')) {
+                            title = title.split('][')[0].replace('[', '')
+                        } else { title = title.split(/（|\(|\[|(更新?至|全)/)[0] }
                     } else if (/（|\(|\[|(更新?至|全)/.test(titletext)) {
                         title = titletext.split(/（|\(|\[|(更新?至|全)/)[0]
                     } else if (/(.+)\s(更新?至|全)/.test(titletext)) {
