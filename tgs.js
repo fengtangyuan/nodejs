@@ -86,7 +86,6 @@ async function getCards(ext) {
                         title = titletext
                             .split(/：|:/)[1]
                             .trim()
-                            .split(/（|\(|\[|(更新?至|全)/)[0]
                     } else if (/（|\(|\[|(更新?至|全)/.test(titletext)) {
                         title = titletext.split(/（|\(|\[|(更新?至|全)/)[0]
                     } else if (/(.+)\s(更新?至|全)/.test(titletext)) {
@@ -214,7 +213,6 @@ async function search(ext) {
                         title = titletext
                             .split(/：|:/)[1]
                             .trim()
-                            .split(/（|\(|\[|(更新?至|全)/)[0]
                     } else if (/（|\(|\[|(更新?至|全)/.test(titletext)) {
                         title = titletext.split(/（|\(|\[|(更新?至|全)/)[0]
                     } else if (/(.+)\s(更新?至|全)/.test(titletext)) {
