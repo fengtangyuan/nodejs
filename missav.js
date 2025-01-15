@@ -1,10 +1,16 @@
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1 Edg/131.0.0.0'
 const cheerio = createCheerio()
+/*
+{	
+    "enload": true
+}
+*/
+let $config = argsify($config_str)
 
 const appConfig = {
     ver: 1,
     title: 'missav',
-    site: 'https://missav.ws',
+    site: 'https://missav.ai',
     tabs: [
         {
             name: '中文字幕',
@@ -25,6 +31,13 @@ const appConfig = {
             ui: 1,
             ext: {
                 id: 'dm509/cn/release',
+            },
+        },
+        {
+            name: '我的收藏',
+            ui: 1,
+            ext: {
+                id: 'saved',
             },
         },
         {
@@ -219,7 +232,37 @@ const appConfig = {
     ],
 }
 
+async function getactress() {
+    if ($config.enload) {
+        const url = appConfig.site + '/saved/actress'
+        const { data } = await $fetch.get(url, {
+            headers: {
+                'User-Agent': UA,
+            },
+        })
+        const $ = cheerio.load(data)
+        const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg > div')
+        if (actresss.length == 0) {
+            $utils.openSafari(url, UA)
+        }
+        let list = []
+        actresss.each((_, e) => {
+            const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
+            const name = $(e).find('img').attr('alt')
+            list.push({
+                name,
+                ext: {
+                    id:href,
+                },
+            })
+        })
+        return list
+    }
+}
+
 async function getConfig() {
+    list = await getTabs()
+    config.tabs = config.tabs.concat(list)
     return jsonify(appConfig)
 }
 
@@ -236,12 +279,13 @@ async function getCards(ext) {
         },
     })
     if (data.includes('Just a moment...')) {
-    $utils.openSafari(url, UA)
-  }
+        $utils.openSafari(url, UA)
+    }
 
     const $ = cheerio.load(data)
 
     const videos = $('.thumbnail')
+
     videos.each((_, e) => {
         const href = $(e).find('.text-secondary').attr('href')
         const title = $(e).find('.text-secondary').text().trim().replace(/\s+/g, ' ')
