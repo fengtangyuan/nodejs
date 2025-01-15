@@ -71,8 +71,8 @@ async function getCards(ext) {
             typeurl +
             `?mode=async&function=get_block&block_id=list_videos_common_videos_list&sort_by=post_date&from=${page}&_=${Date.now()}`
     }
-    let code = 0
-    let data = ''
+    let code
+    let data
     try {
         const { tempdata } = await $fetch.get(url, {
             headers: {
@@ -85,7 +85,7 @@ async function getCards(ext) {
         code = error.response.status
     }
 
-    if (data.includes('Just a moment...') || code == 403) {
+    if (data.includes('Just a moment...') || code === 403) {
         $utils.openSafari(url, UA)
     }
     const $ = cheerio.load(data)
