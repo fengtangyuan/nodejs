@@ -82,8 +82,8 @@ async function getCards(ext) {
     $utils.openSafari(url, UA)
   }
   const $ = cheerio.load(data)
-  if ($('.col-auto.header-right .settings').text().trim() == '登入') {
-         $utils.openSafari(url, UA)
+  if ($('.col-auto.header-right').find('.settings').text().trim() === '登入') {
+        $utils.openSafari(url, UA)
   }
 
   $('#list_videos_common_videos_list .container .row > div').each(
