@@ -56,20 +56,6 @@ async function getTabs() {
     },
     ui: 1,
   })
-  try {
-  const {loaddata} = await $fetch.get(`${appConfig.site}/`, {
-    headers: {
-      'User-Agent': UA,
-    },
-  })
-  const $1 = cheerio.load(loaddata)
-  const text = $1('.col-auto.header-right').find('.settings').text().trim()
-  $utils.toastError(`${text}`)
-  if (text === '登入') {
-      $utils.openSafari(`${appConfig.site}`, UA)
-      
-  }} catch (error) {}
-
   return list
 }
 
@@ -91,7 +77,7 @@ async function getCards(ext) {
       Cookie: 'language=cn_CN',
     },
   })
-  if (data.includes('Just a moment...')) {
+  if (data.includes('Just a moment...')|| data.length == 0) {
     $utils.openSafari(url, UA)
   }
   const $ = cheerio.load(data)
