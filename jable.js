@@ -67,9 +67,9 @@ async function getCards(ext) {
     let cards = []
     let url = ''
     let { page = 1, typeurl } = ext
-    if (typeurl == `${appConfig.site}/my/favourites/videos/`) {
+    if (typeurl == `${appConfig.site}/my/favourites/videos/`) { {
         url = typeurl + `?mode=async&function=get_block&block_id=list_videos_my_favourite_videos&fav_type=0&playlist_id=0&sort_by=&from_my_fav_videos=${page}&_=${Date.now()}`
-    } else {
+    }} else {
         url =
             typeurl +
             `?mode=async&function=get_block&block_id=list_videos_common_videos_list&sort_by=post_date&from=${page}&_=${Date.now()}`
@@ -79,6 +79,9 @@ async function getCards(ext) {
         const { data } = await $fetch.get(url, {
             headers: {
                 'User-Agent': UA,
+                'referer': `${typeurl}`,
+                'X-requested-with': 'XMLHttpRequest'
+
             },
         })
         tempdata = data
