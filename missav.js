@@ -234,7 +234,7 @@ const appConfig = {
 
 async function getactress() {
 
-    const url = appConfig.site + '/saved/actress'
+    const url = appConfig.site + '/saved/actresses'
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
