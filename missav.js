@@ -262,11 +262,10 @@ async function getactress() {
 }
 
 async function getConfig() {
-    let config = appConfig
+    let config = { ...appConfig };
     if ($config.enload) {
         list = await getactress()
         config.tabs = config.tabs.concat(list)
-        config.tabs = config.tabs.filter((item, index) => config.tabs.indexOf(item) === index)
     }
     return jsonify(config)
 }
