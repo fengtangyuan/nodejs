@@ -251,6 +251,7 @@ async function getactress() {
         const name = $(e).find('img').attr('alt')
         list.push({
             name: name,
+            ui: 1,
             ext: {
                 id: href,
             },
