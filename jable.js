@@ -82,7 +82,7 @@ async function getCards(ext) {
     $utils.openSafari(url, UA)
   }
   const $ = cheerio.load(data)
-  if ($('.col-auto.header-right.settings').text == '登入') {
+  if ($('.col-auto.header-right.settings').text() == '登入') {
          $utils.openSafari(url, UA)
   }
 
