@@ -54,7 +54,7 @@ async function getTabs() {
         list.push({
             name: '我的收藏',
             ext: {
-                typeurl: `${appConfig.site}/my/favourites/videos/`,
+                typeurl: `${appConfig.site}/my/`,
             },
             ui: 1,
         })
@@ -68,7 +68,7 @@ async function getCards(ext) {
     let url = ''
     let { page = 1, typeurl } = ext
 
-    if (typeurl.includes ("favourites")) { 
+    if (typeurl.includes ("/my/")) { 
         url = 
             typeurl + 
             `?mode=async&function=get_block&block_id=list_videos_my_favourite_videos&fav_type=0&playlist_id=0&sort_by=&from_my_fav_videos=${page}&_=${Date.now()}`
