@@ -1,5 +1,6 @@
 
 const cheerio = createCheerio()
+const $config = argsify($config_str)
 
 const UA =
     'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/604.1.14 (KHTML, like Gecko)'
@@ -49,13 +50,15 @@ async function getTabs() {
             ui: 1,
         })
     })
-    list.push({
-        name: '我的收藏',
-        ext: {
-            typeurl: `${appConfig.site}/my/favourites/videos/`,
-        },
-        ui: 1,
-    })
+    if ($config.enload) {
+        list.push({
+            name: '我的收藏',
+            ext: {
+                typeurl: `${appConfig.site}/my/favourites/videos/`,
+            },
+            ui: 1,
+        })
+    }
     return list
 }
 
