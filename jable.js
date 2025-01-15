@@ -57,14 +57,15 @@ async function getTabs() {
     ui: 1,
   })
   try {
-  const {isload} = await $fetch.get(`${appConfig.site}/`, {
+  const {loaddata} = await $fetch.get(`${appConfig.site}/`, {
     headers: {
       'User-Agent': UA,
     },
   })
-  const $1 = cheerio.load(isload)
-
-  if ($1('.col-auto.header-right').find('.settings').text().trim() === '登入') {
+  const $1 = cheerio.load(loaddata)
+  text = $1('.col-auto.header-right').find('.settings').text().trim()
+  $utils.toastError(`${text}`)
+  if (text === '登入') {
       $utils.openSafari(`${appConfig.site}`, UA)
       
   }} catch (error) {}
