@@ -233,37 +233,39 @@ const appConfig = {
 }
 
 async function getactress() {
-    if ($config.enload) {
-        const url = appConfig.site + '/saved/actress'
-        const { data } = await $fetch.get(url, {
-            headers: {
-                'User-Agent': UA,
+
+    const url = appConfig.site + '/saved/actress'
+    const { data } = await $fetch.get(url, {
+        headers: {
+            'User-Agent': UA,
+        },
+    })
+    const $ = cheerio.load(data)
+    const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg > div')
+    if (actresss.length == 0) {
+        $utils.openSafari(url, UA)
+    }
+    let list = []
+    actresss.each((_, e) => {
+        const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
+        const name = $(e).find('img').attr('alt')
+        list.push({
+            name,
+            ext: {
+                id: href,
             },
         })
-        const $ = cheerio.load(data)
-        const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg > div')
-        if (actresss.length == 0) {
-            $utils.openSafari(url, UA)
-        }
-        let list = []
-        actresss.each((_, e) => {
-            const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
-            const name = $(e).find('img').attr('alt')
-            list.push({
-                name,
-                ext: {
-                    id:href,
-                },
-            })
-        })
-        return list
-    }
+    })
+    return list
+
 }
 
 async function getConfig() {
-    list = await getactress()
-    config.tabs = config.tabs.concat(list)
-    return jsonify(appConfig)
+    let config = appConfig
+    if ($config.enload) {
+        list = await getactress()
+        config.tabs = config.tabs.concat(list)}
+    return jsonify(config)
 }
 
 async function getCards(ext) {
