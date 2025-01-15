@@ -6,7 +6,7 @@ const $print = console.log
 const jsonify = JSON.stringify
 const argsify = JSON.parse
 const $fetch = axios 
-// const data = await fs.readFile('html.html', 'utf-8')                     
+const data = await fs.readFile('html.html', 'utf-8')                     
 
 // 设置User Agent，模拟iPhone浏览器
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
@@ -28,87 +28,33 @@ let appConfig = {
     }]
 }
 
-async function getConfig() {
-    let config = appConfig
-    return jsonify(config)
-}
-
-async function getCards() {
-    return jsonify({
-        list: [],
-    })
-}
-
-async function getTracks(ext) {
-	ext = argsify(ext)
-	let tracks = []
-	let url = ext.url
-
-	const { data } = await $fetch.get(url, {
-		headers: {
-			'token': '40da2be0d7ded05f',
-		},
-	})
-
-   data.list.forEach(e => {
-        const title = e.vod_name
-        const panShareUrl = e.vod_content.match(/链接：(https?:\/\/pan\.quark\.cn\/s\/\w+)\n/)[1]
-        tracks.push({
-            name: title,
-            pan: panShareUrl,
+async function getactress() {
+ 
+    const $ = cheerio.load(data)
+    const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg')
+    if (actresss.length == 0) {
+        $print('无数据')
+    }
+    let list = []
+	$print(actresss.html())
+    actresss.find('.space-y-4').each((_, e) => {
+        const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
+        const name = $(e).find('img').attr('alt')
+        list.push({
+            name: name,
+            ext: {
+                id: href,
+            },
         })
     })
-	return jsonify({
-		list: [
-			{
-				title: '默认分组',
-				tracks,
-			},
-		],
-	})
-}
 
-async function getPlayinfo(ext) {
-	return jsonify({ urls: [] })
-}
+    return list
 
-async function search(ext) {
-	ext = argsify(ext)
-	let cards = []
-	let page = ext.page || 1
-
-	let text = encodeURIComponent(ext.text)
-	let url = `${appConfig.site}?wd=${text}&platform=ysc&pg=${page}`
-
-	const { data } = await $fetch.get(url, {
-		headers: {
-			'token': '40da2be0d7ded05f',
-		},
-	})
-    data.list.forEach(e => {
-		const href = e.vod_id.toString()
-		const title = e.vod_name
-		const cover = e.vod_pic
-		const remarks = e.vod_remarks
-		cards.push({
-			vod_id: href,
-			vod_name: title,
-			vod_pic: cover,
-			vod_remarks: remarks,
-
-			ext: {
-				url: `${appConfig.site}?ac=detail&ids=${href}&platform=ysc`,
-			},
-		})
-	})
-	return jsonify({
-		list: cards,
-	})
 }
 
 
 async function main() {
-    let result = await search(ext1);
+    let result = await getactress();
     $print(result)
 }
 
