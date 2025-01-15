@@ -241,7 +241,7 @@ async function getactress() {
         },
     })
     const $ = cheerio.load(data)
-    const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg > div')
+    const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg > ul > div')
     if (actresss.length == 0) {
         $utils.openSafari(url, UA)
     }
