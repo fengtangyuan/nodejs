@@ -31,24 +31,8 @@ let appConfig = {
 async function getactress() {
  
     const $ = cheerio.load(data)
-    const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg')
-    if (actresss.length == 0) {
-        $print('无数据')
-    }
-    let list = []
-	$print(actresss.html())
-    actresss.find('.space-y-4').each((_, e) => {
-        const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
-        const name = $(e).find('img').attr('alt')
-        list.push({
-            name: name,
-            ext: {
-                id: href,
-            },
-        })
-    })
-
-    return list
+    const actresss = $('.col-auto.header-right .settings').text().trim()
+    $print(actresss)
 
 }
 
