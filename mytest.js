@@ -31,7 +31,7 @@ let appConfig = {
 async function getactress() {
  
     const $ = cheerio.load(data)
-    if ($('.col-auto.header-right .settings').text().trim() == '登入') {
+    if ($('.col-auto.header-right .settings').text().trim() === '登入') {
         $print('yes')
  }
 

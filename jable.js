@@ -56,7 +56,8 @@ async function getTabs() {
     },
     ui: 1,
   })
-  const {isload} = await $fetch.get(`${appConfig.site}`, {
+  try {
+  const {isload} = await $fetch.get(`${appConfig.site}/`, {
     headers: {
       'User-Agent': UA,
     },
@@ -66,7 +67,7 @@ async function getTabs() {
   if ($1('.col-auto.header-right').find('.settings').text().trim() === '登入') {
       $utils.openSafari(`${appConfig.site}`, UA)
       
-  }
+  }} catch (error) {}
 
   return list
 }
