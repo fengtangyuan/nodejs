@@ -80,6 +80,7 @@ async function getCards(ext) {
             },
         }).then((res) => {
             data =  res.data
+            code = res.status
             
         }).catch((err) => {
             code = err.response.status
