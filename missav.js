@@ -275,6 +275,11 @@ async function getCards(ext) {
     ext = argsify(ext)
     let cards = []
     let { page = 1, id } = ext
+    if (id == 'saved' && $config.length == 0) {
+        return jsonify({
+            list: [],
+        })
+    }
 
     const url = appConfig.site + `/${id}?page=${page}`
 
