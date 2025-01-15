@@ -23,6 +23,12 @@
             "type": 3,
             "api": "csp_missavs",
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/missav.js"
+        },
+        {
+            "name": "jable|私",    
+            "type": 3,
+            "api": "csp_jables",
+            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/jable.js"
         }
     ]
 }
