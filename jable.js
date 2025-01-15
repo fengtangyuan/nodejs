@@ -89,6 +89,7 @@ async function getCards(ext) {
         })
         tempdata = data
     }catch(e){
+        $utils.toastError(e.message)
         $utils.openSafari(`${appConfig.site}`, UA)
     }
     if (tempdata.includes('Just a moment...')) {
