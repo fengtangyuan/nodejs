@@ -85,7 +85,7 @@ async function getCards(ext) {
             code = err.response.status
         })
 
-    if (data.includes('Just a moment...') || code === 403) {
+    if (data.includes('Just a moment...') || code !== 200) {
         $utils.openSafari(url, UA)
     }
     const $ = cheerio.load(data)
