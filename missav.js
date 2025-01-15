@@ -249,13 +249,15 @@ async function getactress() {
     actresss.find('.space-y-4').each((_, e) => {
         const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
         const name = $(e).find('img').attr('alt')
+        $utils.toastError(`${name}`)
         list.push({
-            name,
+            name: name,
             ext: {
                 id: href,
             },
         })
     })
+
     return list
 
 }
