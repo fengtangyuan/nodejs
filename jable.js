@@ -63,7 +63,7 @@ async function getTabs() {
     },
   })
   const $1 = cheerio.load(loaddata)
-  text = $1('.col-auto.header-right').find('.settings').text().trim()
+  const text = $1('.col-auto.header-right').find('.settings').text().trim()
   $utils.toastError(`${text}`)
   if (text === '登入') {
       $utils.openSafari(`${appConfig.site}`, UA)
