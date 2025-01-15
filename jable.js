@@ -80,7 +80,7 @@ async function getCards(ext) {
         })
         tempdata = data
     }catch(e){
-        $utils.openSafari(url, UA)
+        $utils.openSafari(`${appConfig.site}`, UA)
     }
     if (tempdata.includes('Just a moment...')) {
         $utils.openSafari(url, UA)
