@@ -56,6 +56,17 @@ async function getTabs() {
     },
     ui: 1,
   })
+  const {isload} = await $fetch.get(`${appConfig.site}`, {
+    headers: {
+      'User-Agent': UA,
+    },
+  })
+  const $1 = cheerio.load(isload)
+
+  if ($1('.col-auto.header-right').find('.settings').text().trim() === '登入') {
+      $utils.openSafari(`${appConfig.site}`, UA)
+      
+  }
 
   return list
 }
@@ -82,9 +93,6 @@ async function getCards(ext) {
     $utils.openSafari(url, UA)
   }
   const $ = cheerio.load(data)
-  if ($('.col-auto.header-right').find('.settings').text().trim() === '登入') {
-        $utils.openSafari(url, UA)
-  }
 
   $('#list_videos_common_videos_list .container .row > div').each(
     (_, element) => {
