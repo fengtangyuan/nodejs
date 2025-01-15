@@ -17,6 +17,12 @@
             "type": 3,
             "api": "csp_tgss",
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/tgs.js"
+        },
+        {
+            "name": "missav|私",    
+            "type": 3,
+            "api": "csp_missavs",
+            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/missav.js"
         }
     ]
 }
