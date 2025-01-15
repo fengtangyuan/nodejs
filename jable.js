@@ -71,19 +71,19 @@ async function getCards(ext) {
             typeurl +
             `?mode=async&function=get_block&block_id=list_videos_common_videos_list&sort_by=post_date&from=${page}&_=${Date.now()}`
     }
+    let data
     let code = 200
-    let data = new Object()
-    try {
-        const { tempdata } = await $fetch.get(url, {
+    await $fetch.get(url, {
             headers: {
                 'User-Agent': UA,
                 Cookie: 'language=cn_CN',
             },
+        }).then((res) => {
+            data =  res.data
+            
+        }).catch((err) => {
+            code = err.response.status
         })
-        data = tempdata
-    } catch (error) {
-        code = error.response.status
-    }
 
     if (data.includes('Just a moment...') || code === 403) {
         $utils.openSafari(url, UA)
