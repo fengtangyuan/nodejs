@@ -261,7 +261,7 @@ async function getactress() {
 }
 
 async function getConfig() {
-    list = await getTabs()
+    list = await getactress()
     config.tabs = config.tabs.concat(list)
     return jsonify(appConfig)
 }
