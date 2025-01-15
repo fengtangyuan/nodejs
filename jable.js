@@ -71,8 +71,8 @@ async function getCards(ext) {
             typeurl +
             `?mode=async&function=get_block&block_id=list_videos_common_videos_list&sort_by=post_date&from=${page}&_=${Date.now()}`
     }
-    let code
-    let data
+    let code = 200
+    let data = new Object()
     try {
         const { tempdata } = await $fetch.get(url, {
             headers: {
