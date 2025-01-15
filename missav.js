@@ -246,17 +246,21 @@ async function getactress() {
         $utils.openSafari(url, UA)
     }
     let list = []
-    actresss.find('.space-y-4').each((_, e) => {
-        const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
-        const name = $(e).find('img').attr('alt')
-        list.push({
-            name: name,
-            ui: 1,
-            ext: {
-                id: href,
-            },
+    try {
+        actresss.find('.space-y-4').each((_, e) => {
+            const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
+            const name = $(e).find('img').attr('alt')
+            list.push({
+                name: name,
+                ui: 1,
+                ext: {
+                    id: href,
+                },
+            })
         })
-    })
+    } catch (e) { 
+        $utils.toastError(`没有找到收藏的女优`)
+    }
 
     return list
 
