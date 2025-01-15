@@ -243,7 +243,17 @@ async function getactress() {
     const $ = cheerio.load(data)
     const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg')
     if (actresss.length == 0) {
-        $utils.openSafari(url, UA)
+        //$utils.openSafari(url, UA)
+        body = {
+            email: $config.username,
+            password: $config.password,
+            remember: true
+        }
+        const { data } = await $fetch.post(`${appConfig.site}/api/login`, body, {
+            headers: {
+                'User-Agent': UA,
+            },
+        })
     }
     let list = []
     try {
