@@ -72,21 +72,17 @@ async function getCards(ext) {
             `?mode=async&function=get_block&block_id=list_videos_common_videos_list&sort_by=post_date&from=${page}&_=${Date.now()}`
     }
     let data
-    let code = 200
-    await $fetch.get(url, {
+    try{
+        const { tempdata } = await $fetch.get(url, {
             headers: {
                 'User-Agent': UA,
-                Cookie: 'language=cn_CN',
             },
-        }).then((res) => {
-            data =  res.data
-            code = res.status
-            
-        }).catch((err) => {
-            code = err.response.status
         })
-
-    if (data.includes('Just a moment...') || code !== 200) {
+        data = tempdata
+    }catch(e){
+        $utils.openSafari(url, UA)
+    }
+    if (data.includes('Just a moment...')) {
         $utils.openSafari(url, UA)
     }
     const $ = cheerio.load(data)
