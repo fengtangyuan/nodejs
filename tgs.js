@@ -258,6 +258,7 @@ async function search(ext) {
                 vod_name: title,
                 vod_pic: cover,
                 vod_remarks: remarks,
+                vod_duration: channel,
                 ext: {
                     url: hrefs,
                     name: title,
