@@ -109,10 +109,11 @@ async function getCards(ext) {
                             hrefs.push(href)
                         }
                     })
-                cover = $(element)
+
+                const cover_e = $(element)
                     .find('.tgme_widget_message_photo_wrap')
                     .attr('style')
-                    .match(/image\:url\('(.+)'\)/)[1]
+                if (cover_e) { cover = cover_e.match(/image\:url\('(.+)'\)/)[1] }
                 remarks = hrefs[0].match(/https:\/\/(.+)\/(s|t)\//)[1].replace(/(115\.com)|(anxia\.com)/, '115')
                     .replace(/(pan\.quark\.cn)/, '夸克')
                     .replace(/(drive\.uc\.cn)/, 'UC')
@@ -239,10 +240,10 @@ async function search(ext) {
                                 hrefs.push(href)
                             }
                         })
-                    cover = $(element)
+                    const cover_e = $(element)
                         .find('.tgme_widget_message_photo_wrap')
                         .attr('style')
-                        .match(/image\:url\('(.+)'\)/)[1]
+                    if (cover_e) { cover = cover_e.match(/image\:url\('(.+)'\)/)[1] }
                     remarks = hrefs[0].match(/https:\/\/(.+)\/(s|t)\//)[1].replace(/(115\.com)|(anxia\.com)/, '115')
                         .replace(/(pan\.quark\.cn)/, '夸克')
                         .replace(/(drive\.uc\.cn)/, 'UC')
