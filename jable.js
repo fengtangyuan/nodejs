@@ -83,14 +83,16 @@ async function getCards(ext) {
             headers: {
                 'User-Agent': UA,
                 'referer': `${typeurl}`,
+                'Origin': 'https://jable.tv',
                 'X-requested-with': 'XMLHttpRequest'
+
 
             },
         })
         tempdata = data
     }catch(e){
         $utils.toastError(e.message)
-        $utils.openSafari(`${appConfig.site}`, UA)
+        $utils.openSafari(url, UA)
     }
     if (tempdata.includes('Just a moment...')) {
         $utils.openSafari(url, UA)
