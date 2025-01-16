@@ -251,7 +251,7 @@ async function search(ext) {
                         .replace(/(cloud\.189\.cn)/, '天翼')
                         .trim();
                 } catch (e) {
-                    //$utils.toastError(`${channel}搜索失败`)
+                    $utils.toastError(`${channel}搜索失败`)
                 }
                 if (remarks === '') return
                 cards.push({
