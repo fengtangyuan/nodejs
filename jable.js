@@ -85,14 +85,12 @@ async function getCards(ext) {
                 'referer': `${typeurl}`,
                 'Origin': 'https://jable.tv',
                 'X-requested-with': 'XMLHttpRequest'
-
-
             },
         })
         tempdata = data
     }catch(e){
         $utils.toastError(e.message)
-        $utils.openSafari(url, UA)
+        $utils.openSafari(appConfig.site, UA)
     }
     if (tempdata.includes('Just a moment...')) {
         $utils.openSafari(url, UA)
