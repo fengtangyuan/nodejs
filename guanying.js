@@ -106,9 +106,7 @@ async function getTracks(ext) {
 			})
 		})
    }else if(respstr.hasOwnProperty('file')){
-
-   $utils.toastError('网盘验证掉签')
-   $utils.openSafari(`${appConfig.site}`, UA)
+   $utils.toastError('请打开网页进行图片验证')
    }else{
 
 	$utils.toastError('没有网盘资源');
