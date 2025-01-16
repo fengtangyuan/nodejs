@@ -99,8 +99,10 @@ async function getCards(ext) {
                     }
                 })
                 title = title.replace(/<b>/, '').replace(/4K.*$/g, '').replace('发行时间', '').replace('描述', '').trim()
-
-
+                cover = $(element)
+                    .find('.tgme_widget_message_photo_wrap')
+                    .attr('style')
+                    .match(/image\:url\('(.+)'\)/)[1]
                 $(element)
                     .find('.tgme_widget_message_text > a')
                     .each((_, element) => {
@@ -109,11 +111,6 @@ async function getCards(ext) {
                             hrefs.push(href)
                         }
                     })
-
-                const cover_e = $(element)
-                    .find('.tgme_widget_message_photo_wrap')
-                    .attr('style')
-                if (cover_e) { cover = cover_e.match(/image\:url\('(.+)'\)/)[1] }
                 remarks = hrefs[0].match(/https:\/\/(.+)\/(s|t)\//)[1].replace(/(115\.com)|(anxia\.com)/, '115')
                     .replace(/(pan\.quark\.cn)/, '夸克')
                     .replace(/(drive\.uc\.cn)/, 'UC')
@@ -231,7 +228,10 @@ async function search(ext) {
                         }
                     })
                     title = title.replace(/<b>/, '').replace(/4K.*$/g, '').replace('发行时间', '').replace('描述', '').trim()
-
+                    cover = $(element)
+                        .find('.tgme_widget_message_photo_wrap')
+                        .attr('style')
+                        .match(/image\:url\('(.+)'\)/)[1]
                     $(element)
                         .find('.tgme_widget_message_text > a')
                         .each((_, element) => {
@@ -240,10 +240,6 @@ async function search(ext) {
                                 hrefs.push(href)
                             }
                         })
-                    const cover_e = $(element)
-                        .find('.tgme_widget_message_photo_wrap')
-                        .attr('style')
-                    if (cover_e) { cover = cover_e.match(/image\:url\('(.+)'\)/)[1] }
                     remarks = hrefs[0].match(/https:\/\/(.+)\/(s|t)\//)[1].replace(/(115\.com)|(anxia\.com)/, '115')
                         .replace(/(pan\.quark\.cn)/, '夸克')
                         .replace(/(drive\.uc\.cn)/, 'UC')
