@@ -43,6 +43,8 @@ async function getTabs() {
             },
         })
     })
+    const lastElement = list.pop(); // 移除并获取最后一个元素
+    list.unshift(lastElement);
 
     return list
 }
