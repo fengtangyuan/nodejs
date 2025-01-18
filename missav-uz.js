@@ -5,7 +5,7 @@ import { } from '../../core/uz3lib.js'
 import { } from '../../core/uzUtils.js'
 // ignore
 
-class missavClass extends WebApiBase {
+class missavuzClass extends WebApiBase {
     /**
      *
      */
@@ -243,4 +243,4 @@ class missavClass extends WebApiBase {
         return str
     }
 }
-var missav20250118 = new missavClass()
+var missavuz20250118 = new missavuzClass()
