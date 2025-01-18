@@ -1,0 +1,13 @@
+{
+    "vod": [
+        {
+            "name": "MISSAV-uz",
+            "api": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/missav-uz.js",
+            "instance": "missav20240118",
+            "webSite": "https://missav.ai",
+            "remark": "",
+            "version": "2",
+            "type": 100
+        }
+    ]
+}
