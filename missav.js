@@ -352,12 +352,30 @@ async function getTracks(ext) {
             })
 
         }
-        if (match2[1] == '720p') {
+        else if (match2[1] == '720p') {
             tracks.push({
                 name: '720P',
                 pan: '',
                 ext: {
                     url: m3u8Prefix + uuid + '/720p/video.m3u8',
+                }
+            })
+        }
+        else if (match2[1] == '1920x1080') {
+            tracks.push({
+                name: '720P',
+                pan: '',
+                ext: {
+                    url: m3u8Prefix + uuid + '/1920x1080/video.m3u8',
+                }
+            })
+        }
+        else if (match2[1] == '1280x720') {
+            tracks.push({
+                name: '720P',
+                pan: '',
+                ext: {
+                    url: m3u8Prefix + uuid + '/1280x720/video.m3u8',
                 }
             })
         }
