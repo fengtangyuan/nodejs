@@ -350,7 +350,7 @@ async function getTracks(ext) {
         const matches = lines.filter(line => line.includes('/video.m3u8'));
         matches.forEach(match => {
             const name = match.replace('/video.m3u8', '')
-            tracks.push({
+            tracks.unshift({
                 name: name,
                 pan: '',
                 ext: {
