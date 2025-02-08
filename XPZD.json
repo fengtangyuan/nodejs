@@ -23,12 +23,6 @@
             "type": 3,
             "api": "csp_missavs",
             "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/missav.js"
-        },
-        {
-            "name": "观影|私",    
-            "type": 3,
-            "api": "csp_guanyings",
-            "ext": "https://raw.githubusercontent.com/fengtangyuan/nodejs/refs/heads/main/guanying.js"
         }
     ]
 }
