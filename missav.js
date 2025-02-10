@@ -48,20 +48,6 @@ const appConfig = {
             },
         },
         {
-            name: 'VR',
-            ui: 1,
-            ext: {
-                id: 'dm2091/cn/genres/VR',
-            },
-        },
-        {
-            name: '今日热门',
-            ui: 1,
-            ext: {
-                id: 'dm242/cn/today-hot',
-            },
-        },
-        {
             name: '本週热门',
             ui: 1,
             ext: {
@@ -76,136 +62,10 @@ const appConfig = {
             },
         },
         {
-            name: 'SIRO',
-            ui: 1,
-            ext: {
-                id: 'dm23/cn/siro',
-            },
-        },
-        {
-            name: 'LUXU',
-            ui: 1,
-            ext: {
-                id: 'dm20/cn/luxu',
-            },
-        },
-        {
-            name: 'GANA',
-            ui: 1,
-            ext: {
-                id: 'dm17/cn/gana',
-            },
-        },
-        {
-            name: 'PRESTIGE PREMIUM',
-            ui: 1,
-            ext: {
-                id: 'dm14/cn/maan',
-            },
-        },
-        {
-            name: 'S-CUTE',
-            ui: 1,
-            ext: {
-                id: 'dm23/cn/scute',
-            },
-        },
-        {
-            name: 'ARA',
-            ui: 1,
-            ext: {
-                id: 'dm19/cn/ara',
-            },
-        },
-        {
             name: 'FC2',
             ui: 1,
             ext: {
                 id: 'dm95/cn/fc2',
-            },
-        },
-        {
-            name: 'HEYZO',
-            ui: 1,
-            ext: {
-                id: 'dm628/cn/heyzo',
-            },
-        },
-        {
-            name: '东京热',
-            ui: 1,
-            ext: {
-                id: 'dm29/cn/tokyohot',
-            },
-        },
-        {
-            name: '一本道',
-            ui: 1,
-            ext: {
-                id: 'dm58345/cn/1pondo',
-            },
-        },
-        {
-            name: 'Caribbeancom',
-            ui: 1,
-            ext: {
-                id: 'dm124158/cn/caribbeancom',
-            },
-        },
-        {
-            name: 'Caribbeancompr',
-            ui: 1,
-            ext: {
-                id: 'dm1442/cn/caribbeancompr',
-            },
-        },
-        {
-            name: '10musume',
-            ui: 1,
-            ext: {
-                id: 'dm58632/cn/10musume',
-            },
-        },
-        {
-            name: 'pacopacomama',
-            ui: 1,
-            ext: {
-                id: 'dm668/cn/pacopacomama',
-            },
-        },
-        {
-            name: 'Gachinco',
-            ui: 1,
-            ext: {
-                id: 'dm135/cn/gachinco',
-            },
-        },
-        {
-            name: 'XXX-AV',
-            ui: 1,
-            ext: {
-                id: 'dm26/cn/xxxav',
-            },
-        },
-        {
-            name: '人妻斩',
-            ui: 1,
-            ext: {
-                id: 'dm24/cn/marriedslash',
-            },
-        },
-        {
-            name: '顽皮 4610',
-            ui: 1,
-            ext: {
-                id: 'dm19/cn/naughty4610',
-            },
-        },
-        {
-            name: '顽皮 0930',
-            ui: 1,
-            ext: {
-                id: 'dm22/cn/naughty0930',
             },
         },
         {
@@ -221,14 +81,7 @@ const appConfig = {
             ext: {
                 id: 'dm17/cn/twav',
             },
-        },
-        {
-            name: 'Furuke AV',
-            ui: 1,
-            ext: {
-                id: 'dm15/cn/furuke',
-            },
-        },
+        }
     ],
 }
 
