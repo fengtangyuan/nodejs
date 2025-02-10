@@ -74,13 +74,6 @@ const appConfig = {
             ext: {
                 id: 'dm34/cn/madou',
             },
-        },
-        {
-            name: 'TWAV AV',
-            ui: 1,
-            ext: {
-                id: 'dm17/cn/twav',
-            },
         }
     ],
 }
