@@ -98,7 +98,7 @@ async function getactress() {
     try {
         actresss.find('.space-y-4').each((_, e) => {
             const href = $(e).find('a:first').attr('href').replace(`${appConfig.site}/`, '')
-            const name = $(e).find('img').attr('alt')
+            const name = $(e).find('h4').text()
             list.push({
                 name: name,
                 ui: 1,
