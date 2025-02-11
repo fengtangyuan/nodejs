@@ -86,6 +86,9 @@ async function getactress() {
             'User-Agent': UA,
         },
     })
+    if (data.includes('Just a moment...')) {
+        $utils.openSafari(url, UA)
+    }
     const $ = cheerio.load(data)
     const actresss = $('.max-w-full.p-8.text-nord4.bg-nord1.rounded-lg')
     if (actresss.length == 0) {
