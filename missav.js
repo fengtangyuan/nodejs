@@ -107,22 +107,17 @@ async function getactress() {
                 },
             })
         })
-    } catch (e) { 
+    } catch (e) {
         $utils.toastError(`没有找到收藏的女优`)
     }
-
     return list
-
 }
 
 async function getConfig() {
     let config = { ...appConfig };
     if ($config.enload) {
-        try {list = await getactress()
-            config.tabs = config.tabs.concat(list)
-        } catch (e) {
-            $utils.toastError(`获取女优列表失败`)
-        }
+        list = await getactress()
+        config.tabs = config.tabs.concat(list)
     }
     return jsonify(config)
 }
@@ -193,7 +188,7 @@ async function getTracks(ext) {
     const match = data.match(/nineyu\.com\\\/(.+)\\\/seek\\\/_0\.jpg/)
     if (match && match[1]) {
         let uuid = match[1]
-        const { data: data1} = await $fetch.get(m3u8Prefix + uuid + m3u8Suffix, {
+        const { data: data1 } = await $fetch.get(m3u8Prefix + uuid + m3u8Suffix, {
             headers: {
                 'User-Agent': UA,
             }
