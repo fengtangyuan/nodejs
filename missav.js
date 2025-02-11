@@ -118,8 +118,11 @@ async function getactress() {
 async function getConfig() {
     let config = { ...appConfig };
     if ($config.enload) {
-        list = await getactress()
-        config.tabs = config.tabs.concat(list)
+        try {list = await getactress()
+            config.tabs = config.tabs.concat(list)
+        } catch (e) {
+            $utils.toastError(`获取女优列表失败`)
+        }
     }
     return jsonify(config)
 }
