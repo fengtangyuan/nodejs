@@ -74,7 +74,7 @@ const appConfig = {
             ext: {
                 id: 'dm34/cn/madou',
             },
-        }
+        },
     ],
 }
 
