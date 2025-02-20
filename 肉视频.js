@@ -70,7 +70,7 @@ async function getCards(ext) {
         if ($(element).find('.relative').length == 0) return
         const href = $(element).find('.relative a').attr('href')
         const title = $(element).find('img:last').attr('alt')
-        const cover = $(element).find('img').attr('src')
+        const cover = $(element).find('h3').text()
         const subTitle = $(element).find('.relative a > div:eq(1)').text()
         const hdinfo = $(element).find('.relative a > div:first').text()
         cards.push({
