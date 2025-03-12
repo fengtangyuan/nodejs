@@ -206,7 +206,7 @@ async function search(ext) {
                 let title = ''
                 let hrefs = []
                 let cover = ''
-                let remarks = ''
+                //let remarks = ''
                 try {
                     const html = $(element).find('.tgme_widget_message_text').html().replace(/<b[^>]*>|<\/b>|<a[^>]*>|<\/a>|<mark[^>]*>|<\/mark>|<i[^>]*>|<\/i>|<div[^>]*>|<\/div>/g, '').replace(/【[^】]*】/g, '')
                     html.split('<br>').forEach((e) => {
@@ -235,26 +235,29 @@ async function search(ext) {
                     $(element)
                         .find('.tgme_widget_message_text > a')
                         .each((_, element) => {
-                            const href = $(element).attr('href').replace('anxia.com', '115.com')
-                            if (href.match(/https:\/\/(.+)\/(s|t)\/(.+)/)) {
+                            //const href = $(element).attr('href').replace('anxia.com', '115.com')
+                            //if (href.match(/https:\/\/(.+)\/(s|t)\/(.+)/)) {
+                            //  hrefs.push(href)
+                            const href = $(element).attr('href')
+                            if (href.includes('pan.quark.cn')) {
                                 hrefs.push(href)
                             }
                         })
-                    remarks = hrefs[0].match(/https:\/\/(.+)\/(s|t)\//)[1].replace(/(115\.com)|(anxia\.com)/, '115')
-                        .replace(/(pan\.quark\.cn)/, '夸克')
-                        .replace(/(drive\.uc\.cn)/, 'UC')
-                        .replace(/(www\.aliyundrive\.com)|(www\.alipan\.com)/, '阿里')
-                        .replace(/(cloud\.189\.cn)/, '天翼')
-                        .trim();
+                    //remarks = hrefs[0].match(/https:\/\/(.+)\/(s|t)\//)[1].replace(/(115\.com)|(anxia\.com)/, '115')
+                    //    .replace(/(pan\.quark\.cn)/, '夸克')
+                    //    .replace(/(drive\.uc\.cn)/, 'UC')
+                    //    .replace(/(www\.aliyundrive\.com)|(www\.alipan\.com)/, '阿里')
+                    //    .replace(/(cloud\.189\.cn)/, '天翼')
+                    //    .trim();
                 } catch (e) {
                     //$utils.toastError(`${channel}搜索失败`)
                 }
-                if (remarks === '') return
+                if (hrefs.length === 0) return
                 cards.push({
                     vod_id: hrefs[0],
                     vod_name: title,
                     vod_pic: cover,
-                    vod_remarks: remarks + channel,
+                    //vod_remarks: remarks + channel,
                     ext: {
                         url: hrefs,
                         name: title,
