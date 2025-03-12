@@ -206,7 +206,7 @@ async function search(ext) {
                 let title = ''
                 let hrefs = []
                 let cover = ''
-                //let remarks = ''
+                let remarks = ''
                 try {
                     const html = $(element).find('.tgme_widget_message_text').html().replace(/<b[^>]*>|<\/b>|<a[^>]*>|<\/a>|<mark[^>]*>|<\/mark>|<i[^>]*>|<\/i>|<div[^>]*>|<\/div>/g, '').replace(/【[^】]*】/g, '')
                     html.split('<br>').forEach((e) => {
@@ -257,7 +257,7 @@ async function search(ext) {
                     vod_id: hrefs[0],
                     vod_name: title,
                     vod_pic: cover,
-                    //vod_remarks: remarks + channel,
+                    vod_remarks: remarks + channel,
                     ext: {
                         url: hrefs,
                         name: title,
