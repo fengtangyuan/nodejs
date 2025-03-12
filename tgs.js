@@ -270,7 +270,12 @@ async function search(ext) {
 
     });
     await Promise.all(requests);
+    const uniqueCards = cards.filter((card, index, self) =>
+        index === self.findIndex((t) => (
+            t.vod_id === card.vod_id
+        ))
+    )
     return jsonify({
-        list: cards,
+        list: uniqueCards,
     })
 }
