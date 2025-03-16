@@ -1,18 +1,5 @@
 const cheerio = createCheerio()
 const CryptoJS = createCryptoJS()
-/*
-以上是可以調用的第三方庫，使用方法自行查閱文檔
-內置方法有:
-$print: 等同於 console.log
-$fetch: http client，可發送 get 及 post 請求
-    get: $fetch.get(url,options)
-    post: $fetch.post(url,postData,options)
-argsify, jsonify: 等同於 JSON 的 parse 及 stringify
-$html: 內置的 html 解析方法，建議用 cheerio 替代
-$cache: 可將數據存入緩存
-    set: $cache.set(key, value)
-    get: $cache.get(key)
-*/
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 
@@ -28,7 +15,6 @@ async function getConfig() {
     return jsonify(config)
 }
 
-//返回所有分类列表，添加到config中
 async function getTabs() {
     let list = []
     let ignore = ['关于', '公告', '官方', '备用', '群', '地址', '求片']
@@ -41,10 +27,13 @@ async function getTabs() {
             'User-Agent': UA,
         },
     })
+    if (data.includes('Just a moment...')) {
+        $utils.openSafari(url, UA)
+    }
     const $ = cheerio.load(data)
 
-    let $allClass = $('ul.submenu_mi > li > a')
-    $allClass.each((i, e) => {
+    let allClass = $('ul.submenu_mi > li > a')
+    allClass.each((i, e) => {
         const name = $(e).text()
         const href = $(e).attr('href')
         const isIgnore = isIgnoreClassName(name)
@@ -61,7 +50,6 @@ async function getTabs() {
     return list
 }
 
-//返回所有视频列表，以json格式添加到cards中
 async function getCards(ext) {
     ext = argsify(ext)
     let cards = []
@@ -101,7 +89,6 @@ async function getCards(ext) {
     })
 }
 
-//返回视频详细信息
 async function getTracks(ext) {
     ext = argsify(ext)
     let tracks = []
@@ -115,7 +102,6 @@ async function getTracks(ext) {
 
     const $ = cheerio.load(data)
 
-    //播放列表
     $('.paly_list_btn a').each((_, e) => {
         const name = $(e).text()
         const href = $(e).attr('href')
@@ -127,8 +113,7 @@ async function getTracks(ext) {
             },
         })
     })
-    
-    //云盘列表
+
     const panlist = $('.ypbt_down_list')
     if (panlist) {
         panlist.find('ul li').each((_, e) => {
@@ -141,6 +126,8 @@ async function getTracks(ext) {
             })
         })
     }
+
+    // $utils.toastInfo('不能看的在群裡回報')
 
     return jsonify({
         list: [
