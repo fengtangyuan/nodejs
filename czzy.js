@@ -27,12 +27,12 @@ async function getTabs() {
             'User-Agent': UA,
         },
     })
+    if (data.includes('Just a moment...')) {
+        $utils.openSafari(appConfig.site, UA)
+    }
     const $ = cheerio.load(data)
 
     let allClass = $('ul.submenu_mi > li > a')
-    if (allClass.length === 0) {
-        $utils.openSafari(url, UA)
-    }
     allClass.each((i, e) => {
         const name = $(e).text()
         const href = $(e).attr('href')
