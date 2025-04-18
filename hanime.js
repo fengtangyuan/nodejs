@@ -1,7 +1,7 @@
 
 const cheerio = createCheerio()
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/604.1.14 (KHTML, like Gecko)'
 
 let appConfig = {
     ver: 1,
@@ -27,6 +27,9 @@ async function getTabs() {
             'User-Agent': UA,
         },
     })
+    if (data.includes('Just a moment...')) {
+        $utils.openSafari(appConfig.site, UA)
+    }
     const $ = cheerio.load(data)
 
     let allClass = $('#main-nav-home > a.nav-item')
@@ -68,7 +71,7 @@ async function getCards(ext) {
     if (videolist.length === 0) videolist = $('.content-padding-new > .row > .search-doujin-videos.col-xs-6')
 
     videolist.each((_, element) => {
-        if ($(element).attr('target') === '_blank'|| $(element).find('.overlay').attr('target') === '_blank') return
+        if ($(element).attr('target') === '_blank' || $(element).find('.overlay').attr('target') === '_blank') return
         const href = $(element).attr('href') || $(element).find('.overlay').attr('href')
         const title = $(element).find('.home-rows-videos-title').text() || $(element).find('.card-mobile-title').text()
         let cover = $(element).find('img').attr('src')
@@ -95,24 +98,24 @@ async function getTracks(ext) {
     let url = ext.url
 
     const { data } = await $fetch.get(url, {
-         headers: {
-             'User-Agent': UA,
-         },
-     })
+        headers: {
+            'User-Agent': UA,
+        },
+    })
     const $ = cheerio.load(data)
     const playlist = $('.hover-video-playlist:first > div')
     playlist.each((_, e) => {
-         const name = $(e).find('.card-mobile-title').text()
-         const href = $(e).find('a.overlay').attr('href')
-         tracks.unshift({
-             name: name,
-             pan: '',
-             ext: {
-                 url: href,
-             },
-         })
-     })
-     tracks.unshift({
+        const name = $(e).find('.card-mobile-title').text()
+        const href = $(e).find('a.overlay').attr('href')
+        tracks.unshift({
+            name: name,
+            pan: '',
+            ext: {
+                url: href,
+            },
+        })
+    })
+    tracks.unshift({
         name: '播放',
         pan: '',
         ext: {
