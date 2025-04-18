@@ -28,12 +28,12 @@ async function getTabs() {
             'User-Agent': UA,
         },
     })
-    const $ = cheerio.load(data)
-    let allClass = $('#main-nav-home > a.nav-item')
-
-    if (allClass.length === 0) {
+    if (data.includes('Just a moment...')) {
         $utils.openSafari(appConfig.site, UA)
     }
+
+    const $ = cheerio.load(data)
+    let allClass = $('#main-nav-home > a.nav-item')
 
     allClass.each((i, e) => {
         const name = $(e).text()
