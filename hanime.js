@@ -1,7 +1,8 @@
+const { all } = require("axios")
 
 const cheerio = createCheerio()
 
-const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Mobile/15E148 Safari/604.1'
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0'
 
 let appConfig = {
     ver: 1,
@@ -27,12 +28,12 @@ async function getTabs() {
             'User-Agent': UA,
         },
     })
-    //if (data.includes('Just a moment...')) {
-    //    $utils.openSafari(appConfig.site, UA)
-    //}
     const $ = cheerio.load(data)
-
     let allClass = $('#main-nav-home > a.nav-item')
+
+    if (allClass.length === 0) {
+        $utils.openSafari(appConfig.site, UA)
+    }
 
     allClass.each((i, e) => {
         const name = $(e).text()
