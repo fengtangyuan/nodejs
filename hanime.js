@@ -27,9 +27,9 @@ async function getTabs() {
             'User-Agent': UA,
         },
     })
-    if (data.includes('Just a moment...')) {
-        $utils.openSafari(appConfig.site, UA)
-    }
+    //if (data.includes('Just a moment...')) {
+    //    $utils.openSafari(appConfig.site, UA)
+    //}
     const $ = cheerio.load(data)
 
     let allClass = $('#main-nav-home > a.nav-item')
