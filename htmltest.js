@@ -64,8 +64,16 @@ async function getTracks() {
     list: list,
   })
 }
+async function getPlayinfo() {
 
-let url = 'JTY4JTc0JTc0JTcwJTczJTNBJTJGJTJGJTZEJTc5JTYzJTZBJTJEJTZEJTMzJTc1JTM4JTJFJTY4JTZEJTcyJTc2JTY5JTY0JTY1JTZGJTJFJTYzJTZGJTZEJTJGJTcwJTZDJTYxJTc5JTJGJTY0JTY2JTY0JTMzJTY2JTYxJTM0JTM0JTM3JTM3JTM1JTY2JTM0JTYyJTM0JTM2JTM4JTM2JTY1JTMxJTYxJTM3JTM1JTYxJTM2JTY0JTMzJTMwJTM0JTM1JTM2JTM5JTJFJTZEJTMzJTc1JTM4'
+  const data = html
+  let urlencoded = data.match(/"url"\s*:\s*"(JT[^"]+)"/)[1];
+  console.log(urlencoded);
+  let decodedUrl = urlDecode(urlencoded);
+  return jsonify({
+    urls: [decodedUrl],
+  })
+}
 
 function urlDecode(str) {
 
@@ -88,5 +96,5 @@ function urlDecode(str) {
   }
 }
 
-console.log(urlDecode(url))
+console.log(await getPlayinfo()); // 调用 getPlayinfo 函数并打印结果
 

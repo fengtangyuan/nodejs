@@ -125,7 +125,7 @@ async function getPlayinfo(ext) {
             'User-Agent': UA,
         },
     })
-    let urlencoded = data.match(/"url":"(JT[^"]+)"/)[1]
+    let urlencoded = data.match(/"url"\s*:\s*"(JT[^"]+)"/)[1];
     let decodedUrl = urlDecode(urlencoded)
     return jsonify({
         urls: [decodedUrl],
