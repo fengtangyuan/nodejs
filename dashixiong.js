@@ -132,11 +132,9 @@ async function getPlayinfo(ext) {
     if (!match) {
         $utils.toastError(`2`);
     }
+    $utils.toastError(`3`);
     let urls = CryptoJS.enc.Base64.parse(match).toString(CryptoJS.enc.Utf8);
-    if (urls) {
-        const urlsx = decodeURIComponent(urls);
-        $utils.toastError(`${urlsx}`);
-    }
+    $utils.toastError(`4`);
     return jsonify({
         urls: [urls],
     })
