@@ -126,11 +126,11 @@ async function getPlayinfo(ext) {
             'User-Agent': UA,
         },
     })
-    let urlencoded = data.match(/"url"\s*:\s*"(JT[^"]+)"/)[1];
-    if (urlencoded) {
-        $utils.toastError(`匹配字符串成功`);
+    const match = typeof data === 'string' && data.match(/"url"\s*:\s*"(JT[^"]+)"/)
+    if (!match) {
+        $utils.toastError(`未匹配到字符串`);
     }
-    let urls = CryptoJS.enc.Base64.parse(urlencoded).toString(CryptoJS.enc.Utf8);
+    let urls = CryptoJS.enc.Base64.parse(match).toString(CryptoJS.enc.Utf8);
     if (urls) {
         const urlsx = decodeURIComponent(urls);
         $utils.toastError(`${urlsx}`);

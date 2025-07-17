@@ -14,6 +14,41 @@ const __dirname = dirname(__filename);
 // 读取同目录下的html.html文件
 const htmlPath = path.join(__dirname, 'html.html')
 const html = fs.readFileSync(htmlPath, 'utf-8')
+let appConfig = {
+  ver: 1,
+  title: '大师兄',
+  site: 'https://dsxys.com',
+  tabs: [
+    {
+      name: '电影',
+      ui: 1,
+      ext: {
+        id: '/vodshow/1--time------p---',
+      },
+    },
+    {
+      name: '电视剧',
+      ui: 1,
+      ext: {
+        id: '/vodshow/2--time------p---',
+      },
+    },
+    {
+      name: '综艺',
+      ui: 1,
+      ext: {
+        id: '/vodshow/3--time------p---',
+      },
+    },
+    {
+      name: '动漫',
+      ui: 1,
+      ext: {
+        id: '/vodshow/4--time------p---',
+      },
+    },
+  ],
+}
 
 async function getCards() {
   let cards = []
@@ -51,7 +86,7 @@ async function getTracks() {
         name: name,
         pan: '',
         ext: {
-          url: `${href}`,
+          url: `${appConfig.site}${href}`,
         },
       })
     })
@@ -95,5 +130,5 @@ function urlDecode(str) {
   }
 }
 
-console.log(await getPlayinfo()); // 调用 getPlayinfo 函数并打印结果
+console.log(await getTracks()); // 调用 getPlayinfo 函数并打印结果
 
