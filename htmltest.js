@@ -65,14 +65,14 @@ async function getTracks() {
   })
 }
 
-let url = 'JTY4JTc0JTc0JTcwJTczJTNBJTJGJTJGJTc2JTJFJTZDJTdBJTYzJTY0JTZFJTMyJTM2JTJFJTYzJTZGJTZEJTJGJTMyJTMwJTMyJTM1JTMwJTM3JTMxJTMzJTJGJTMyJTM0JTMyJTMzJTMzJTVGJTY0JTM5JTYzJTM2JTM1JTYxJTMwJTMwJTJGJTY5JTZFJTY0JTY1JTc4JTJFJTZEJTMzJTc1JTM4'
+let url = 'JTY4JTc0JTc0JTcwJTczJTNBJTJGJTJGJTZEJTc5JTYzJTZBJTJEJTZEJTMzJTc1JTM4JTJFJTY4JTZEJTcyJTc2JTY5JTY0JTY1JTZGJTJFJTYzJTZGJTZEJTJGJTcwJTZDJTYxJTc5JTJGJTY0JTY2JTY0JTMzJTY2JTYxJTM0JTM0JTM3JTM3JTM1JTY2JTM0JTYyJTM0JTM2JTM4JTM2JTY1JTMxJTYxJTM3JTM1JTYxJTM2JTY0JTMzJTMwJTM0JTM1JTM2JTM5JTJFJTZEJTMzJTc1JTM4'
 
 function urlDecode(str) {
 
   // 首先尝试base64解码
   let decoded;
   try {
-    decoded = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(str));
+    decoded = atob(str);
   } catch (e) {
     //$utils.toastError(`播放地址解析失败`);
   }
@@ -81,11 +81,11 @@ function urlDecode(str) {
   if (decoded) {
     try {
       const urlDecoded = decodeURIComponent(decoded);
+      return urlDecoded;
     } catch (e) {
       $utils.toastError(`播放地址解码失败`);
     }
   }
-  return decoded;
 }
 
 console.log(urlDecode(url))

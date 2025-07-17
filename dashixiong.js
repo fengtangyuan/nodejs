@@ -1,5 +1,5 @@
 const cheerio = createCheerio()
-const CryptoJS = createCryptoJS()
+//const CryptoJS = createCryptoJS()
 
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/604.1.14 (KHTML, like Gecko)'
 
@@ -181,7 +181,7 @@ function urlDecode(str) {
     // 首先尝试base64解码
     let decoded;
     try {
-        decoded = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(str));
+        decoded = atob(str);
     } catch (e) {
         $utils.toastError(`播放地址解析失败`);
     }
@@ -190,9 +190,9 @@ function urlDecode(str) {
     if (decoded) {
         try {
             const urlDecoded = decodeURIComponent(decoded);
+            return urlDecoded;
         } catch (e) {
             $utils.toastError(`播放地址解码失败`);
         }
     }
-    return decoded;
 }
