@@ -142,34 +142,19 @@ async function search(ext) {
 
     let text = encodeURIComponent(ext.text)
     let page = ext.page || 1
-    let url = ''
-    if (page === 1) {
-        url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1-.html?wd=${text}`
-    }
-    else {
-        return jsonify({
-            list: [],
-        })
-    }
-    $utils.toastError('1')
+    let url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1${text}-/page/${page}.html`
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
         },
     })
-    $utils.toastError('8')
-
     const $ = cheerio.load(data)
 
     $('.module-card-item-poster').each((_, element) => {
         const href = $(element).attr('href')
-        $utils.toastError('2')
         const title = $(element).find('img').attr('alt')
-        $utils.toastError('3')
         const cover = $(element).find('img').attr('data-original')
-        $utils.toastError('4')
         const subTitle = $(element).find('.module-item-note').text().tirm()
-        $utils.toastError('5')
         cards.push({
             vod_id: href,
             vod_name: title,
