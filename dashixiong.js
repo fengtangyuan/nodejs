@@ -161,9 +161,13 @@ async function search(ext) {
 
     $('.module-card-item-poster').each((_, element) => {
         const href = $(element).attr('href')
+        $utils.toastError(`1`)
         const title = $(element).find('img').attr('alt')
+        $utils.toastError(`2`)
         const cover = $(element).find('img').attr('data-original')
-        const subTitle = $(element).find('.module-item-note').text()
+        $utils.toastError(`3`)
+        const subTitle = $(element).find('.module-item-note').text().tirm()
+        $utils.toastError(`4`)
         cards.push({
             vod_id: href,
             vod_name: title,
