@@ -148,9 +148,7 @@ async function search(ext) {
         url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1-.html?wd=${text}`
     }
     if (page > 1) {
-        return jsonify({
-            list: [],
-        })
+        url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1${text}-/page/${page}.html`
     }
 
     const { data } = await $fetch.get(url, {
