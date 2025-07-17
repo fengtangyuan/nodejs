@@ -151,23 +151,25 @@ async function search(ext) {
             list: [],
         })
     }
+    $utils.toastError('1')
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
         },
     })
+    $utils.toastError('8')
 
     const $ = cheerio.load(data)
 
     $('.module-card-item-poster').each((_, element) => {
         const href = $(element).attr('href')
-        $utils.toastError(`1`)
+        $utils.toastError('2')
         const title = $(element).find('img').attr('alt')
-        $utils.toastError(`2`)
+        $utils.toastError('3')
         const cover = $(element).find('img').attr('data-original')
-        $utils.toastError(`3`)
+        $utils.toastError('4')
         const subTitle = $(element).find('.module-item-note').text().tirm()
-        $utils.toastError(`4`)
+        $utils.toastError('5')
         cards.push({
             vod_id: href,
             vod_name: title,
