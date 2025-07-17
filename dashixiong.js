@@ -132,7 +132,7 @@ async function getPlayinfo(ext) {
     if (!match) {
         $utils.toastError(`2`);
     }
-    $utils.toastError(`3`);
+    $utils.toastError(`${match}`);
     let urls = atob(match);
     $utils.toastError(`4`);
     return jsonify({
