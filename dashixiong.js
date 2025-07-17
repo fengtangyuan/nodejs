@@ -132,8 +132,8 @@ async function getPlayinfo(ext) {
     if (!match) {
         $utils.toastError(`2`);
     }
-    $utils.toastError(`${match}`);
-    let urls = atob(match);
+    $utils.toastError(`${match[1]}`);
+    let urls = atob(match[1]);
     $utils.toastError(`4`);
     return jsonify({
         urls: [urls],
