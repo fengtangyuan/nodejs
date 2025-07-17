@@ -77,7 +77,6 @@ async function getPlayinfo() {
 
 function urlDecode(str) {
 
-  // 首先尝试base64解码
   let decoded;
   try {
     decoded = atob(str);

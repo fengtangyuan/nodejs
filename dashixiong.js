@@ -129,10 +129,9 @@ async function getPlayinfo(ext) {
     if (!urlencoded) {
         $utils.toastError(`播放地址解析失败`);
     }
-    let decodedUrl = urlDecode(urlencoded)
-    $utils.log(`解码后的播放地址: ${decodedUrl}`)
+    let url = CryptoJS.enc.Base64.parse(urlencoded).toString(CryptoJS.enc.Utf8);
     return jsonify({
-        urls: [decodedUrl],
+        urls: [url],
     })
 }
 
@@ -178,25 +177,4 @@ async function search(ext) {
     return jsonify({
         list: cards,
     })
-}
-
-function urlDecode(str) {
-
-    // 首先尝试base64解码
-    let decoded;
-    try {
-        decoded = CryptoJS.enc.Base64.parse(str).toString(CryptoJS.enc.Utf8);
-    } catch (e) {
-        $utils.toastError(`播放地址解析失败`);
-    }
-
-    // 然后尝试URL解码解码后的结果
-    if (decoded) {
-        try {
-            const urlDecoded = decodeURIComponent(decoded);
-            return urlDecoded;
-        } catch (e) {
-            $utils.toastError(`播放地址解码失败`);
-        }
-    }
 }
