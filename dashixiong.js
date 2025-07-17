@@ -121,14 +121,16 @@ async function getTracks(ext) {
 async function getPlayinfo(ext) {
     ext = argsify(ext)
     const url = ext.url
+    $utils.toastError(`${url}`)
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
         },
     })
+    $utils.toastError(`1`)
     const match = typeof data === 'string' && data.match(/"url"\s*:\s*"(JT[^"]+)"/)
     if (!match) {
-        $utils.toastError(`未匹配到字符串`);
+        $utils.toastError(`2`);
     }
     let urls = CryptoJS.enc.Base64.parse(match).toString(CryptoJS.enc.Utf8);
     if (urls) {
