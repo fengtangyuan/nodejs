@@ -1,7 +1,7 @@
 const cheerio = createCheerio()
 const CryptoJS = createCryptoJS()
 
-const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/604.1.14 (KHTML, like Gecko)'
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0'
 
 let appConfig = {
     ver: 1,
@@ -121,7 +121,6 @@ async function getTracks(ext) {
 async function getPlayinfo(ext) {
     ext = argsify(ext)
     const url = ext.url
-    $utils.toastError(`${url}`)
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
@@ -154,7 +153,7 @@ async function search(ext) {
         const href = $(element).attr('href')
         const title = $(element).find('img').attr('alt')
         const cover = $(element).find('img').attr('data-original')
-        const subTitle = $(element).find('.module-item-note').text().tirm()
+        const subTitle = $(element).find('.module-item-note').text()
         cards.push({
             vod_id: href,
             vod_name: title,

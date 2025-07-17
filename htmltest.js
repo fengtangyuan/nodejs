@@ -1,8 +1,11 @@
 import * as cheerio from 'cheerio';
+import axios from "axios"
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import fs from 'fs';
+const $fetch = axios
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0'
 //定义 jsonify 函数
 function jsonify(data) {
   return JSON.stringify(data, null, 2);
@@ -130,10 +133,20 @@ function urlDecode(str) {
   }
 }
 
-async function search() {
-
+async function search(ext) {
   let cards = []
-  const $ = cheerio.load(html)
+
+  let text = encodeURIComponent(ext.text)
+  let page = ext.page || 1
+  let url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1${text}-/page/${page}.html`
+  console.log(url)
+  const { data } = await $fetch.get(url, {
+    headers: {
+      'User-Agent': UA,
+    },
+  })
+  console.log(data)
+  const $ = cheerio.load(data)
 
   $('.module-card-item-poster').each((_, element) => {
     const href = $(element).attr('href')
@@ -155,5 +168,12 @@ async function search() {
     list: cards,
   })
 }
-console.log(await search()); // 调用 getPlayinfo 函数并打印结果
 
+let ext1 = {
+  text: '复仇者',
+  page: 1,
+}
+console.log(await search(ext1)); // 调用 getPlayinfo 函数并打印结果
+
+//https://dsxys.com/sb/kemksmaksdl7nhZe3c1%E5%A4%8D%E4%BB%87%E8%80%85-/page/1.html
+//https://dsxys.com/sb/kemksmaksdl7nhZe3c1%E5%A4%8D%E4%BB%87%E8%80%85-/page/1.html
