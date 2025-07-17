@@ -126,7 +126,11 @@ async function getPlayinfo(ext) {
         },
     })
     let urlencoded = data.match(/"url"\s*:\s*"(JT[^"]+)"/)[1];
+    if (!urlencoded) {
+        $utils.toastError(`播放地址解析失败`);
+    }
     let decodedUrl = urlDecode(urlencoded)
+    $utils.log(`解码后的播放地址: ${decodedUrl}`)
     return jsonify({
         urls: [decodedUrl],
     })
