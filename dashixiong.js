@@ -87,7 +87,9 @@ async function getTracks(ext) {
     let url = appConfig.site + ext.url
 
     const { data } = await $fetch.get(url, {
-        headers: headers,
+        headers: {
+            'User-Agent': UA,
+        }
     })
 
     const $ = cheerio.load(data)
