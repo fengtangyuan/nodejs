@@ -127,10 +127,14 @@ async function getPlayinfo(ext) {
         },
     })
     let urlencoded = data.match(/"url"\s*:\s*"(JT[^"]+)"/)[1];
-    if (!urlencoded) {
-        $utils.toastError(`播放地址解析失败`);
+    if (urlencoded) {
+        $utils.toastError(`匹配字符串成功`);
     }
     let urls = CryptoJS.enc.Base64.parse(urlencoded).toString(CryptoJS.enc.Utf8);
+    if (urls) {
+        const urlsx = decodeURIComponent(urls);
+        $utils.toastError(`${urlsx}`);
+    }
     return jsonify({
         urls: [urls],
     })
