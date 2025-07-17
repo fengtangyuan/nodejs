@@ -127,15 +127,10 @@ async function getPlayinfo(ext) {
             'User-Agent': UA,
         },
     })
-    $utils.toastError(`1`)
     const match = typeof data === 'string' && data.match(/"url"\s*:\s*"(JT[^"]+)"/)
-    if (!match) {
-        $utils.toastError(`2`);
-    }
     $utils.toastError(`${match[1]}`);
     let urls = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(match[1]));
     let urlx = decodeURIComponent(urls);
-    $utils.toastError(`${urlx}`);
     return jsonify({
         urls: [urlx],
     })
