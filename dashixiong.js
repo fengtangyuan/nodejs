@@ -158,6 +158,7 @@ async function search(ext) {
     })
 
     const $ = cheerio.load(data)
+    $utils.toastError(`加载网页成功`)
 
     $('.module > a').each((_, element) => {
         const href = $(element).attr('href')
