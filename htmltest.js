@@ -130,5 +130,30 @@ function urlDecode(str) {
   }
 }
 
-console.log(await getTracks()); // 调用 getPlayinfo 函数并打印结果
+async function search() {
+
+  let cards = []
+  const $ = cheerio.load(html)
+
+  $('.module-card-item-poster').each((_, element) => {
+    const href = $(element).attr('href')
+    const title = $(element).find('img').attr('alt')
+    const cover = $(element).find('img').attr('data-original')
+    const subTitle = $(element).find('.module-item-note').text()
+    cards.push({
+      vod_id: href,
+      vod_name: title,
+      vod_pic: cover,
+      vod_remarks: subTitle,
+      ext: {
+        url: href,
+      },
+    })
+  })
+
+  return jsonify({
+    list: cards,
+  })
+}
+console.log(await search()); // 调用 getPlayinfo 函数并打印结果
 
