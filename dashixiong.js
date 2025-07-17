@@ -120,6 +120,7 @@ async function getTracks(ext) {
 
 async function getPlayinfo(ext) {
     ext = argsify(ext)
+    const url = ext.url
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
@@ -129,10 +130,9 @@ async function getPlayinfo(ext) {
     if (!urlencoded) {
         $utils.toastError(`播放地址解析失败`);
     }
-    let url = CryptoJS.enc.Base64.parse(urlencoded).toString(CryptoJS.enc.Utf8);
-    $utils.toastError(url);
+    let urls = CryptoJS.enc.Base64.parse(urlencoded).toString(CryptoJS.enc.Utf8);
     return jsonify({
-        urls: [url],
+        urls: [urls],
     })
 }
 
