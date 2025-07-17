@@ -133,7 +133,7 @@ async function getPlayinfo(ext) {
         $utils.toastError(`2`);
     }
     $utils.toastError(`3`);
-    let urls = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(match));
+    let urls = atob(match);
     $utils.toastError(`4`);
     return jsonify({
         urls: [urls],
