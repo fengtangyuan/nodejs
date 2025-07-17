@@ -141,10 +141,9 @@ async function search(ext) {
     let cards = []
 
     let text = encodeURIComponent(ext.text)
-
     let page = ext.page || 1
     let url = ''
-    if (page = 1) {
+    if (page === 1) {
         url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1-.html?wd=${text}`
     }
     else {
