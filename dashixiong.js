@@ -137,7 +137,7 @@ async function getPlayinfo(ext) {
     let urlx = decodeURIComponent(urls);
     $utils.toastError(`${urlx}`);
     return jsonify({
-        urls: [urls],
+        urls: [urlx],
     })
 }
 
