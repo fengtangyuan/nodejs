@@ -147,10 +147,11 @@ async function search(ext) {
     if (page = 1) {
         url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1-.html?wd=${text}`
     }
-    if (page > 1) {
-        url = `${appConfig.site}/sb/kemksmaksdl7nhZe3c1${text}-/page/${page}.html`
+    else {
+        return jsonify({
+            list: [],
+        })
     }
-
     const { data } = await $fetch.get(url, {
         headers: {
             'User-Agent': UA,
