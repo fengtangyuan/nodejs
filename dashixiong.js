@@ -130,6 +130,7 @@ async function getPlayinfo(ext) {
         $utils.toastError(`播放地址解析失败`);
     }
     let url = CryptoJS.enc.Base64.parse(urlencoded).toString(CryptoJS.enc.Utf8);
+    $utils.toastError(url);
     return jsonify({
         urls: [url],
     })
