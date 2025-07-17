@@ -158,9 +158,8 @@ async function search(ext) {
     })
 
     const $ = cheerio.load(data)
-    $utils.toastError(`加载网页成功`)
 
-    $('.module > a').each((_, element) => {
+    $('.module-card-item-poster').each((_, element) => {
         const href = $(element).attr('href')
         const title = $(element).find('img').attr('alt')
         const cover = $(element).find('img').attr('data-original')
