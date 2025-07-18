@@ -3,45 +3,48 @@ const CryptoJS = createCryptoJS()
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0'
 
+
 let $config = argsify($config_str)
 if (!$config) {
-    $config = [
-        {
-            name: '电影',
-            ui: 1,
-            ext: {
-                id: '/vodshow/1--time------p---',
+    $config = {
+        tabs: [
+            {
+                name: '电影',
+                ui: 1,
+                ext: {
+                    id: '/vodshow/1--time------p---',
+                },
             },
-        },
-        {
-            name: '电视剧',
-            ui: 1,
-            ext: {
-                id: '/vodshow/2--time------p---',
+            {
+                name: '电视剧',
+                ui: 1,
+                ext: {
+                    id: '/vodshow/2--time------p---',
+                },
             },
-        },
-        {
-            name: '综艺',
-            ui: 1,
-            ext: {
-                id: '/vodshow/3--time------p---',
+            {
+                name: '综艺',
+                ui: 1,
+                ext: {
+                    id: '/vodshow/3--time------p---',
+                },
             },
-        },
-        {
-            name: '动漫',
-            ui: 1,
-            ext: {
-                id: '/vodshow/4--time------p---',
+            {
+                name: '动漫',
+                ui: 1,
+                ext: {
+                    id: '/vodshow/4--time------p---',
+                },
             },
-        },
-    ]
+        ]
+    }
 }
 
 let appConfig = {
     ver: 1,
     title: '大师兄',
     site: 'https://dsxys.com',
-    tabs: $config
+    tabs: $config.tabs
 }
 
 async function getConfig() {
