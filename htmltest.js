@@ -18,27 +18,37 @@ const __dirname = dirname(__filename);
 const htmlPath = path.join(__dirname, 'html.html')
 const html = fs.readFileSync(htmlPath, 'utf-8')
 
+
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。//
-let list = []
-let ignore = ['新番預告', 'H漫畫']
-function isIgnoreClassName(className) {
-  return ignore.some((element) => className.includes(element))
-}
-const $ = cheerio.load(html);
-let allClass = $('.home-genre-tabs-wrapper > a')
+async function getTracks() {
+  let groups = []
 
-allClass.each((i, e) => {
-  const name = $(e).text()
-  const href = $(e).attr('href')
-  const isIgnore = isIgnoreClassName(name)
-  if (isIgnore) return
-
-  list.push({
-    name,
-    ext: {
-      url: encodeURI(href),
-    },
+  const $ = cheerio.load(html)
+  let gn = []
+  $('a.swiper-slide').each((_, each) => {
+    gn.push($(each).text().replace(/[0-9]/g, ''))
   })
-})
 
-console.log(jsonify(list))
+  $('ul.anthology-list-play').each((i, each) => {
+    let group = {
+      title: gn[i],
+      tracks: [],
+    }
+    $(each).find('li.bj3 > a').each((_, item) => {
+      group.tracks.push({
+        name: $(item).text(),
+        pan: '',
+        ext: {
+          url: $(item).attr('href')
+        }
+      })
+    })
+    groups.push(group)
+  })
+
+  console.log(jsonify({ list: groups }))
+
+}
+
+await getTracks()
+
