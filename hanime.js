@@ -27,6 +27,10 @@ async function getTabs() {
         },
     })
 
+    if (data.includes('Just a moment...')) {
+        $utils.openSafari(url, UA)
+    }
+
     const $ = cheerio.load(data)
     let allClass = $('#main-nav-home > a.nav-item')
 
