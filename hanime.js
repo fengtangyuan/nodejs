@@ -1,6 +1,6 @@
 const cheerio = createCheerio()
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'
+const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/604.1.14 (KHTML, like Gecko)'
 
 let appConfig = {
     ver: 1,
@@ -71,6 +71,10 @@ async function getCards(ext) {
             'User-Agent': UA,
         },
     })
+
+    if (data.includes('Just a moment...')) {
+        $utils.openSafari(url, UA)
+    }
 
     const $ = cheerio.load(data)
     let videolist = $('.home-rows-videos-wrapper > a')
