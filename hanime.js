@@ -6,45 +6,55 @@ let appConfig = {
     ver: 1,
     title: 'hanime',
     site: 'https://hanime1.me',
+    tabs: [
+        {
+            name: '里番',
+            ui: 1,
+            ext: {
+                url: 'https://hanime1.me/search?genre=%E8%A3%8F%E7%95%AA',
+            },
+        },
+        {
+            name: '泡面番',
+            ui: 1,
+            ext: {
+                url: 'https://hanime1.me/search?genre=%E6%B3%A1%E9%BA%B5%E7%95%AA',
+            },
+        },
+        {
+            name: 'Motion Anime',
+            ui: 1,
+            ext: {
+                url: 'https://hanime1.me/search?genre=Motion%20Anime',
+            },
+        },
+        {
+            name: '3D動畫',
+            ui: 1,
+            ext: {
+                url: 'https://hanime1.me/search?genre=3D%E5%8B%95%E7%95%AB',
+            },
+        },
+        {
+            name: '同人',
+            ui: 1,
+            ext: {
+                url: 'https://hanime1.me/search?genre=%E5%90%8C%E4%BA%BA%E4%BD%9C%E5%93%81',
+            },
+        },
+        {
+            name: 'MMD',
+            ui: 1,
+            ext: {
+                url: 'https://hanime1.me/search?genre=MMD',
+            },
+        },
+    ],
 }
 
 async function getConfig() {
     let config = appConfig
-    config.tabs = await getTabs()
     return jsonify(config)
-}
-
-async function getTabs() {
-    let list = []
-    let ignore = ['新番預告', 'H漫畫']
-    function isIgnoreClassName(className) {
-        return ignore.some((element) => className.includes(element))
-    }
-
-    const { data } = await $fetch.get(appConfig.site, {
-        headers: {
-            'User-Agent': UA,
-        },
-    })
-
-    const $ = cheerio.load(data)
-    let allClass = $('.home-genre-tabs-wrapper > a')
-
-    allClass.each((i, e) => {
-        const name = $(e).text()
-        const href = $(e).attr('href')
-        const isIgnore = isIgnoreClassName(name)
-        if (isIgnore) return
-
-        list.push({
-            name,
-            ext: {
-                url: encodeURI(href),
-            },
-        })
-    })
-
-    return list
 }
 
 async function getCards(ext) {
