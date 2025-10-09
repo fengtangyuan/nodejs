@@ -28,7 +28,7 @@ async function getTabs() {
     })
 
     const $ = cheerio.load(data)
-    let allClass = $('#main-nav-home > a.nav-item')
+    let allClass = $('#sub-nav-home-mobile > a.home-genre-tabs')
 
     allClass.each((i, e) => {
         const name = $(e).text()
