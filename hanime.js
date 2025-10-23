@@ -153,9 +153,9 @@ async function getPlayinfo(ext) {
     })
 
     const $ = cheerio.load(data)
-    const json = $('script[type=application/ld+json]').text()
-
-    let playUrl = json.match(/contentUrl":\s?"(.*?)",/)[1]
+    //const json = $('script[type=application/ld+json]').text()
+    //let playUrl = json.match(/contentUrl":\s?"(.*?)",/)[1]
+    const playUrl = ($('link[rel="preload"][as="video"][type="video/mp4"]').attr('href') || '')
 
     return jsonify({ urls: [playUrl] })
 }
