@@ -133,6 +133,7 @@ async function getPlayinfo(ext) {
         urls: [playurl],
         headers: [{
             'User-Agent': UA,
+            'origin': appConfig.site
         }]
     })
 }
