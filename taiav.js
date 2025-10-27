@@ -4,6 +4,7 @@ let appConfig = {
     ver: 1,
     title: 'Taiav',
     site: 'https://taiav.com',
+    cdn: 'https://v15cdn.snmovie.com',
     tabs: [
         {
             name: '网红主播',
@@ -106,12 +107,13 @@ async function getTracks(ext) {
     })
     let playlist = argsify(data)
     const name = '播放'
-    const m3u8 = playlist.m3u8
+    //将链接的？及后面的部分替换为空
+    const m3u8 = playlist.m3u8.replace(/\?.*$/, '')
     tracks.push({
         name: name,
         pan: '',
         ext: {
-            playurl: `${appConfig.site}${m3u8}`,
+            playurl: `${appConfig.cdn}${m3u8}`,
         },
     })
     return jsonify({
