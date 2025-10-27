@@ -113,7 +113,7 @@ async function getTracks(ext) {
         name: name,
         pan: '',
         ext: {
-            playurl: `${appConfig.cdn}${m3u8}`,
+            playurl: `${appConfig.site}${m3u8}`,
         },
     })
     return jsonify({
