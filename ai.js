@@ -74,10 +74,10 @@ async function getTracks(ext) {
   const $ = cheerio.load(data)
   let gn = []
   $('a.swiper-slide').each((_, each) => {
-    gn.push($(each).text().replace(/[0-9]/g, ''))
+    gn.push($(each).text().trim().replace(/[0-9]/g, ''))
   })
 
-  $('ul.anthology-list-play').each((i, each) => {
+  $('div.anthology-list-box').each((i, each) => {
     let group = {
       title: gn[i],
       tracks: [],

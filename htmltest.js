@@ -26,10 +26,10 @@ async function getTracks() {
   const $ = cheerio.load(html)
   let gn = []
   $('a.swiper-slide').each((_, each) => {
-    gn.push($(each).text().replace(/[0-9]/g, ''))
+    gn.push($(each).text().trim().replace(/[0-9]/g, ''))
   })
 
-  $('ul.anthology-list-play').each((i, each) => {
+  $('div.anthology-list-box').each((i, each) => {
     let group = {
       title: gn[i],
       tracks: [],
@@ -46,9 +46,13 @@ async function getTracks() {
     groups.push(group)
   })
 
-  console.log(jsonify({ list: groups }))
-
+  return jsonify({ list: groups })
 }
 
-await getTracks()
+try {
+  const result = await getTracks()
+  console.log(result)
+} catch (error) {
+  console.error('Error:', error)
+}
 
