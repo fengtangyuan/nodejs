@@ -129,12 +129,12 @@ async function search(ext) {
   const $ = cheerio.load(data)
   $('.search-list').each((_, each) => {
     cards.push({
-      vod_id: $(each).find('a[0]').attr('href'),
+      vod_id: $(each).find('a').eq(0).attr('href'),
       vod_name: $(each).find('.slide-info-title').text(),
       vod_pic: appConfig.site + $(each).find('img.gen-movie-img').attr('data-src'),
       vod_remarks: $(each).find('.slide-info-remarks.cor5').text(),
       ext: {
-        url: appConfig.site + $(each).find('a[0]').attr('href'),
+        url: appConfig.site + $(each).find('a').eq(0).attr('href'),
       },
     })
   })

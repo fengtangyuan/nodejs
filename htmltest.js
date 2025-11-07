@@ -21,32 +21,24 @@ const html = fs.readFileSync(htmlPath, 'utf-8')
 
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。//
 async function getTracks() {
-  let groups = []
+  let cards = []
 
   const $ = cheerio.load(html)
-  let gn = []
-  $('a.swiper-slide').each((_, each) => {
-    gn.push($(each).text().trim().replace(/[0-9]/g, ''))
-  })
-
-  $('div.anthology-list-box').each((i, each) => {
-    let group = {
-      title: gn[i],
-      tracks: [],
-    }
-    $(each).find('li.bj3 > a').each((_, item) => {
-      group.tracks.push({
-        name: $(item).text(),
-        pan: '',
-        ext: {
-          url: $(item).attr('href')
-        }
-      })
+  $('.search-list').each((_, each) => {
+    cards.push({
+      vod_id: $(each).find('a').eq(0).attr('href'),
+      vod_name: $(each).find('.slide-info-title').text(),
+      vod_pic: $(each).find('img.gen-movie-img').attr('data-src'),
+      vod_remarks: $(each).find('.slide-info-remarks.cor5').text(),
+      ext: {
+        url: $(each).find('a').eq(0).attr('href'),
+      },
     })
-    groups.push(group)
   })
 
-  return jsonify({ list: groups })
+  return jsonify({
+    list: cards,
+  })
 }
 
 try {
