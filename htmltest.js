@@ -21,24 +21,44 @@ const html = fs.readFileSync(htmlPath, 'utf-8')
 
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。//
 async function getTracks() {
-  let cards = []
+  let groups = [];
+  let gn = { 'pan.quark.cn': '夸克网盘', 'pan.baidu.com': '百度网盘', 'drive.uc.cn': 'UC网盘' };
+
 
   const $ = cheerio.load(html)
-  $('.search-list').each((_, each) => {
-    cards.push({
-      vod_id: $(each).find('a').eq(0).attr('href'),
-      vod_name: $(each).find('.slide-info-title').text(),
-      vod_pic: $(each).find('img.gen-movie-img').attr('data-src'),
-      vod_remarks: $(each).find('.slide-info-remarks.cor5').text(),
-      ext: {
-        url: $(each).find('a').eq(0).attr('href'),
-      },
-    })
-  })
+  const playlist = $('.pan-links');
 
-  return jsonify({
-    list: cards,
-  })
+  if (playlist.length === 0 || playlist.find('li').length === 0) {
+    $utils.toastError('没有网盘资源');
+    return jsonify({ list: [] });
+  }
+
+  playlist.each((_, e) => {
+    $(e).find('li a').each((_, link) => {
+      const pan_type = $(link).attr('data-link');
+      const href = $(link).attr('href');
+      // 提取 movie_title 参数并去掉所有空格和特殊符号
+      const match = href.match(/[?&]movie_title=([^&]+)/);
+      let name = match ? decodeURIComponent(match[1]) : '';
+      // 去掉不间断空格及所有空白字符
+      name = name.replace(/\u00A0/g, '').replace(/\s+/g, '');
+      // 只保留中文、英文字母和数字，移除其它特殊符号
+      name = name.replace(/[^\p{L}\p{N}\u4e00-\u9fa5]+/gu, '');
+      const title = gn[pan_type];
+      let track = {
+        name: name,
+        pan: href
+      };
+      let target = groups.find(g => g.title === title);
+      if (!target) {
+        target = { title: title, tracks: [] };
+        groups.push(target);
+      }
+      target.tracks.push(track);
+    });
+  });
+
+  return jsonify({ list: groups })
 }
 
 try {
