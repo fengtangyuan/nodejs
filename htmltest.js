@@ -20,49 +20,60 @@ const html = fs.readFileSync(htmlPath, 'utf-8')
 
 
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。//
-async function getTracks() {
-  let groups = [];
-  let gn = { 'pan.quark.cn': '夸克网盘', 'pan.baidu.com': '百度网盘', 'drive.uc.cn': 'UC网盘' };
-
-
-  const $ = cheerio.load(html)
-  const playlist = $('.pan-links');
-
-  if (playlist.length === 0 || playlist.find('li').length === 0) {
-    $utils.toastError('没有网盘资源');
-    return jsonify({ list: [] });
+const $config_str = { "age18": true }
+let $config = { age18: true }
+const appConfig = {
+  ver: 1,
+  title: "youknow_兔",
+  site: "https://www.youknow.tv",
+  tabs: [{
+    name: '剧集',
+    ext: {
+      url: 'https://www.youknow.tv/show/1--------{page}---/'
+    },
+  }, {
+    name: '电影',
+    ext: {
+      url: 'https://www.youknow.tv/show/2--------{page}---/'
+    },
+  }, {
+    name: '综艺',
+    ext: {
+      url: 'https://www.youknow.tv/show/3--------{page}---/'
+    },
+  }, {
+    name: '动漫',
+    ext: {
+      url: 'https://www.youknow.tv/show/4--------{page}---/'
+    },
+  }, {
+    name: '短剧',
+    ext: {
+      url: 'https://www.youknow.tv/show/55--------{page}---/'
+    },
+  }, {
+    name: '纪录片',
+    ext: {
+      url: 'https://www.youknow.tv/show/5--------{page}---/'
+    },
   }
+  ]
+}
 
-  playlist.each((_, e) => {
-    $(e).find('li a').each((_, link) => {
-      const pan_type = $(link).attr('data-link');
-      const href = $(link).attr('href');
-      // 提取 movie_title 参数并去掉所有空格和特殊符号
-      const match = href.match(/[?&]movie_title=([^&]+)/);
-      let name = match ? decodeURIComponent(match[1]) : '';
-      // 去掉不间断空格及所有空白字符
-      name = name.replace(/\u00A0/g, '').replace(/\s+/g, '');
-      // 只保留中文、英文字母和数字，移除其它特殊符号
-      name = name.replace(/[^\p{L}\p{N}\u4e00-\u9fa5]+/gu, '');
-      const title = gn[pan_type];
-      let track = {
-        name: name,
-        pan: href
-      };
-      let target = groups.find(g => g.title === title);
-      if (!target) {
-        target = { title: title, tracks: [] };
-        groups.push(target);
-      }
-      target.tracks.push(track);
-    });
-  });
-
-  return jsonify({ list: groups })
+async function getConfig() {
+  if ($config?.age18) {
+    appConfig.tabs.push({
+      name: '成人',
+      ext: {
+        url: 'https://www.youknow.tv/show/57--------{page}---/'
+      },
+    })
+  }
+  return jsonify(appConfig)
 }
 
 try {
-  const result = await getTracks()
+  const result = await getConfig()
   console.log(result)
 } catch (error) {
   console.error('Error:', error)
