@@ -107,7 +107,6 @@ async function getTracks(ext) {
     })
     let playlist = argsify(data)
     const name = '播放'
-    //将链接的？及后面的部分替换为空
     const m3u8 = playlist.m3u8
     tracks.push({
         name: name,

@@ -32,7 +32,7 @@ let appConfig = {
             name: '3D動畫',
             ui: 1,
             ext: {
-                url: 'https://hanime1.me/search?genre=3D%E5%8B%95%E7%95%AB',
+                url: 'https://hanime1.me/search?genre=3DCG',
             },
         },
         {
