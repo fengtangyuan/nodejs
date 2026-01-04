@@ -10,7 +10,7 @@ let $config = argsify($config_str)
 const appConfig = {
     ver: 1,
     title: 'missav',
-    site: 'https://missav.ai',
+    site: 'https://missav.ws',
     tabs: [
         {
             name: '中文字幕',
