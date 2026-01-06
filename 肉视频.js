@@ -9,6 +9,13 @@ let appConfig = {
     site: 'https://rou.video',
     tabs: [
         {
+            name: '全部',
+            ui: 1,
+            ext: {
+                url: 'https://rou.video/v',
+            },
+        },
+        {
             name: '國產AV',
             ui: 1,
             ext: {
