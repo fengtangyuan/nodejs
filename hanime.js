@@ -15,6 +15,10 @@ async function getTabs() {
         },
     })
     const $ = cheerio.load(data)
+    const t1 = $('title').text()
+    if (t1.includes('Just a moment...')) {
+        $utils.openSafari(appConfig.site, UA)
+    }
     let allClass = $('#main-nav-home > a.nav-item')
 
     allClass.each((i, e) => {
