@@ -71,29 +71,111 @@ async function getCards(ext) {
         },
     })
 
-    if (data.includes('Just a moment...')) {
-        $utils.openSafari(url, UA)
+    const $ = cheerio.load(data)
+    const t1 = $('title').text()
+    if (t1 === 'Just a moment...') {
+        $utils.openSafari(appConfig.site, UA)
     }
 
-    const $ = cheerio.load(data)
-    let videolist = $('.home-rows-videos-wrapper > a')
-    if (videolist.length === 0) videolist = $('.content-padding-new > .row > .search-doujin-videos.col-xs-6')
+    let videoContainers = $('.video-item-container')
+    if (videoContainers.length === 0) {
+        videoContainers = $('.home-rows-videos-wrapper > a, .content-padding-new > .row > .search-doujin-videos.col-xs-6')
+    }
 
-    videolist.each((_, element) => {
-        if ($(element).attr('target') === '_blank' || $(element).find('.overlay').attr('target') === '_blank') return
-        const href = $(element).attr('href') || $(element).find('.overlay').attr('href')
-        const title = $(element).find('.home-rows-videos-title').text() || $(element).find('.card-mobile-title').text()
-        let cover = $(element).find('img').attr('src')
-        if (cover.includes('background')) cover = $(element).find('img').eq(1).attr('src')
-        cards.push({
-            vod_id: href,
-            vod_name: title,
-            vod_pic: cover,
-            vod_remarks: '',
-            ext: {
-                url: href,
-            },
-        })
+    videoContainers.each((_, element) => {
+        let href, title, cover
+
+        if ($(element).hasClass('video-item-container')) {
+            const videoLink = $(element).find('.video-link')
+            href = videoLink.attr('href')
+            title = $(element).find('.title').text().trim()
+            cover = $(element).find('.main-thumb').attr('src')
+
+            const stats = {
+                likes: '',
+                views: '',
+                subtitle: ''
+            }
+
+            $(element).find('.stat-item').each((i, statEl) => {
+                const text = $(statEl).text().trim()
+                if (i === 0) {
+                    stats.likes = text.replace('thumb_up', '').trim()
+                } else if (i === 1) {
+                    stats.views = text
+                }
+            })
+
+            stats.subtitle = $(element).find('.subtitle a').text().trim()
+            const duration = $(element).find('.duration').text().trim()
+
+            const remarks = []
+            if (stats.likes) remarks.push(stats.likes)
+            if (stats.views) remarks.push(stats.views)
+
+            if (href && href.includes('://')) {
+                const domainMatch = href.match(/https?:\/\/([^\/]+)/)
+                if (domainMatch) {
+                    const domain = domainMatch[1]
+                    if (domain !== 'hanime1.me' && !domain.endsWith('.hanime1.me')) {
+                        return
+                    }
+                }
+            }
+
+            let finalHref = href
+            if (href && href.startsWith('/')) {
+                finalHref = `https://hanime1.me${href}`
+            }
+
+            cards.push({
+                vod_id: finalHref,
+                vod_name: title,
+                vod_pic: cover,
+                vod_duration: duration,
+                vod_remarks: remarks.join(' · '),
+                ext: {
+                    url: finalHref,
+                    duration: duration,
+                    subtitle: stats.subtitle,
+                    stats: stats
+                },
+            })
+        } else {
+            href = $(element).attr('href') || $(element).find('.overlay').attr('href')
+
+            if (href && href.includes('://')) {
+                const domainMatch = href.match(/https?:\/\/([^\/]+)/)
+                if (domainMatch) {
+                    const domain = domainMatch[1]
+                    if (domain !== 'hanime1.me' && !domain.endsWith('.hanime1.me')) {
+                        return
+                    }
+                }
+            }
+
+            title = $(element).find('.home-rows-videos-title').text() || $(element).find('.card-mobile-title').text()
+            cover = $(element).find('img').attr('src')
+            if (cover && cover.includes('background')) {
+                cover = $(element).find('img').eq(1).attr('src')
+            }
+
+            let finalHref = href
+            if (href && href.startsWith('/')) {
+                finalHref = `https://hanime1.me${href}`
+            }
+
+            cards.push({
+                vod_id: finalHref,
+                vod_name: title,
+                vod_pic: cover,
+                vod_duration: '',
+                vod_remarks: '',
+                ext: {
+                    url: finalHref,
+                },
+            })
+        }
     })
 
     return jsonify({
