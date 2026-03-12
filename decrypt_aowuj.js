@@ -1,14 +1,14 @@
 /**
- * ============================================================
- * aowuj.js 解密还原脚本 (参考 czzy.js 风格)
- * ============================================================
- * 站点: https://www.aowu.tv
- * 加密方式: jsjiami.com.v7 (字符串混淆 + RC4)
- * ============================================================
+ * aowuj.js 解密还原脚本
+ * 分析加密逻辑并还原可读代码
  */
 
-const cheerio = createCheerio();
-const CryptoJS = createCryptoJS();
+const cheerio = require('cheerio'); // 假设环境中有 cheerio
+const CryptoJS = require('crypto-js');
+
+// ============================================================
+// 还原后的代码结构 (参考 czzy.js 的风格)
+// ============================================================
 
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/604.1.14 (KHTML, like Gecko)';
 
@@ -22,30 +22,30 @@ const headers = {
 
 let appConfig = {
     ver: 1,
-    title: '嗷呜动漫',
+    title: '傲物',
     site: SITE,
     tabs: [
         { name: '新番', ext: { type: 'type=20' } },
-        { name: '番剧', ext: { type: 'type=21' } },
-        { name: '剧场', ext: { type: 'type=22' } }
+        { name: '番剧', ext: { type: 'type=25' } },
+        { name: '剧场', ext: { type: 'type=21' } }
     ]
 };
 
 // ============================================================
-// getConfig - 获取站点配置
+// getConfig - 获取配置
 // ============================================================
 async function getConfig() {
     return jsonify(appConfig);
 }
 
 // ============================================================
-// getCards - 获取视频卡片列表
+// getCards - 获取卡片列表
 // ============================================================
 async function getCards(ext) {
     ext = argsify(ext);
     let cards = [];
 
-    let url = appConfig.site + '/index.php/ds_api/vod';
+    let url = appConfig.site + '/api.php/provide/vod/';
     let page = ext.page || 1;
     let params = ext.type + '&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=' + page;
 
@@ -67,7 +67,7 @@ async function getCards(ext) {
 }
 
 // ============================================================
-// getTracks - 获取播放轨道 (解析详情页)
+// getTracks - 获取播放轨道
 // ============================================================
 async function getTracks(ext) {
     ext = argsify(ext);
@@ -79,13 +79,13 @@ async function getTracks(ext) {
 
     let lineTitles = [];
 
-    // 获取线路标题 (.module-tab-item)
+    // 获取线路标题
     $('.module-tab-item').each((_, e) => {
         let title = $(e).text().trim().split('\n')[0];
         if (title) lineTitles.push(title);
     });
 
-    // 处理每个播放列表 (.module-play-list)
+    // 处理每个播放列表
     $('.module-play-list').each((index, e) => {
         let lineTracks = [];
 
@@ -95,7 +95,7 @@ async function getTracks(ext) {
 
             if (!href) return;
 
-            // 提取集数，如 "第1集" -> "01"
+            // 提取集数
             let match = name.match(/\d+/);
             if (match) {
                 name = match[0].padStart(2, '0');
@@ -123,26 +123,26 @@ async function getTracks(ext) {
 }
 
 // ============================================================
-// getPlayinfo - 获取真实播放地址 (多层解密)
+// getPlayinfo - 获取播放信息
 // ============================================================
 async function getPlayinfo(ext) {
     ext = argsify(ext);
     let url = ext.url;
 
-    // 1. 获取播放页面
+    // 获取播放页面
     let { data } = await $fetch.get(url, { headers: headers });
 
-    // 2. 提取 player_aaaa JSON 配置
+    // 提取 player_aaaa 配置
     let playerConfig = JSON.parse(data.match(/player_aaaa=(.+?)<\/script>/)[1]);
 
-    // 3. 根据 encrypt 类型解密 URL
+    // 根据加密类型解密 URL
     if (playerConfig.encrypt == '1') {
         playerConfig.url = unescape(playerConfig.url);
     } else if (playerConfig.encrypt == '2') {
         playerConfig.url = unescape(base64decode(playerConfig.url));
     }
 
-    // 4. 请求 encode.php 获取加密参数
+    // 请求 encode.php
     let postData = 'plain=' + playerConfig.url;
     let { data: encodeData } = await $fetch.post(
         appConfig.site + '/player1/encode.php',
@@ -150,21 +150,21 @@ async function getPlayinfo(ext) {
         { headers: headers }
     );
 
-    // 5. 构造播放器请求 URL
+    // 构造播放器请求 URL
     encodeData = argsify(encodeData);
     let playerUrl = appConfig.site + '/player1/index.php?data=' +
         encodeURIComponent(encodeData.url) +
         '&ts=' + encodeURIComponent(encodeData.ts) +
         '&sign=' + encodeURIComponent(encodeData.sig);
 
-    // 6. 请求播放器页面
+    // 请求播放器页面
     let { data: playerData } = await $fetch.get(playerUrl, { headers: headers });
 
-    // 7. 提取加密 URL 和会话密钥
+    // 提取加密 URL 和会话密钥
     const encryptedUrl = playerData.match(/const\s+encryptedUrl\s*=\s*"([^"]+)"/)?.[1];
     const sessionKey = playerData.match(/const\s+sessionKey\s*=\s*"([^"]+)"/)?.[1];
 
-    // 8. AES 解密最终 URL
+    // AES 解密
     let playUrl = decryptAES(encryptedUrl, sessionKey);
 
     $print(playUrl);
@@ -181,22 +181,22 @@ async function search(ext) {
 
     let text = encodeURIComponent(ext.text);
     let page = ext.page || 1;
-    let url = appConfig.site + '/vods/page/' + page + '/wd/' + text;
+    let url = appConfig.site + '/vodsearch/' + page + '.html?wd=' + text;
 
     const { data } = await $fetch.get(url, { headers: headers });
     const $ = cheerio.load(data);
 
     $('.detail-info > a').each((_, e) => {
         const item = $(e);
-        const href = item.find('.module-item-picbox').attr('href') || '';
-        const img = item.find('.module-item-picbox');
-        const pic = img.attr('data-original') || img.attr('src') || '';
+        const href = item.find('.module-item-pic').attr('href') || '';
+        const img = item.find('.module-item-pic');
+        const pic = img.attr('data-src') || img.attr('src') || '';
 
         cards.push({
             vod_id: href,
-            vod_name: item.find('h3.slide-info-title').text().trim(),
+            vod_name: item.find('.module-card-item-title').text().trim(),
             vod_pic: pic,
-            vod_remarks: item.find('span.slide-info-remarks').first().text().trim(),
+            vod_remarks: item.find('.module-card-item-status').first().text().trim(),
             ext: {
                 url: appConfig.site + href
             }
@@ -211,16 +211,16 @@ async function search(ext) {
 // ============================================================
 function decryptAES(encryptedUrl, sessionKey) {
     try {
-        // Base64 解码密文
+        // Base64 解码
         const ciphertext = CryptoJS.enc.Base64.parse(encryptedUrl);
 
-        // 从 sessionKey 提取 IV (前4个字符作为 Hex)
+        // 从 sessionKey 提取 IV (前4个字符)
         const iv = CryptoJS.enc.Hex.parse(sessionKey.slice(0, 4));
 
-        // sessionKey 剩余部分作为密钥
+        // sessionKey 作为密钥
         const key = CryptoJS.enc.Utf8.parse(sessionKey.slice(4));
 
-        // AES-256-CBC 解密
+        // AES 解密
         const decrypted = CryptoJS.AES.decrypt(
             { ciphertext: ciphertext },
             key,
@@ -239,7 +239,7 @@ function decryptAES(encryptedUrl, sessionKey) {
 }
 
 // ============================================================
-// base64decode - Base64 解码函数 (自定义实现)
+// base64decode - Base64 解码函数
 // ============================================================
 function base64decode(str) {
     var buffer = new Array(
@@ -292,3 +292,64 @@ function base64decode(str) {
 
     return out;
 }
+
+// ============================================================
+// 导出模块
+// ============================================================
+module.exports = {
+    getConfig,
+    getCards,
+    getTracks,
+    getPlayinfo,
+    search,
+    decryptAES,
+    base64decode
+};
+
+// ============================================================
+// 分析报告
+// ============================================================
+console.log(`
+============================================================
+aowuj.js 解密还原分析报告
+============================================================
+
+1. 代码结构分析:
+   - 原始代码使用 jsjiami.com.v7 加密
+   - 包含字符串混淆 + RC4 加密
+   - 核心逻辑与 czzy.js 类似
+
+2. 还原的 API 接口:
+   - getConfig()      : 获取站点配置
+   - getCards(ext)    : 获取视频列表 (POST /api.php/provide/vod/)
+   - getTracks(ext)   : 获取播放轨道 (解析 HTML 页面)
+   - getPlayinfo(ext) : 获取真实播放地址 (多层解密)
+   - search(ext)      : 搜索功能 (/vodsearch/{page}.html?wd=)
+
+3. 关键解密逻辑:
+   a) getPlayinfo 的解密流程:
+      - 从页面提取 player_aaaa JSON 配置
+      - 根据 encrypt 字段进行不同解密:
+        * encrypt=1: unescape 解码
+        * encrypt=2: base64decode + unescape
+      - 请求 /player1/encode.php 获取编码数据
+      - 请求 /player1/index.php 获取播放器页面
+      - AES-256-CBC 解密最终 URL
+
+   b) AES 解密参数:
+      - Key: sessionKey[4:] (UTF8)
+      - IV: sessionKey[:4] (Hex 解析)
+      - Mode: CBC
+      - Padding: PKCS7
+
+4. 与 czzy.js 的主要区别:
+   - aowuj 使用 API 接口获取列表
+   - czzy 使用 HTML 解析获取列表
+   - 播放地址解密方式不同 (aowuj: AES, czzy: 自定义/eval)
+
+5. 站点信息:
+   - SITE: https://www.aowu.tv
+   - 分类: 新番(type=20), 番剧(type=25), 剧场(type=21)
+
+============================================================
+`);
