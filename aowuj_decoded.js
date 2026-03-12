@@ -79,45 +79,93 @@ async function getTracks(ext) {
 
     let lineTitles = [];
 
-    // 获取线路标题 (.module-tab-item)
-    $('.module-tab-item').each((_, e) => {
-        let title = $(e).text().trim().split('\n')[0];
-        if (title) lineTitles.push(title);
-    });
+    // 获取线路标题 - 尝试多种可能的选择器
+    const titleSelectors = [
+        '.module-tab-item',
+        '.module-blocklist-head',
+        '.module-item-title',
+        '.play_title'
+    ];
 
-    // 处理每个播放列表 (.module-play-list)
-    $('.module-play-list').each((index, e) => {
-        let lineTracks = [];
+    let titleSelector = null;
+    for (const selector of titleSelectors) {
+        if ($(selector).length > 0) {
+            titleSelector = selector;
+            break;
+        }
+    }
 
-        $(e).find('.module-play-list-link').each((_, link) => {
-            let name = $(link).text().trim();
-            let href = $(link).attr('href');
+    if (titleSelector) {
+        $(titleSelector).each((_, e) => {
+            let title = $(e).text().trim().split('\n')[0];
+            if (title) lineTitles.push(title);
+        });
+    }
 
-            if (!href) return;
+    // 处理每个播放列表 - 尝试多种可能的选择器
+    const listSelectors = [
+        '.module-play-list',
+        '.module-blocklist',
+        '.play_list',
+        '.module-list'
+    ];
 
-            // 提取集数，如 "第1集" -> "01"
-            let match = name.match(/\d+/);
-            if (match) {
-                name = match[0].padStart(2, '0');
+    let listSelector = null;
+    for (const selector of listSelectors) {
+        if ($(selector).length > 0) {
+            listSelector = selector;
+            break;
+        }
+    }
+
+    if (listSelector) {
+        $(listSelector).each((index, e) => {
+            let lineTracks = [];
+
+            // 查找播放链接 - 尝试多种可能的选择器
+            const linkSelectors = [
+                '.module-play-list-link',
+                'a',
+                '.module-blocklist-item',
+                '.module-list-item'
+            ];
+
+            for (const linkSel of linkSelectors) {
+                const links = $(e).find(linkSel);
+                if (links.length > 0) {
+                    links.each((_, link) => {
+                        let name = $(link).text().trim();
+                        let href = $(link).attr('href');
+
+                        if (!href) return;
+
+                        // 提取集数，如 "第1集" -> "01"
+                        let match = name.match(/\d+/);
+                        if (match) {
+                            name = match[0].padStart(2, '0');
+                        }
+
+                        lineTracks.push({
+                            name: name,
+                            pan: '',
+                            ext: { url: appConfig.site + href }
+                        });
+                    });
+                    break;
+                }
             }
 
-            lineTracks.push({
-                name: name,
-                pan: '',
-                ext: { url: appConfig.site + href }
+            if (lineTracks.length === 0) return;
+
+            // 按集数排序
+            lineTracks.sort((a, b) => parseInt(a.name) - parseInt(b.name));
+
+            tracks.push({
+                title: lineTitles[index] || '线路' + (index + 1),
+                tracks: lineTracks
             });
         });
-
-        if (lineTracks.length === 0) return;
-
-        // 按集数排序
-        lineTracks.sort((a, b) => parseInt(a.name) - parseInt(b.name));
-
-        tracks.push({
-            title: lineTitles[index] || '线路' + (index + 1),
-            tracks: lineTracks
-        });
-    });
+    }
 
     return jsonify({ list: tracks });
 }
