@@ -29,25 +29,30 @@ async function getConfig() {
 async function getCards(ext) {
     ext = argsify(ext)
     let cards = []
-    let url = appConfig['site'] + '/api.php/provide/vod/'
-    let page = ext['page'] || 1
-    let type = ext['type'] + '&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=' + page
 
-    const { data: responseData } = await $fetch['get'](url, type, {
+    let apiUrl = appConfig['site'] + '/api.php/provide/vod/'
+    let page = ext['page'] || 1
+    let queryParams = ext['type'] + '&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=' + page
+
+    const { data: responseData } = await $fetch['get'](apiUrl + '?' + queryParams, {
         'headers': headers
     })
 
-    argsify(responseData)['list']['forEach']((item) => {
-        cards['push']({
-            'vod_id': item['vod_id']['toString'](),
-            'vod_name': item['vod_name'],
-            'vod_pic': item['vod_pic'],
-            'vod_remarks': item['vod_remarks'],
-            'ext': {
-                'url': '' + appConfig['site'] + item['url']
-            }
+    const responseObj = argsify(responseData)
+
+    if (responseObj['list'] && Array['isArray'](responseObj['list'])) {
+        responseObj['list']['forEach']((item) => {
+            cards['push']({
+                'vod_id': item['vod_id']['toString'](),
+                'vod_name': item['vod_name'],
+                'vod_pic': item['vod_pic'],
+                'vod_remarks': item['vod_remarks'],
+                'ext': {
+                    'url': appConfig['site'] + item['url']
+                }
+            })
         })
-    })
+    }
 
     return jsonify({
         'list': cards
