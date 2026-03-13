@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(netstat -ano | grep -i \"9222\" 2>/dev/null || echo \"没有找到 Chrome 远程调试端口 9222\")",
+      "Bash(where chrome.exe 2>/dev/null || where \"C:/Program Files/Google/Chrome/Application/chrome.exe\" 2>/dev/null || echo \"需要查找 Chrome 路径\")",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Read(//c/Users/$USER/AppData/Local/Google/Chrome/Application/**)",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__wait_for",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__evaluate_script",
+      "WebSearch",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__select_page"
     ]
   }
 }

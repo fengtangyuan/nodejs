@@ -7,7 +7,7 @@ const cheerio = createCheerio();
 const CryptoJS = createCryptoJS();
 
 let $config = argsify($config_str);
-const SITE = $config['site'] || 'https://www.aowu.tv';
+const SITE = $config.site || 'https://www.aowu.tv';
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
 
 const headers = {
@@ -36,19 +36,19 @@ async function getConfig() {
 async function getCards(ext) {
     ext = argsify(ext);
     let list = [];
-    const url = appConfig["site"] + "/index.php/ds_api/vod";
-    const page = ext["page"] || 1;
-    const params = ext['type'] + '&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=' + page;
+    const url = appConfig.site + "/index.php/ds_api/vod";
+    const page = ext.page || 1;
+    const params = ext.type + '&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=' + page;
 
     const { data } = await $fetch.post(url, params, { 'headers': headers });
 
-    argsify(data)["list"]["forEach"](item => {
+    argsify(data).list.forEach(item => {
         list.push({
-            'vod_id': item["vod_id"]["toString"](),
-            'vod_name': item["vod_name"],
-            'vod_pic': item["vod_pic"],
-            'vod_remarks': item["vod_remarks"],
-            'ext': { 'url': appConfig["site"] + item["url"] }
+            'vod_id': item.vod_id.toString(),
+            'vod_name': item.vod_name,
+            'vod_pic': item.vod_pic,
+            'vod_remarks': item.vod_remarks,
+            'ext': { 'url': appConfig.site + item.url }
         });
     });
 
@@ -59,10 +59,10 @@ async function getCards(ext) {
 async function getTracks(ext) {
     ext = argsify(ext);
     let result = [];
-    const url = ext["url"];
+    const url = ext.url;
 
     const { data } = await $fetch.get(url, { 'headers': headers });
-    const $ = cheerio["load"](data);
+    const $ = cheerio.load(data);
 
     let titles = [];
 
@@ -90,7 +90,7 @@ async function getTracks(ext) {
             tracks.push({
                 'name': name,
                 'pan': '',
-                'ext': { 'url': appConfig['site'] + href }
+                'ext': { 'url': appConfig.site + href }
             });
         });
 
@@ -111,32 +111,32 @@ async function getTracks(ext) {
 // 获取播放信息
 async function getPlayinfo(ext) {
     ext = argsify(ext);
-    let url = ext['url'];
+    let url = ext.url;
 
-    const { data } = await $fetch['get'](url, { 'headers': headers });
-    const playerData = JSON["parse"](data.match(/player_aaaa=(.+?)<\/script>/)[1]);
+    const { data } = await $fetch.get(url, { 'headers': headers });
+    const playerData = JSON.parse(data.match(/player_aaaa=(.+?)<\/script>/)[1]);
 
     // 解密URL
-    if (playerData['encrypt'] == '1') {
-        playerData["url"] = unescape(playerData["url"]);
-    } else if (playerData["encrypt"] == '2') {
-        playerData['url'] = unescape(base64decode(playerData['url']));
+    if (playerData.encrypt == '1') {
+        playerData.url = unescape(playerData.url);
+    } else if (playerData.encrypt == '2') {
+        playerData.url = unescape(base64decode(playerData.url));
     }
 
     // 请求加密接口
-    const plainData = 'plain=' + playerData["url"];
-    const { data: encodeData } = await $fetch['post'](appConfig["site"] + '/player1/encode.php', plainData, { 'headers': headers });
+    const plainData = 'plain=' + playerData.url;
+    const { data: encodeData } = await $fetch.post(appConfig.site + '/player1/encode.php', plainData, { 'headers': headers });
 
     // 构建解密请求URL
-    const decodeUrl = appConfig['site'] + "/player1/?url=" + encodeURIComponent(argsify(encodeData)["url"]) +
-        '&ts=' + encodeURIComponent(argsify(encodeData)['ts']) +
-        "&sig=" + encodeURIComponent(argsify(encodeData)['sig']);
+    const decodeUrl = appConfig.site + "/player1/?url=" + encodeURIComponent(argsify(encodeData).url) +
+        '&ts=' + encodeURIComponent(argsify(encodeData).ts) +
+        "&sig=" + encodeURIComponent(argsify(encodeData).sig);
 
     const { data: decryptPage } = await $fetch.get(decodeUrl, { 'headers': headers });
 
     // 提取加密参数
-    const encryptedUrl = decryptPage["match"](/const\s+encryptedUrl\s*=\s*"([^"]+)"/)?.[1];
-    const sessionKey = decryptPage["match"](/const\s+sessionKey\s*=\s*"([^"]+)"/)?.[1];
+    const encryptedUrl = decryptPage.match(/const\s+encryptedUrl\s*=\s*"([^"]+)"/)?.[1];
+    const sessionKey = decryptPage.match(/const\s+sessionKey\s*=\s*"([^"]+)"/)?.[1];
 
     // AES解密
     const playUrl = decryptAES(encryptedUrl, sessionKey);
@@ -148,23 +148,23 @@ async function getPlayinfo(ext) {
 // AES解密函数
 function decryptAES(encryptedData, key) {
     try {
-        const parsedData = CryptoJS["enc"]["Base64"]["parse"](encryptedData);
-        const iv = CryptoJS["lib"]["WordArray"]["create"](parsedData["words"]["slice"](0, 4));
-        const ciphertext = CryptoJS["lib"]["WordArray"]["create"](parsedData["words"]['slice'](4));
+        const parsedData = CryptoJS.enc.Base64.parse(encryptedData);
+        const iv = CryptoJS.lib.WordArray.create(parsedData.words.slice(0, 4));
+        const ciphertext = CryptoJS.lib.WordArray.create(parsedData.words.slice(4));
 
-        const decrypted = CryptoJS['AES']["decrypt"](
+        const decrypted = CryptoJS.AES.decrypt(
             { 'ciphertext': ciphertext },
-            CryptoJS['enc']["Utf8"]["parse"](key),
+            CryptoJS.enc.Utf8.parse(key),
             {
                 'iv': iv,
-                'mode': CryptoJS["mode"]['CBC'],
-                'padding': CryptoJS["pad"]["Pkcs7"]
+                'mode': CryptoJS.mode.CBC,
+                'padding': CryptoJS.pad.Pkcs7
             }
         );
 
-        return decrypted["toString"](CryptoJS["enc"]["Utf8"]);
+        return decrypted.toString(CryptoJS.enc.Utf8);
     } catch (error) {
-        console["error"]("URL解密失败", error);
+        console.error("URL解密失败", error);
         return null;
     }
 }
@@ -173,12 +173,12 @@ function decryptAES(encryptedData, key) {
 async function search(ext) {
     ext = argsify(ext);
     let list = [];
-    const keyword = encodeURIComponent(ext["text"]);
-    const page = ext["page"] || 1;
+    const keyword = encodeURIComponent(ext.text);
+    const page = ext.page || 1;
 
-    const url = appConfig["site"] + "/vods/page/" + page + "/wd/" + keyword;
+    const url = appConfig.site + "/vods/page/" + page + "/wd/" + keyword;
     const { data } = await $fetch.get(url, { 'headers': headers });
-    const $ = cheerio['load'](data);
+    const $ = cheerio.load(data);
 
     $("div.vod-detail").each((i, elem) => {
         const $elem = $(elem);
@@ -195,7 +195,7 @@ async function search(ext) {
             'vod_name': $elem.find('h3.slide-info-title').text().trim(),
             'vod_pic': pic,
             'vod_remarks': $elem.find('span.slide-info-remarks').first().text().trim(),
-            'ext': { 'url': appConfig["site"] + vodId }
+            'ext': { 'url': appConfig.site + vodId }
         });
     });
 
@@ -213,23 +213,23 @@ function base64decode(data) {
         34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1
     );
 
-    for (let c1, c2, c3, c4, len = data["length"], i = 0, result = ''; i < len;) {
+    for (let c1, c2, c3, c4, len = data.length, i = 0, result = ''; i < len;) {
         do {
-            c1 = lookup[0xff & data["charCodeAt"](i++)];
+            c1 = lookup[0xff & data.charCodeAt(i++)];
         } while (i < len && c1 === -1);
 
         if (c1 === -1) break;
 
         do {
-            c2 = lookup[0xff & data["charCodeAt"](i++)];
+            c2 = lookup[0xff & data.charCodeAt(i++)];
         } while (i < len && c2 === -1);
 
         if (c2 === -1) break;
 
-        result += String["fromCharCode"]((c1 << 2) | ((c2 & 48) >> 4));
+        result += String.fromCharCode((c1 << 2) | ((c2 & 48) >> 4));
 
         do {
-            c3 = data["charCodeAt"](i++);
+            c3 = data.charCodeAt(i++);
             if (c3 === 61) return result;
 
             c3 = lookup[c3];
@@ -237,10 +237,10 @@ function base64decode(data) {
 
         if (c3 === -1) break;
 
-        result += String['fromCharCode'](((c2 & 15) << 4) | ((c3 & 60) >> 2));
+        result += String.fromCharCode(((c2 & 15) << 4) | ((c3 & 60) >> 2));
 
         do {
-            c4 = data["charCodeAt"](i++);
+            c4 = data.charCodeAt(i++);
             if (c4 === 61) return result;
 
             c4 = lookup[c4];
@@ -248,7 +248,7 @@ function base64decode(data) {
 
         if (c4 === -1) break;
 
-        result += String["fromCharCode"](((c3 & 3) << 6) | c4);
+        result += String.fromCharCode(((c3 & 3) << 6) | c4);
     }
 
     return result;

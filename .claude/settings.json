@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__new_page",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_snapshot",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__navigate_page",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_console_messages",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_screenshot",
+      "Bash(curl -I -s --max-time 10 \"https://www.aowu.tv\")",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_network_requests",
+      "Bash(curl -s -X POST \"https://www.aowu.tv/index.php/ds_api/vod\" -H \"Referer: https://www.aowu.tv/\" -H \"Origin: https://www.aowu.tv\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\" -H \"Content-Type: application/x-www-form-urlencoded\" -d \"type=20&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=1\" --max-time 15)",
+      "Bash(curl -s \"https://www.aowu.tv/bangumi/DRAAAK/\" -H \"Referer: https://www.aowu.tv/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\" --max-time 15)",
+      "Bash(curl -s \"https://www.aowu.tv/play/DRAAAK-1-1/\" -H \"Referer: https://www.aowu.tv/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\" --max-time 15)",
+      "Bash(curl -s \"https://www.aowu.tv/vods/page/1/wd/%E5%86%92%E9%99%A9\" -H \"Referer: https://www.aowu.tv/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\" --max-time 15)",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_pages",
+      "Read(//c/Users/shanr/.claude/**)",
+      "Bash(npx chrome-devtools-mcp@latest --help)",
+      "Bash(curl -s http://127.0.0.1:9222/json/version)",
+      "Bash(tasklist)",
+      "Bash(findstr /i \"chrome\")",
+      "Bash(tasklist //FI \"IMAGENAME eq chrome.exe\")",
+      "Bash(curl -s \"https://www.aowu.tv/bangumi/DRAAAK/\" -H \"Referer: https://www.aowu.tv/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\" --max-time 15 -o /tmp/aowuj_detail.html)",
+      "Read(//tmp/**)"
+    ]
+  }
+}
