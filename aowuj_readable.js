@@ -40,7 +40,7 @@ async function getCards(ext) {
     const page = ext["page"] || 1;
     const params = ext['type'] + '&class=&area=&year=&lang=&version=&state=&letter=&time=&level=0&weekday=&by=time&page=' + page;
 
-    const { data } = await $fetch["post"](url, params, { 'headers': headers });
+    const { data } = await $fetch.post(url, params, { 'headers': headers });
 
     argsify(data)["list"]["forEach"](item => {
         list.push({
@@ -61,7 +61,7 @@ async function getTracks(ext) {
     let result = [];
     const url = ext["url"];
 
-    const { data } = await $fetch["get"](url, { 'headers': headers });
+    const { data } = await $fetch.get(url, { 'headers': headers });
     const $ = cheerio["load"](data);
 
     let titles = [];
@@ -132,7 +132,7 @@ async function getPlayinfo(ext) {
         '&ts=' + encodeURIComponent(argsify(encodeData)['ts']) +
         "&sig=" + encodeURIComponent(argsify(encodeData)['sig']);
 
-    const { data: decryptPage } = await $fetch["get"](decodeUrl, { 'headers': headers });
+    const { data: decryptPage } = await $fetch.get(decodeUrl, { 'headers': headers });
 
     // 提取加密参数
     const encryptedUrl = decryptPage["match"](/const\s+encryptedUrl\s*=\s*"([^"]+)"/)?.[1];
@@ -177,7 +177,7 @@ async function search(ext) {
     const page = ext["page"] || 1;
 
     const url = appConfig["site"] + "/vods/page/" + page + "/wd/" + keyword;
-    const { data } = await $fetch["get"](url, { 'headers': headers });
+    const { data } = await $fetch.get(url, { 'headers': headers });
     const $ = cheerio['load'](data);
 
     $("div.vod-detail").each((i, elem) => {
@@ -187,8 +187,8 @@ async function search(ext) {
         const imgElem = $elem.find('.detail-pic img');
 
         const pic = imgElem.attr('data-src') ||
-                    imgElem.attr('data-original') ||
-                    imgElem.attr('src') || '';
+            imgElem.attr('data-original') ||
+            imgElem.attr('src') || '';
 
         list.push({
             'vod_id': vodId,
