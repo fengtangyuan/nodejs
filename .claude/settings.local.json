@@ -9,7 +9,14 @@
       "mcp__plugin_chrome-devtools-mcp_chrome-devtools__wait_for",
       "mcp__plugin_chrome-devtools-mcp_chrome-devtools__evaluate_script",
       "WebSearch",
-      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__select_page"
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__select_page",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__close_page",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__emulate",
+      "Bash(curl -s \"https://www.aowu.tv\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H \"Referer: https://www.aowu.tv/\" | head -n 200)",
+      "Bash(curl -s \"https://www.aowu.tv/play/3XAAAK-1-1/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H \"Referer: https://www.aowu.tv/\" | grep -E \"\\(swiper-slide|anthology-list|anthology-list-play\\)\" | head -n 30)",
+      "Bash(curl -s \"https://www.aowu.tv/vods/page/1/wd/%E8%8A%99%E8%8E%89%E8%8E%B2\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H \"Referer: https://www.aowu.tv/\" | grep -E \"vod-detail|slide-info-title\" | head -n 20)",
+      "Bash(curl -s \"https://www.aowu.tv/play/3XAAAK-1-1/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H \"Referer: https://www.aowu.tv/\" | grep -A 5 \"anthology-list-play\" | head -n 40)",
+      "Bash(curl -s \"https://www.aowu.tv/play/3XAAAK-1-1/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H \"Referer: https://www.aowu.tv/\" -o /tmp/play_page.html && cat /tmp/play_page.html | grep -E \"\\(swiper-slide|anthology-list\\)\" | head -n 50)"
     ]
   }
 }

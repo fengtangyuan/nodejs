@@ -66,8 +66,8 @@ async function getTracks(ext) {
 
     let titles = [];
 
-    // 提取线路标题
-    $("a.swiper-slide").each((i, elem) => {
+    // 提取线路标题 (使用 [data-form] 过滤导航菜单)
+    $("a.swiper-slide[data-form]").each((i, elem) => {
         const title = $(elem).text().trim().replace(/\s+/g, '').substring(0, 20);
         if (title) titles.push(title);
     });
