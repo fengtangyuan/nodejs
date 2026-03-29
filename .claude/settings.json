@@ -21,7 +21,15 @@
       "Bash(tasklist //FI \"IMAGENAME eq chrome.exe\")",
       "Bash(curl -s \"https://www.aowu.tv/bangumi/DRAAAK/\" -H \"Referer: https://www.aowu.tv/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\" --max-time 15 -o /tmp/aowuj_detail.html)",
       "Read(//tmp/**)",
-      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__get_network_request"
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__get_network_request",
+      "Bash(curl -s \"https://www.aowu.tv/play/3XAAAK-1-1/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H \"Referer: https://www.aowu.tv/\")",
+      "Bash(curl -s \"https://www.aowu.tv/play/3XAAAK-1-1/\" -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36\")",
+      "Bash(curl -s \"https://www.aowu.tv/play/3XAAAK-1-1/\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s https://www.aowu.tv/play/3XAAAK-1-1/ -H \"User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/130.0.0.0 Safari/537.36\" -H 'Referer: https://www.aowu.tv/')"
+    ],
+    "additionalDirectories": [
+      "d:\\DEMO\\nodejs",
+      "C:\\Users\\shanr\\.claude"
     ]
   }
 }
